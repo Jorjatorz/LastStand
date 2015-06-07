@@ -1,3 +1,8 @@
 LastStand/Debug/*
-LastStand.vcxproj
-LastStand.vcxproj.filters
+LastStand/LastStand.vcxproj
+LastStand/LastStand.vcxproj.filters
+LastStand.opensdf
+LastStand.sdf
+LastStand.sln
+LastStand.v12.suo
+Debug/*
