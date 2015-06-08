@@ -1,10 +1,16 @@
 #include "RenderWindow.h"
 
+#include <iostream>
+
+#include "FLog.h"
+
 RenderWindow::RenderWindow(std::string windowName, unsigned short int width, unsigned short int height)
 	:_windowName(windowName),
 	_width(width),
 	_height(height)
 {
+	FLog(FLog::INFO, "Initializing SDL and GL context. Creating main window");
+
 	//Init SDL and GLEW
 	SDL_Init(SDL_INIT_VIDEO);
 
