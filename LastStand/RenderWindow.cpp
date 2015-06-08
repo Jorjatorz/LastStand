@@ -40,4 +40,12 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 
 RenderWindow::~RenderWindow()
 {
+	//Delete the context
+	SDL_GL_DeleteContext(mSDL_GL_Context);
+
+	//Destroy the window
+	SDL_DestroyWindow(mSDLWindow);
+
+	//Stop SDL
+	SDL_Quit();
 }
