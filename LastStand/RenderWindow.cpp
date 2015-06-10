@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "FLog.h"
+#include "Viewport.h"
 
 RenderWindow::RenderWindow(std::string windowName, unsigned short int width, unsigned short int height)
 	:_windowName(windowName),
@@ -46,6 +47,13 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 
 RenderWindow::~RenderWindow()
 {
+	//Delete all viewports
+	for (Viewport* viewP : _viewportList)
+	{
+		delete viewP;
+	}
+	_viewportList.clear();
+
 	//Delete the context
 	SDL_GL_DeleteContext(mSDL_GL_Context);
 
@@ -54,4 +62,29 @@ RenderWindow::~RenderWindow()
 
 	//Stop SDL
 	SDL_Quit();
+}
+
+void RenderWindow::addViewport(const int& x, const int& y, const int& width, const int& height)
+{
+	Viewport* vp = new Viewport(x, y, width, height);
+
+	_viewportList.push_back(vp);
+}
+
+void RenderWindow::swapBuffers()
+{
+	//Gl enables
+	glEnable(GL_SCISSOR_TEST);
+	glEnable(GL_DEPTH_TEST);
+
+	//Set the viewport if needed
+	for(Viewport* vp: _viewportList)
+	{
+		vp->updateViewport();
+
+		//Clear the buffer each frame
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
+	SDL_GL_SwapWindow(mSDLWindow);
 }
