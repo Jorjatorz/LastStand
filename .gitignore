@@ -2,6 +2,8 @@ LastStand/Debug/*
 LastStand/LastStand.vcxproj
 LastStand/LastStand.vcxproj.filters
 LastStand/LastStand.vcxproj.user
+LastStand/Test.cpp
+LastStand/Test.h
 LastStand.opensdf
 LastStand.sdf
 LastStand.sln

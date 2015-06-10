@@ -16,7 +16,7 @@ Quaternion::Quaternion(const Vector3& eulerAngles)
 {
 
 	glm::vec3 eulerA(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-	_GLMQuat = glm::quat(eulerA);
+	_GLMQuat = glm::quat(glm::radians(eulerA));
 }
 
 Quaternion::Quaternion(float degrees, const Vector3& normalizedAxis)

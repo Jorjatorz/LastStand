@@ -37,6 +37,9 @@ void FEngine::runEngine()
 	{
 		//Poll Hardware input event each frame
 		_inputManagerPtr->pollInputEvents();
+
+		//Swap the buffers
+		_mainRenderWindowPtr->swapBuffers();
 	}
 }
 

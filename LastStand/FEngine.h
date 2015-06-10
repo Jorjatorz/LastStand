@@ -23,6 +23,12 @@ public:
 	//Stop the execution of the mainloop.
 	void stopEngine();
 
+	//Return a pointer to the main rendering window
+	RenderWindow* getRenderWindowPtr()
+	{
+		return _mainRenderWindowPtr;
+	}
+
 private:
 	bool _engineRunning;
 
