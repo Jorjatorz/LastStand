@@ -8,6 +8,7 @@
 class InputManager;
 class RenderWindow;
 class TimerManager;
+class FWorld;
 
 /*
 * Main class of the engine. It initialize and shutdown the engine. Singleton class
@@ -29,10 +30,15 @@ public:
 	{
 		return _mainRenderWindowPtr;
 	}
-	//Retuns a pointer to the timer manager
+	//Retun a pointer to the timer manager
 	TimerManager* getTimerManagePtr()
 	{
 		return _timerManagerPtr;
+	}
+	//Return a pointer to the current world
+	FWorld* getFWorldPtr()
+	{
+		return _FWorldPtr;
 	}
 
 private:
@@ -42,5 +48,6 @@ private:
 	RenderWindow* _mainRenderWindowPtr;
 	InputManager* _inputManagerPtr;
 	TimerManager* _timerManagerPtr;
+	FWorld* _FWorldPtr;
 };
 

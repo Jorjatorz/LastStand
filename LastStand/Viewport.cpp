@@ -2,13 +2,16 @@
 
 #include <gl\gl.h>
 
+#include "Math.h"
+
 Viewport::Viewport(const int& x, const int& y, const int& width, const int& height)
 	:_originX(x),
 	_originY(y),
 	_width(width),
 	_height(height),
 	_isDirty(true),
-	mClearColor(0.5) //Gray
+	_clearColor(0.5), //Gray
+	_projectionMatrix(Math::createPerspectiveMatrix(45.0, width / height, 0.1))
 {
 }
 
@@ -29,7 +32,7 @@ void Viewport::updateViewport()
 	{
 		glScissor(_originX, _originY, _width, _height);
 		glViewport(_originX, _originY, _width, _height);
-		glClearColor(mClearColor.r, mClearColor.g, mClearColor.b, 1.0);
+		glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, 1.0);
 
 		_isDirty = false;
 	}
@@ -42,7 +45,7 @@ void Viewport::updateViewport()
 
 void Viewport::setClearColor(const Vector3& newColor)
 {
-	mClearColor = newColor;
+	_clearColor = newColor;
 	_isDirty = true;
 }
 

@@ -4,6 +4,7 @@
 #include "RenderWindow.h"
 #include "TimerManager.h"
 #include "FLog.h"
+#include "FWorld.h"
 
 FEngine::FEngine()
 	:_engineRunning(true),
@@ -16,6 +17,7 @@ FEngine::FEngine()
 
 FEngine::~FEngine()
 {
+	delete _FWorldPtr;
 	delete _timerManagerPtr;
 	delete _inputManagerPtr;
 	delete _mainRenderWindowPtr;
@@ -31,6 +33,8 @@ void FEngine::initializeEngine(std::string windowName, unsigned short int width,
 	_inputManagerPtr = new InputManager();
 	//Create the timer manager
 	_timerManagerPtr = new TimerManager();
+	//Create the world manager
+	_FWorldPtr = new FWorld();
 
 	FLog(FLog::INFO, "Engine components initialized");
 }

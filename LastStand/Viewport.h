@@ -27,8 +27,10 @@ private:
 
 	//True if the viewport has change and needs an update
 	bool _isDirty;
-
 	//Clear color
-	Vector3 mClearColor;
+	Vector3 _clearColor;
+
+	//Projection matrix of the viewport
+	Matrix4 _projectionMatrix;
 };
 
