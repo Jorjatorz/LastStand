@@ -13,14 +13,17 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 	FLog(FLog::INFO, "Initializing SDL and GL context. Creating main window");
 
 	//Init SDL and GLEW
-	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		FLog(FLog::ERROR, "Unable to initialize SDL");
+	}
 
 	//create the window
-	mSDLWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _width, _height, SDL_WINDOW_OPENGL);
+	_SDLWindow = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _width, _height, SDL_WINDOW_OPENGL);
 	//create the opengl context
-	mSDL_GL_Context = SDL_GL_CreateContext(mSDLWindow);
+	_SDL_GL_Context = SDL_GL_CreateContext(_SDLWindow);
 
-	//Set OPENGL attributes
+	// Set OPENGL attributes
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -55,20 +58,22 @@ RenderWindow::~RenderWindow()
 	_viewportList.clear();
 
 	//Delete the context
-	SDL_GL_DeleteContext(mSDL_GL_Context);
+	SDL_GL_DeleteContext(_SDL_GL_Context);
 
 	//Destroy the window
-	SDL_DestroyWindow(mSDLWindow);
+	SDL_DestroyWindow(_SDLWindow);
 
 	//Stop SDL
 	SDL_Quit();
 }
 
-void RenderWindow::addViewport(const int& x, const int& y, const int& width, const int& height)
+Viewport* RenderWindow::addViewport(const int& x, const int& y, const int& width, const int& height)
 {
 	Viewport* vp = new Viewport(x, y, width, height);
 
 	_viewportList.push_back(vp);
+
+	return vp;
 }
 
 void RenderWindow::swapBuffers()
@@ -77,14 +82,13 @@ void RenderWindow::swapBuffers()
 	glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_DEPTH_TEST);
 
+	//Clear the buffer each frame
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//Set the viewport if needed
 	for(Viewport* vp: _viewportList)
 	{
 		vp->updateViewport();
-
-		//Clear the buffer each frame
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	SDL_GL_SwapWindow(mSDLWindow);
+	SDL_GL_SwapWindow(_SDLWindow);
 }

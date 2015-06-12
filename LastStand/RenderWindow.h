@@ -24,7 +24,7 @@ public:
 	void swapBuffers();
 
 	//Adds a new viewport to the renderWindow. Notice that if two viewports collapse, the last one added will have priority
-	void addViewport(const int& x, const int& y, const int& width, const int& height);
+	Viewport* addViewport(const int& x, const int& y, const int& width, const int& height);
 
 private:
 	std::string _windowName;
@@ -33,7 +33,7 @@ private:
 	std::vector<Viewport*> _viewportList;
 
 	//SDL Staff
-	SDL_Window* mSDLWindow;
-	SDL_GLContext mSDL_GL_Context;
+	SDL_Window* _SDLWindow;
+	SDL_GLContext _SDL_GL_Context;
 };
 
