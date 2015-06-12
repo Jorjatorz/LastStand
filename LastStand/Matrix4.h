@@ -47,5 +47,8 @@ public:
 private:
 	//Real matrix. Use GLM to do matrix calculations
 	glm::mat4 _GLMMatrix;
+
+
+	friend class Math;
 };
 
