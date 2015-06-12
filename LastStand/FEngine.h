@@ -5,8 +5,9 @@
 #include "Singleton.h"
 
 //Forward declaration
-class RenderWindow;
 class InputManager;
+class RenderWindow;
+class TimerManager;
 
 /*
 * Main class of the engine. It initialize and shutdown the engine. Singleton class
@@ -28,6 +29,11 @@ public:
 	{
 		return _mainRenderWindowPtr;
 	}
+	//Retuns a pointer to the timer manager
+	TimerManager* getTimerManagePtr()
+	{
+		return _timerManagerPtr;
+	}
 
 private:
 	bool _engineRunning;
@@ -35,5 +41,6 @@ private:
 	//Pointers to Singletons/Unique classes
 	RenderWindow* _mainRenderWindowPtr;
 	InputManager* _inputManagerPtr;
+	TimerManager* _timerManagerPtr;
 };
 
