@@ -30,7 +30,7 @@ private:
 	std::string _windowName;
 	unsigned short int _width, _height;
 	//List of attached viewports
-	std::vector<Viewport*> _viewportList;
+	Viewport* _viewportDisplayed;
 
 	//SDL Staff
 	SDL_Window* _SDLWindow;

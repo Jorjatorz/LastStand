@@ -8,7 +8,8 @@
 RenderWindow::RenderWindow(std::string windowName, unsigned short int width, unsigned short int height)
 	:_windowName(windowName),
 	_width(width),
-	_height(height)
+	_height(height),
+	_viewportDisplayed(NULL)
 {
 	FLog(FLog::INFO, "Initializing SDL and GL context. Creating main window");
 
@@ -50,12 +51,11 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 
 RenderWindow::~RenderWindow()
 {
-	//Delete all viewports
-	for (Viewport* viewP : _viewportList)
+	//Delete the viewport
+	if (_viewportDisplayed)
 	{
-		delete viewP;
+		delete _viewportDisplayed;
 	}
-	_viewportList.clear();
 
 	//Delete the context
 	SDL_GL_DeleteContext(_SDL_GL_Context);
@@ -69,11 +69,14 @@ RenderWindow::~RenderWindow()
 
 Viewport* RenderWindow::addViewport(const int& x, const int& y, const int& width, const int& height)
 {
-	Viewport* vp = new Viewport(x, y, width, height);
+	//If the viewport already exists delete it
+	if (_viewportDisplayed)
+	{
+		delete _viewportDisplayed;
+	}
+	_viewportDisplayed = new Viewport(x, y, width, height);
 
-	_viewportList.push_back(vp);
-
-	return vp;
+	return _viewportDisplayed;
 }
 
 void RenderWindow::swapBuffers()
@@ -84,11 +87,12 @@ void RenderWindow::swapBuffers()
 
 	//Clear the buffer each frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//Set the viewport if needed
-	for(Viewport* vp: _viewportList)
+	
+	if (_viewportDisplayed)
 	{
-		vp->updateViewport();
+		_viewportDisplayed->updateViewport();
 	}
+
 
 	SDL_GL_SwapWindow(_SDLWindow);
 }

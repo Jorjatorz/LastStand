@@ -11,7 +11,7 @@ Viewport::Viewport(const int& x, const int& y, const int& width, const int& heig
 	_height(height),
 	_isDirty(true),
 	_clearColor(0.5), //Gray
-	_projectionMatrix(Math::createPerspectiveMatrix(45.0, width / height, 0.1))
+	_projectionMatrix(Math::createPerspectiveMatrix(45.0f, width / height, 0.1f))
 {
 }
 
