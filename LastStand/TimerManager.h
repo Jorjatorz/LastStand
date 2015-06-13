@@ -34,7 +34,7 @@ private:
 	friend class FEngine; //Let FEngine access tick function
 
 	//Updates the tick of all timers
-	///TODO make this function eficient (with a queue with only the active timers etc)
+	///TODO make this function eficient (with a queue with only the unpaused timers etc)
 	void tick(int deltaTime);
 
 	//Container of all the created timers. ID/TIMER

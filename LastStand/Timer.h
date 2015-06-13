@@ -7,10 +7,10 @@ class TimerManager;
 //Class that represents a game independent timer
 class Timer
 {
+	//Let TimerManager acces tick function
 	friend class TimerManager;
 
 public:
-
 	~Timer();
 
 	//Reset the timer
@@ -28,8 +28,7 @@ private:
 	// Access:    public 
 	// Returns:   
 	// Qualifier: Creates a new timer with all the parameters needed
-	// Parameter: std::function<void
-	// Parameter: > funcToCall
+	// Parameter: std::function<void(void)> funcToCall
 	// Parameter: float timerDuration
 	// Parameter: bool loop
 	//************************************
@@ -54,7 +53,6 @@ private:
 	std::function<void(void)> _funcToCall;
 	float _timerDuration;
 	bool _loop;
-
 	bool _paused;
 };
 

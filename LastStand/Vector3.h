@@ -18,7 +18,6 @@ public:
 	Vector3& operator=(const Vector3& other);
 	bool operator==(const Vector3& other) const;
 	bool operator!=(const Vector3& other) const;
-
 	bool operator>(const Vector3& other) const;
 	bool operator>(float value) const;
 	bool operator>=(const Vector3& other) const;
@@ -27,16 +26,13 @@ public:
 	bool operator<(float value) const;
 	bool operator<=(const Vector3& other) const;
 	bool operator<=(float value) const;
-
 	Vector3& operator+=(const Vector3& other);
 	Vector3& operator-=(const Vector3& other);
-
 	Vector3 operator+(const Vector3& other);
 	Vector3 operator-(const Vector3& other);
 	Vector3 operator*(const Vector3& other);
 	const Vector3 operator*(const Vector3& other) const;
 	Vector3 operator/(const Vector3& other);
-
 	Vector3 operator+(const float& n);
 	Vector3 operator-(const float& n);
 	Vector3 operator*(const float& n);

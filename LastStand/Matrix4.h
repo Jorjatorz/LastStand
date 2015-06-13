@@ -19,7 +19,6 @@ public:
 	//Operator overloading
 	Matrix4& operator=(const Matrix4& other);
 	bool operator==(const Matrix4& other) const;
-
 	Matrix4 operator+(const Matrix4& other);
 	Matrix4 operator-(const Matrix4& other);
 	Matrix4 operator*(const Matrix4& other);
@@ -28,7 +27,6 @@ public:
 
 	//Return a matrix that is the inverse of itself
 	Matrix4 getInverseMatrix();
-
 	//Return a matrix that is the transpose of itself
 	Matrix4 getTransposeMatrix();
 

@@ -11,7 +11,7 @@ public:
 	InputManager();
 	~InputManager();
 
-
+	//Function which is called every frame and poll the hardware input events
 	void pollInputEvents();
 };
 

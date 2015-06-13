@@ -4,6 +4,7 @@ class Vector3;
 class Matrix4;
 class Quaternion;
 
+//Auxiliary class that contains math functions
 class Math
 {
 public:
