@@ -68,6 +68,13 @@ Quaternion Quaternion::operator*(const Quaternion& other)
 	return quat;
 }
 
+Quaternion Quaternion::operator*(const Quaternion& other) const
+{
+	Quaternion quat;
+	quat._GLMQuat = _GLMQuat * other._GLMQuat;
+	return quat;
+}
+
 Quaternion Quaternion::operator-()
 {
 	Quaternion newQuat;

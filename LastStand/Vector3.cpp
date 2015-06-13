@@ -119,6 +119,16 @@ Vector3 Vector3::operator+(const Vector3& other)
 	result.z = z + other.z;
 	return result;
 }
+
+Vector3 Vector3::operator+(const Vector3& other) const
+{
+	Vector3 result;
+	result.x = x + other.x;
+	result.y = y + other.y;
+	result.z = z + other.z;
+	return result;
+}
+
 Vector3 Vector3::operator-(const Vector3& other)
 {
 	Vector3 result;
@@ -127,6 +137,16 @@ Vector3 Vector3::operator-(const Vector3& other)
 	result.z = z - other.z;
 	return result;
 }
+
+Vector3 Vector3::operator-(const Vector3& other) const
+{
+	Vector3 result;
+	result.x = x - other.x;
+	result.y = y - other.y;
+	result.z = z - other.z;
+	return result;
+}
+
 Vector3 Vector3::operator*(const Vector3& other)
 {
 	Vector3 result;
@@ -162,6 +182,7 @@ Vector3 Vector3::operator+(const float& n)
 	result.z = z + n;
 	return result;
 }
+
 Vector3 Vector3::operator-(const float& n)
 {
 	Vector3 result;
@@ -170,6 +191,8 @@ Vector3 Vector3::operator-(const float& n)
 	result.z = z - n;
 	return result;
 }
+
+
 Vector3 Vector3::operator*(const float& n)
 {
 	Vector3 result;

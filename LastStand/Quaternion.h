@@ -31,6 +31,7 @@ public:
 
 	Quaternion operator+(const Quaternion& other);
 	Quaternion operator*(const Quaternion& other);
+	Quaternion operator*(const Quaternion& other) const;
 
 	Quaternion operator-();
 

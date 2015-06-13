@@ -29,7 +29,9 @@ public:
 	Vector3& operator+=(const Vector3& other);
 	Vector3& operator-=(const Vector3& other);
 	Vector3 operator+(const Vector3& other);
+	Vector3 operator+(const Vector3& other) const;
 	Vector3 operator-(const Vector3& other);
+	Vector3 operator-(const Vector3& other) const;
 	Vector3 operator*(const Vector3& other);
 	const Vector3 operator*(const Vector3& other) const;
 	Vector3 operator/(const Vector3& other);
