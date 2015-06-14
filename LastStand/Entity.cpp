@@ -1,14 +1,7 @@
 #include "Entity.h"
 
 Entity::Entity(std::string name)
-	:FObject(name, NULL),
-	_parentEntity(NULL)
-{
-}
-
-Entity::Entity(std::string name, Entity* parent)
-	:FObject(name, &(parent->_rootTransformationObject)),
-	_parentEntity(parent)
+	:FObject(name)
 {
 }
 
@@ -52,3 +45,4 @@ void Entity::scale(const Vector3& delta)
 {
 	_rootTransformationObject.setLocalTransformation(Vector3(0.0), Quaternion(), delta);
 }
+
