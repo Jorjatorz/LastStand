@@ -26,6 +26,11 @@ public:
 
 	//Add a new parent to the Object
 	void attachToParent(FObject* parent);
+	//Return the parent of the object. NULL if it doesnt exist
+	FObject* getParent()
+	{
+		return _parentObject;
+	}
 	//Add a new component to the object
 	void addComponent(FObject* component);
 	//Remove a component from the object
