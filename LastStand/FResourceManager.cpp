@@ -111,7 +111,6 @@ Texture* FResourceManager::loadTextureIntoMemoryFromDisk(std::string textureName
 	//Load the texture from a file, by default with mipmap and RGBA format
 	if (newTexture->loadFromDisk("Data\\Textures\\" + textureName, true, GL_RGBA))
 	{
-		FLog(FLog::INFO, textureName + " texture loaded.");
 		_textureMap.emplace(std::make_pair(textureName, newTexture));
 	}
 	else

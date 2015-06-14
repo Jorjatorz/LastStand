@@ -85,6 +85,8 @@ bool Texture::loadFromDisk(std::string texturePath, bool mipmap, GLint format)
 		updateTexture(width, height, format, mipmap, bits);
 	}
 
+	FLog(FLog::INFO, "Width: " + std::to_string(width) + " Height: " + std::to_string(height) + " Bytes: " + std::to_string(width * height * 4));
+
 	//Free FreeImage's copy of the data
 	FreeImage_Unload(dib);
 
