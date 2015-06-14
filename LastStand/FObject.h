@@ -8,11 +8,34 @@
 class FObject
 {
 public:
-	FObject(std::string name, FTransformationObject* parentTransformation = NULL);
+	FObject(std::string name);
 	~FObject();
+
+	std::string getName()
+	{
+		return _name;
+	}
+	FTransformationObject getTransformCopy()
+	{
+		return _rootTransformationObject;
+	}
+	FTransformationObject* const getTransformPtr()
+	{
+		return &_rootTransformationObject;
+	}
+
+	//Add a new parent to the Object
+	void attachToParent(FObject* parent);
+	//Add a new component to the object
+	void addComponent(FObject* component);
+	//Remove a component from the object
+	void removeComponent(std::string name);
 
 protected:
 	std::string _name;
 	FTransformationObject _rootTransformationObject;
+
+	FObject* _parentObject; //Null if is a root object
+	std::unordered_map<std::string, FObject*> _componentsList; //List containing all the components attached to the object
 };
 
