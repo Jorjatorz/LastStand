@@ -38,7 +38,7 @@ void FObject::addComponent(FObject* component)
 {
 	if (_componentsList.find(component->getName()) != _componentsList.end())
 	{
-		FLog(FLog::WARNING, "Component already exists, can't add it: %s", component->getName().c_str());
+		FLog(FLog::WARNING, "Component already exists in " + _name + ", can't add it: %s", component->getName().c_str());
 		return;
 	}
 	_componentsList.insert(std::make_pair(component->getName(), component));
@@ -59,7 +59,7 @@ void FObject::removeComponent(std::string name)
 	}
 	else
 	{
-		FLog(FLog::WARNING, "Cannot delete component, doesn't exists: %s", name.c_str());
+		FLog(FLog::WARNING, "Cannot delete component at " + _name + ", doesn't exists: %s", name.c_str());
 	}
 }
 
