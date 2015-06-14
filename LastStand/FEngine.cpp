@@ -1,5 +1,6 @@
 #include "FEngine.h"
 
+#include "FResourceManager.h"
 #include "InputManager.h"
 #include "RenderWindow.h"
 #include "TimerManager.h"
@@ -10,7 +11,8 @@ FEngine::FEngine()
 	:_engineRunning(true),
 	_mainRenderWindowPtr(NULL),
 	_inputManagerPtr(NULL),
-	_timerManagerPtr(NULL)
+	_timerManagerPtr(NULL),
+	_FResourceManagerPtr(NULL)
 {
 }
 
@@ -18,6 +20,7 @@ FEngine::FEngine()
 FEngine::~FEngine()
 {
 	delete _FWorldPtr;
+	delete _FResourceManagerPtr;
 	delete _timerManagerPtr;
 	delete _inputManagerPtr;
 	delete _mainRenderWindowPtr;
@@ -33,6 +36,8 @@ void FEngine::initializeEngine(std::string windowName, unsigned short int width,
 	_inputManagerPtr = new InputManager();
 	//Create the timer manager
 	_timerManagerPtr = new TimerManager();
+	//Create the resource manager
+	_FResourceManagerPtr = new FResourceManager();
 	//Create the world manager
 	_FWorldPtr = new FWorld();
 

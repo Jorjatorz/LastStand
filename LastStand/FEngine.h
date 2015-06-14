@@ -5,10 +5,12 @@
 #include "Singleton.h"
 
 //Forward declaration
+class FResourceManager;
 class InputManager;
 class RenderWindow;
 class TimerManager;
 class FWorld;
+
 
 /*
 * Main class of the engine. It initialize and shutdown the engine. Singleton class
@@ -26,17 +28,22 @@ public:
 	void stopEngine();
 
 	//Return a pointer to the main rendering window
-	RenderWindow* getRenderWindowPtr()
+	RenderWindow* const getRenderWindowPtr()
 	{
 		return _mainRenderWindowPtr;
 	}
 	//Retun a pointer to the timer manager
-	TimerManager* getTimerManagePtr()
+	TimerManager* const getTimerManagePtr()
 	{
 		return _timerManagerPtr;
 	}
+	//Return a pointer to the resource manager
+	FResourceManager* const getResourceManagerPtr()
+	{
+		return _FResourceManagerPtr;
+	}
 	//Return a pointer to the current world
-	FWorld* getFWorldPtr()
+	FWorld* const getFWorldPtr()
 	{
 		return _FWorldPtr;
 	}
@@ -48,6 +55,7 @@ private:
 	RenderWindow* _mainRenderWindowPtr;
 	InputManager* _inputManagerPtr;
 	TimerManager* _timerManagerPtr;
+	FResourceManager* _FResourceManagerPtr;
 	FWorld* _FWorldPtr;
 };
 

@@ -29,7 +29,7 @@ public:
 		_singleton = 0;
 	}
 
-	static T* getSingleton(void) //Return a pointer to the singleton object
+	static T* const getSingleton(void) //Return a pointer to the singleton object
 	{
 		assert(_singleton); //check it exists
 		return _singleton;

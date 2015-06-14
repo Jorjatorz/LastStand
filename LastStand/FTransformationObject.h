@@ -12,7 +12,7 @@ class FTransformationObject
 {
 public:
 	//Updates world positions and REGISTER to parent (if exists)
-	FTransformationObject(std::string name, FTransformationObject* parent = NULL);
+	FTransformationObject(std::string name);
 	~FTransformationObject();
 
 	void addChildrenTranformationObject(FTransformationObject* children);
