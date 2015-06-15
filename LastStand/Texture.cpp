@@ -49,18 +49,18 @@ bool Texture::loadFromDisk(std::string texturePath, bool mipmap, GLint format)
 	{
 		dib = FreeImage_Load(fif, texturePath.c_str());
 
+		//if the image failed to load, return failure
+		if (!dib)
+		{
+			return false;
+		}
+
 		FREE_IMAGE_COLOR_TYPE type = FreeImage_GetColorType(dib);
 		//If it has no 32 bit color format convert to it
 		if (FREE_IMAGE_COLOR_TYPE::FIC_RGBALPHA != type)
 		{
 			dib = FreeImage_ConvertTo32Bits(dib);
 		}
-	}
-	//if the image failed to load, return failure
-	if (!dib)
-	{
-		FLog(FLog::ERROR, "Texture format not supported: " + texturePath);
-		return false;
 	}
 
 	//retrieve the image data

@@ -1,20 +1,21 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 //SDL/OPENGL
 #include <SDL.h>
 #include <gl\glew.h>
 #include <gl\gl.h>
 
-#include <vector>
+#include "SingleInstance.h"
 
 class Viewport;
 
 /*
 * Class that is in charge of the rendering window.
 */
-class RenderWindow
+class RenderWindow : public SingleInstance<RenderWindow>
 {
 public:
 	RenderWindow(std::string windowName, unsigned short int width, unsigned short int height);

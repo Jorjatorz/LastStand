@@ -2,6 +2,10 @@
 
 #include <assert.h>
 
+#include <typeinfo>
+
+#include "FLog.h"
+
 /*
 * Base class. It applies the Singleton pattern to subclasses.
 */
@@ -19,19 +23,32 @@ protected:
 public:
 	Singleton(void) //Default constructor that is in charge of saving just one reference of the class
 	{
-		assert(!_singleton); //just created once
+		if (_singleton)
+		{
+			FLog(FLog::ERROR, "Singleton class already instantiated: %s", typeid(T).name());
+			assert(0); //just created once
+		}
 		_singleton = static_cast<T*>(this); //allocate the singleton
 	}
 
 	~Singleton(void) //Default destructor that is in charge of erasing the singleton reference
 	{
-		assert(_singleton);
+		if (!_singleton)
+		{
+			FLog(FLog::ERROR, "Singleton class not instantiated, can't delete it: %s", typeid(T).name());
+			assert(0); //just created once
+		}
+
 		_singleton = 0;
 	}
 
 	static T* const getSingleton(void) //Return a pointer to the singleton object
 	{
-		assert(_singleton); //check it exists
+		if (!_singleton)
+		{
+			FLog(FLog::ERROR, "Singleton class not instantiated, can't return it: %s", typeid(T).name());
+			assert(0); //just created once
+		}
 		return _singleton;
 	}
 

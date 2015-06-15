@@ -1,15 +1,16 @@
 #pragma once
 
 #include <unordered_map>
-
 #include <gl/glew.h>
+
+#include "SingleInstance.h"
 
 class Mesh;
 class Shader;
 class Texture;
 
 //Class that manage all external resources that are added to the game.
-class FResourceManager
+class FResourceManager : public SingleInstance<FResourceManager>
 {
 public:
 	FResourceManager();

@@ -3,12 +3,13 @@
 #include <unordered_map>
 #include <functional>
 
+#include "SingleInstance.h"
 #include "Timer.h"
 
 class FEngine;
 
 //Class that manage and updates all the timers of the engine.
-class TimerManager
+class TimerManager : public SingleInstance<TimerManager>
 {
 public:
 	TimerManager();
