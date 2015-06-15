@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "FWorldRenderer.h"
 #include "FLog.h"
 #include "Viewport.h"
 
@@ -46,6 +47,9 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 	std::cout << "OpenGL " << version << " initialized." << std::endl;
 	std::cout << "(" << vendor << "; " << renderer << ")" << std::endl;
 	std::cout << "GLSL version: " << glslVersion << std::endl;
+
+	//Create the world renderer
+	_worldRenderer = new FWorldRenderer();
 }
 
 
@@ -56,6 +60,8 @@ RenderWindow::~RenderWindow()
 	{
 		delete _viewportDisplayed;
 	}
+
+	delete _worldRenderer;
 
 	//Delete the context
 	SDL_GL_DeleteContext(_SDL_GL_Context);
@@ -79,10 +85,10 @@ Viewport* RenderWindow::addViewport(const int& x, const int& y, const int& width
 	return _viewportDisplayed;
 }
 
-void RenderWindow::swapBuffers()
+void RenderWindow::swapBuffers(FWorld* currentWorld)
 {
 	//Gl enables
-	glEnable(GL_SCISSOR_TEST);
+	//glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_DEPTH_TEST);
 
 	//Clear the buffer each frame
@@ -93,6 +99,7 @@ void RenderWindow::swapBuffers()
 		_viewportDisplayed->updateViewport();
 	}
 
+	_worldRenderer->renderObjectsInTheWorld(currentWorld, _viewportDisplayed->getViewportViewMatrix());
 
 	SDL_GL_SwapWindow(_SDLWindow);
 }

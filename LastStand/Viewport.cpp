@@ -59,5 +59,5 @@ Matrix4 Viewport::getViewportViewMatrix()
 
 	return mAttachedCamera->getViewMatrix();*/
 
-	return Matrix4();
+	return _projectionMatrix; //* cameraMatrix
 }

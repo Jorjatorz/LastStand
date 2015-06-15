@@ -36,6 +36,11 @@ public:
 	//Remove a component from the object
 	void removeComponent(std::string name);
 
+	//Renders the object into the GBuffer. Every subclass can overload it
+	void renderComponentToGBuffer()
+	{
+	}
+
 protected:
 	std::string _name;
 	FTransformationObject _rootTransformationObject;
