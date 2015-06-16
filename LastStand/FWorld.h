@@ -31,7 +31,7 @@ public:
 
 		return object;
 	}
-	void deleteEntityFromWorld(std::string name);
+	void removeObjectFromWorld(std::string name);
 
 	//Return a constant pointer to the constant list of objects in world
 	const std::unordered_map<std::string, FObject*>* const getObjectsInWorldConstPtr()

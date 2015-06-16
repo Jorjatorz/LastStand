@@ -16,6 +16,7 @@ class FWorld;
 
 /*
 * Class that is in charge of the rendering window.
+* Holds the renderers (Like the world renderer)
 */
 class RenderWindow : public SingleInstance<RenderWindow>
 {
@@ -28,6 +29,15 @@ public:
 
 	//Adds a new viewport to the renderWindow. Notice that if two viewports collapse, the last one added will have priority
 	Viewport* addViewport(const int& x, const int& y, const int& width, const int& height);
+
+	unsigned short int getWidth()
+	{
+		return _width;
+	}
+	unsigned short int getHeight()
+	{
+		return _height;
+	}
 
 private:
 	std::string _windowName;

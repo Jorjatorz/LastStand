@@ -49,7 +49,7 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 	std::cout << "GLSL version: " << glslVersion << std::endl;
 
 	//Create the world renderer
-	_worldRenderer = new FWorldRenderer();
+	_worldRenderer = new FWorldRenderer(_width, _height);
 }
 
 

@@ -8,6 +8,8 @@
 #include "Matrix4.h"
 #include "Vector3.h"
 
+//#define DEBUG_SHADERS
+
 Shader::Shader(std::string name)
 	:_program(0),
 	_name(name)
@@ -147,7 +149,9 @@ void Shader::uniformTexture(const std::string& uniformName, GLint activeTextureS
 	//glActiveTexture(GL_TEXTURE0+slot);
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
+#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+#endif
 
 	glUniform1i(id, activeTextureSlot);
 }
@@ -157,7 +161,9 @@ void Shader::uniform(const std::string& uniformName, GLint value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
+#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+#endif
 	glUniform1iARB(id, value);
 }
 
@@ -166,7 +172,9 @@ void Shader::uniform(const std::string& uniformName, GLfloat value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
+#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+#endif
 	glUniform1fARB(id, value);
 }
 
@@ -174,7 +182,9 @@ void Shader::uniform(const std::string& uniformName, const Vector3& value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
+#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+#endif
 	glUniform3fvARB(id, 1, value.getValuePtr());
 }
 
@@ -182,6 +192,8 @@ void Shader::uniformMatrix(const std::string & uniformName, const Matrix4& value
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
+#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+#endif
 	glUniformMatrix4fvARB(id, 1, false, value.getValuePtr());
 }

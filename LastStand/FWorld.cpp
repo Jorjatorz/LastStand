@@ -1,7 +1,7 @@
 #include "FWorld.h"
 
 #include "FLog.h"
-#include "Entity.h"
+
 
 FWorld::FWorld()
 {
@@ -17,7 +17,7 @@ FWorld::~FWorld()
 	_objectsInWorldList.clear();
 }
 
-void FWorld::deleteEntityFromWorld(std::string name)
+void FWorld::removeObjectFromWorld(std::string name)
 {
 	//If doesnt exists
 	auto it = _objectsInWorldList.find(name);

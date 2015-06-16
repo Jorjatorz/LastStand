@@ -32,6 +32,10 @@ public:
 	{
 		return _mainRenderWindowPtr;
 	}
+	//Fast and global acces for some rendering window properties
+	unsigned short int getRenderingWindow_Width();
+	unsigned short int getRenderingWindow_Height();
+
 	//Retun a pointer to the timer manager
 	TimerManager* const getTimerManagePtr()
 	{

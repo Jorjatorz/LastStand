@@ -19,27 +19,27 @@ FEngine::FEngine()
 
 FEngine::~FEngine()
 {
-	delete _FWorldPtr;
-	delete _FResourceManagerPtr;
-	delete _timerManagerPtr;
 	delete _inputManagerPtr;
 	delete _mainRenderWindowPtr;
+	delete _FWorldPtr;
+	delete _timerManagerPtr;
+	delete _FResourceManagerPtr;
 }
 
 void FEngine::initializeEngine(std::string windowName, unsigned short int width, unsigned short int height)
 {
 	FLog(FLog::INFO, "Initializing engine components...");
 
+	//Create the resource manager
+	_FResourceManagerPtr = new FResourceManager();
+	//Create the timer manager
+	_timerManagerPtr = new TimerManager();
+	//Create the world manager
+	_FWorldPtr = new FWorld();
 	//Create the main render window.
 	_mainRenderWindowPtr = new RenderWindow(windowName, width, height);
 	//Create the Input Manager Singleton
 	_inputManagerPtr = new InputManager();
-	//Create the timer manager
-	_timerManagerPtr = new TimerManager();
-	//Create the resource manager
-	_FResourceManagerPtr = new FResourceManager();
-	//Create the world manager
-	_FWorldPtr = new FWorld();
 
 	FLog(FLog::INFO, "Engine components initialized");
 }
@@ -82,4 +82,14 @@ void FEngine::runEngine()
 void FEngine::stopEngine()
 {
 	_engineRunning = false;
+}
+
+unsigned short int FEngine::getRenderingWindow_Width()
+{
+	return _mainRenderWindowPtr->getWidth();
+}
+
+unsigned short int FEngine::getRenderingWindow_Height()
+{
+	return _mainRenderWindowPtr->getHeight();
 }
