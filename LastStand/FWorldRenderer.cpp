@@ -45,7 +45,7 @@ void FWorldRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4
 	//Render all the visible objects into the gBuffers
 	for (auto obj : *objectsList)
 	{
-		obj.second->renderComponentToGBuffer();
+//		obj.second->renderComponentToGBuffer();
 	}
 
 	//Light Pass

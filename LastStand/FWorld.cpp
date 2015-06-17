@@ -10,23 +10,23 @@ FWorld::FWorld()
 
 FWorld::~FWorld()
 {
-	for (auto it : _objectsInWorldList)
+	for (auto it : _actorsInWorldList)
 	{
 		delete it.second;
 	}
-	_objectsInWorldList.clear();
+	_actorsInWorldList.clear();
 }
 
-void FWorld::removeObjectFromWorld(std::string name)
+void FWorld::removeActortFromWorld(std::string name)
 {
 	//If doesnt exists
-	auto it = _objectsInWorldList.find(name);
-	if (it == _objectsInWorldList.end())
+	auto it = _actorsInWorldList.find(name);
+	if (it == _actorsInWorldList.end())
 	{
 		FLog(FLog::ERROR, "Entity doesn't exists in the world, can't delete it: %s", name.c_str());
 		assert(0);
 	}
 
 	delete it->second;
-	_objectsInWorldList.erase(it);
+	_actorsInWorldList.erase(it);
 }

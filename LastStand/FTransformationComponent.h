@@ -1,22 +1,28 @@
 #pragma once
 
-#include <string>
 #include <unordered_map>
 
+#include "FComponent.h"
 #include "Vector3.h"
 #include "Quaternion.h"
 
+class FActor;
+
 //Class that holds transformations. Can be attached to other FTransformationObjects and also those can be attached to it.
-//Every entity has one FTransformationObject. No FTransformationObject can go alone. Due to this property all FTransformationObject will have the same name as its attached entity.
-class FTransformationComponent
+//There are no shared components, if one component is child of other, it's only child of that one.
+class FTransformationComponent : public FComponent
 {
 public:
 	//Updates world positions and REGISTER to parent (if exists)
-	FTransformationComponent(std::string name);
+	FTransformationComponent(std::string name, FActor* parentActor);
 	~FTransformationComponent();
 
-	void addChildrenTranformationObject(FTransformationComponent* children);
-	void removeChildrenTransformationObject(std::string name);
+	//Overloaded setParent
+	virtual void setParent(FActor* newParent) override;
+	//Adds childrens components to itself. Returns false if it already exists
+	bool addChildrenComponent(FTransformationComponent* children);
+	//Deletes a child.
+	void removeChildrenComponent(std::string name);
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
 	void setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale);
@@ -47,12 +53,11 @@ public:
 	}
 
 private:
-	//Name of the FTransformationObject
-	std::string _name;
 	//Parent of the FTransformationObject. Null if no parent
-	FTransformationComponent* _parentTransformationObject;
+	FTransformationComponent* _parentComponent;
 	//Children map
-	std::unordered_map<std::string, FTransformationComponent*> _childrenTransformationObjectsList;
+	std::unordered_map<std::string, FTransformationComponent*> _childrenComponentsList;
+
 	void updateChildrensTransformationObjects(); //Updates all the childrens with the new transformations
 	void getWorldTransformationsFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
 
