@@ -1,6 +1,6 @@
-#include "FTransformationObject.h"
+#include "FTransformationComponent.h"
 
-FTransformationObject::FTransformationObject(std::string name)
+FTransformationComponent::FTransformationComponent(std::string name)
 	:_name(name),
 	_parentTransformationObject(NULL),
 	_localPosition(0.0),
@@ -10,11 +10,11 @@ FTransformationObject::FTransformationObject(std::string name)
 }
 
 
-FTransformationObject::~FTransformationObject()
+FTransformationComponent::~FTransformationComponent()
 {
 }
 
-void FTransformationObject::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
+void FTransformationComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
 {
 	_localPosition += deltaPos;
 	_localRotationValue = deltaRot * _localRotationValue;
@@ -25,7 +25,7 @@ void FTransformationObject::setLocalTransformation(const Vector3& deltaPos, cons
 }
 
 
-void FTransformationObject::updateChildrensTransformationObjects()
+void FTransformationComponent::updateChildrensTransformationObjects()
 {
 	for (auto it: _childrenTransformationObjectsList)
 	{
@@ -33,7 +33,7 @@ void FTransformationObject::updateChildrensTransformationObjects()
 	}
 }
 
-void FTransformationObject::getWorldTransformationsFromParent()
+void FTransformationComponent::getWorldTransformationsFromParent()
 {
 	if (_parentTransformationObject)
 	{
@@ -51,7 +51,7 @@ void FTransformationObject::getWorldTransformationsFromParent()
 	updateChildrensTransformationObjects();
 }
 
-void FTransformationObject::addChildrenTranformationObject(FTransformationObject* children)
+void FTransformationComponent::addChildrenTranformationObject(FTransformationComponent* children)
 {
 	auto it = _childrenTransformationObjectsList.find(children->_name);
 
@@ -63,7 +63,7 @@ void FTransformationObject::addChildrenTranformationObject(FTransformationObject
 	}
 }
 
-void FTransformationObject::removeChildrenTransformationObject(std::string name)
+void FTransformationComponent::removeChildrenTransformationObject(std::string name)
 {
 	auto it = _childrenTransformationObjectsList.find(name);
 

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "FTransformationObject.h"
+#include "FTransformationComponent.h"
 
 //Class that represents an object in the engine. Every object has a FTransformationObject and a name
 class FObject
@@ -15,11 +15,11 @@ public:
 	{
 		return _name;
 	}
-	FTransformationObject getTransformCopy()
+	FTransformationComponent getTransformCopy()
 	{
 		return _rootTransformationObject;
 	}
-	FTransformationObject* const getTransformPtr()
+	FTransformationComponent* const getTransformPtr()
 	{
 		return &_rootTransformationObject;
 	}
@@ -43,7 +43,7 @@ public:
 
 protected:
 	std::string _name;
-	FTransformationObject _rootTransformationObject;
+	FTransformationComponent _rootTransformationObject;
 
 	FObject* _parentObject; //Null if is a root object
 	std::unordered_map<std::string, FObject*> _componentsList; //List containing all the components attached to the object

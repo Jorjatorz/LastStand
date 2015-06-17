@@ -8,14 +8,14 @@
 
 //Class that holds transformations. Can be attached to other FTransformationObjects and also those can be attached to it.
 //Every entity has one FTransformationObject. No FTransformationObject can go alone. Due to this property all FTransformationObject will have the same name as its attached entity.
-class FTransformationObject
+class FTransformationComponent
 {
 public:
 	//Updates world positions and REGISTER to parent (if exists)
-	FTransformationObject(std::string name);
-	~FTransformationObject();
+	FTransformationComponent(std::string name);
+	~FTransformationComponent();
 
-	void addChildrenTranformationObject(FTransformationObject* children);
+	void addChildrenTranformationObject(FTransformationComponent* children);
 	void removeChildrenTransformationObject(std::string name);
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
@@ -50,9 +50,9 @@ private:
 	//Name of the FTransformationObject
 	std::string _name;
 	//Parent of the FTransformationObject. Null if no parent
-	FTransformationObject* _parentTransformationObject;
+	FTransformationComponent* _parentTransformationObject;
 	//Children map
-	std::unordered_map<std::string, FTransformationObject*> _childrenTransformationObjectsList;
+	std::unordered_map<std::string, FTransformationComponent*> _childrenTransformationObjectsList;
 	void updateChildrensTransformationObjects(); //Updates all the childrens with the new transformations
 	void getWorldTransformationsFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
 
