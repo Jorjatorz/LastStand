@@ -1,9 +1,9 @@
-#include "FTransformationComponent.h"
+#include "FSceneComponent.h"
 
 #include "FLog.h"
 #include "FActor.h"
 
-FTransformationComponent::FTransformationComponent(std::string name, FActor* parentActor)
+FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 	:FComponent(name, parentActor),
 	_localPosition(0.0),
 	_localRotationValue(),
@@ -13,7 +13,7 @@ FTransformationComponent::FTransformationComponent(std::string name, FActor* par
 }
 
 
-FTransformationComponent::~FTransformationComponent()
+FSceneComponent::~FSceneComponent()
 {
 	//Each component is in charge of deleting its childrens
 	for (auto it : _childrenComponentsList)
@@ -25,7 +25,7 @@ FTransformationComponent::~FTransformationComponent()
 	_parentComponent = NULL;
 }
 
-bool FTransformationComponent::addChildrenComponent(FTransformationComponent* children)
+bool FSceneComponent::addChildrenComponent(FSceneComponent* children)
 {
 	auto it = _childrenComponentsList.find(children->_name);
 
@@ -43,7 +43,7 @@ bool FTransformationComponent::addChildrenComponent(FTransformationComponent* ch
 	return true;
 }
 
-void FTransformationComponent::removeChildrenComponent(std::string name)
+void FSceneComponent::removeChildrenComponent(std::string name)
 {
 	auto it = _childrenComponentsList.find(name);
 
@@ -60,7 +60,7 @@ void FTransformationComponent::removeChildrenComponent(std::string name)
 }
 
 
-void FTransformationComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
+void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
 {
 	_localPosition += deltaPos;
 	_localRotationValue = deltaRot * _localRotationValue;
@@ -71,7 +71,7 @@ void FTransformationComponent::setLocalTransformation(const Vector3& deltaPos, c
 }
 
 
-void FTransformationComponent::updateChildrensTransformationObjects()
+void FSceneComponent::updateChildrensTransformationObjects()
 {
 	for (auto it : _childrenComponentsList)
 	{
@@ -79,7 +79,7 @@ void FTransformationComponent::updateChildrensTransformationObjects()
 	}
 }
 
-void FTransformationComponent::getWorldTransformationsFromParent()
+void FSceneComponent::getWorldTransformationsFromParent()
 {
 	if (_parentComponent)
 	{
@@ -97,7 +97,7 @@ void FTransformationComponent::getWorldTransformationsFromParent()
 	updateChildrensTransformationObjects();
 }
 
-void FTransformationComponent::setParent(FActor* newParent)
+void FSceneComponent::setParent(FActor* newParent)
 {
 	if (_parentActor->getRootComponentPtr() == this)
 	{

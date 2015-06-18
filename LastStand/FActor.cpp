@@ -11,7 +11,7 @@ FActor::~FActor()
 { //Root element deleted automatically here
 }
 
-void FActor::addComponentToRootComponent(FTransformationComponent* component)
+void FActor::addComponentToRootComponent(FSceneComponent* component)
 {
 	_rootComponent.addChildrenComponent(component);
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "FObject.h"
-#include "FTransformationComponent.h"
+#include "FSceneComponent.h"
 
 //fObject that can be placed in the world
 class FActor : public FObject
@@ -11,7 +11,7 @@ public:
 	~FActor();
 
 	//Transformation staff
-	FTransformationComponent* const getRootComponentPtr()
+	FSceneComponent* const getRootComponentPtr()
 	{
 		return &_rootComponent;
 	}
@@ -24,12 +24,12 @@ public:
 	void scale(const Vector3& delta);
 	
 	//Add an already created component to the rootComponent.
-	void addComponentToRootComponent(FTransformationComponent* component);
+	void addComponentToRootComponent(FSceneComponent* component);
 	//Creates and add a new component to the rootComponent
 	template <typename T>
 	T* addComponentToRootComponent(std::string name)
 	{
-		FTransformationComponent* newComponent = new T(name, this);
+		FSceneComponent* newComponent = new T(name, this);
 		if (!_rootComponent.addChildrenComponent(newComponent))
 		{
 			delete newComponent;
@@ -43,6 +43,6 @@ public:
 
 protected:
 	//Root component. Always a tranformationComponent
-	FTransformationComponent _rootComponent;
+	FSceneComponent _rootComponent;
 };
 

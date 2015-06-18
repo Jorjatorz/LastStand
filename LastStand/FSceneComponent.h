@@ -8,19 +8,19 @@
 
 class FActor;
 
-//Class that holds transformations. Can be attached to other FTransformationObjects and also those can be attached to it.
+//Class that holds transformations. Can be attached to other FSceneComponents and also those can be attached to it.
 //There are no shared components, if one component is child of other, it's only child of that one.
-class FTransformationComponent : public FComponent
+class FSceneComponent : public FComponent
 {
 public:
 	//Updates world positions and REGISTER to parent (if exists)
-	FTransformationComponent(std::string name, FActor* parentActor);
-	~FTransformationComponent();
+	FSceneComponent(std::string name, FActor* parentActor);
+	~FSceneComponent();
 
 	//Overloaded setParent
 	virtual void setParent(FActor* newParent) override;
 	//Adds childrens components to itself. Returns false if it already exists
-	bool addChildrenComponent(FTransformationComponent* children);
+	bool addChildrenComponent(FSceneComponent* children);
 	//Deletes a child.
 	void removeChildrenComponent(std::string name);
 
@@ -54,9 +54,9 @@ public:
 
 private:
 	//Parent of the FTransformationObject. Null if no parent
-	FTransformationComponent* _parentComponent;
+	FSceneComponent* _parentComponent;
 	//Children map
-	std::unordered_map<std::string, FTransformationComponent*> _childrenComponentsList;
+	std::unordered_map<std::string, FSceneComponent*> _childrenComponentsList;
 
 	void updateChildrensTransformationObjects(); //Updates all the childrens with the new transformations
 	void getWorldTransformationsFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
