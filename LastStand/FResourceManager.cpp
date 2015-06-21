@@ -81,7 +81,7 @@ Shader* FResourceManager::getShaderInMemory(std::string shaderName)
 	if (it == _shaderMap.end())
 	{
 		FLog(FLog::ERROR, "Can't return the shader in memory, it doesnt exist: " + shaderName);
-		assert(0);
+		return NULL;
 	}
 
 	return it->second;
@@ -159,7 +159,7 @@ Texture* FResourceManager::getTextureInMemory(std::string textureName)
 	if (it == _textureMap.end())
 	{
 		FLog(FLog::ERROR, "Can't return the texture into memory, it doesnt exist: " + textureName);
-		assert(0);
+		return NULL;
 	}
 
 	return it->second;
@@ -212,7 +212,7 @@ Mesh* FResourceManager::getMeshInMemory(std::string meshName)
 	if (it == _meshMap.end())
 	{
 		FLog(FLog::ERROR, "Can't return the mesh in memory, it doesnt exist: " + meshName);
-		assert(0);
+		return NULL;
 	}
 
 	return it->second;

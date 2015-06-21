@@ -25,41 +25,6 @@ FSceneComponent::~FSceneComponent()
 	_parentComponent = NULL;
 }
 
-bool FSceneComponent::addChildrenComponent(FSceneComponent* children)
-{
-	auto it = _childrenComponentsList.find(children->_name);
-
-	if (it == _childrenComponentsList.end())
-	{
-		_childrenComponentsList.insert(std::make_pair(children->_name, children));
-		children->_parentComponent = this;
-	}
-	else
-	{
-		FLog(FLog::WARNING, "Component already exists in " + _name + ", can't add it: %s", children->getName().c_str());
-		return false;
-	}
-
-	return true;
-}
-
-void FSceneComponent::removeChildrenComponent(std::string name)
-{
-	auto it = _childrenComponentsList.find(name);
-
-	if (it != _childrenComponentsList.end())
-	{
-		//As components are not shared if we remove it we have to delete it or return it. We return it.
-		delete it->second;
-		_childrenComponentsList.erase(name);
-	}
-	else
-	{
-		FLog(FLog::WARNING, "Component doesn't exists in " + _name + ", can't remove it: %s", name.c_str());
-	}
-}
-
-
 void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
 {
 	_localPosition += deltaPos;
@@ -112,4 +77,54 @@ void FSceneComponent::setParent(FActor* newParent)
 	//Register in the FActor
 	newParent->addComponentToRootComponent(this);
 	FComponent::setParent(newParent); //Update our parent reference.
+}
+
+bool FSceneComponent::addChildrenComponent(FSceneComponent* children)
+{
+	auto it = _childrenComponentsList.find(children->_name);
+
+	if (it == _childrenComponentsList.end())
+	{
+		_childrenComponentsList.insert(std::make_pair(children->_name, children));
+		children->_parentComponent = this;
+
+		//Fire attached event
+		children->onAttachedToComponent();
+	}
+	else
+	{
+		FLog(FLog::WARNING, "Component already exists in " + _name + ", can't add it: %s", children->getName().c_str());
+		return false;
+	}
+
+	return true;
+}
+
+void FSceneComponent::removeChildrenComponent(std::string name)
+{
+	auto it = _childrenComponentsList.find(name);
+
+	if (it != _childrenComponentsList.end())
+	{
+		//Fire onRemovedFromComponent before deleting the component
+		it->second->onRemovedFromComponent();
+		//As components are not shared if we remove it we have to delete it or return it.
+		delete it->second;
+		_childrenComponentsList.erase(name);
+	}
+	else
+	{
+		FLog(FLog::WARNING, "Component doesn't exists in " + _name + ", can't remove it: %s", name.c_str());
+	}
+}
+
+
+void FSceneComponent::onAttachedToComponent()
+{
+
+}
+
+void FSceneComponent::onRemovedFromComponent()
+{
+
 }

@@ -58,3 +58,22 @@ void FActor::scale(const Vector3& delta)
 	_rootComponent.setLocalTransformation(Vector3(0.0), Quaternion(), delta);
 }
 
+void FActor::addOwnedComponent(FComponent* ownedComp)
+{
+	_ownedComponents.push_back(ownedComp);
+}
+
+void FActor::removeOwnedComponent(FComponent* ownedComp)
+{
+	auto it = _ownedComponents.cbegin();
+
+	while (it != _ownedComponents.cend())
+	{
+		if (*it == ownedComp)
+		{
+			_ownedComponents.erase(it);
+			break;
+		}
+	}
+}
+

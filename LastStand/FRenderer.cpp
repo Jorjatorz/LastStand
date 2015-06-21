@@ -1,4 +1,4 @@
-#include "FWorldRenderer.h"
+#include "FRenderer.h"
 
 #include "FEngine.h"
 #include "FResourceManager.h"
@@ -8,9 +8,13 @@
 #include "Shader.h"
 #include "DeferredFrameBuffer.h"
 #include "Texture.h"
+#include "FScene.h"
 
-FWorldRenderer::FWorldRenderer(unsigned short int width, unsigned short int height)
+FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 {
+	//Create the FScene
+	_sceneToRender = new FScene();
+
 	//Create ScreenQuad buffers
 	glGenVertexArrays(1, &screenQuadVAO);
 	glBindVertexArray(screenQuadVAO);
@@ -30,23 +34,17 @@ FWorldRenderer::FWorldRenderer(unsigned short int width, unsigned short int heig
 }
 
 
-FWorldRenderer::~FWorldRenderer()
+FRenderer::~FRenderer()
 {
 	delete _gBuffer;
+	delete _sceneToRender;
 }
 
-void FWorldRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionViewMatrix)
+void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionViewMatrix)
 {
-	//Render all objects into the buffers
-	auto objectsList = currentWorld->getObjectsInWorldConstPtr();
-
-	//Apply global uniforms to shader
-
-	//Render all the visible objects into the gBuffers
-	for (auto obj : *objectsList)
-	{
-//		obj.second->renderComponentToGBuffer();
-	}
+	//Bind GBuffer
+	//Fill path
+	_sceneToRender->drawAllElements();
 
 	//Light Pass
 
@@ -54,7 +52,7 @@ void FWorldRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4
 	drawToScreenQuad(-1, -1, 1, 1);
 }
 
-void FWorldRenderer::drawToScreenQuad(float startX, float startY, float endX, float endY)
+void FRenderer::drawToScreenQuad(float startX, float startY, float endX, float endY)
 {
 	//Unbind any active framebuffer
 	_gBuffer->unBind();
@@ -98,4 +96,9 @@ void FWorldRenderer::drawToScreenQuad(float startX, float startY, float endX, fl
 	glEnable(GL_DEPTH_TEST);
 
 	Shader::unBind();
+}
+
+FScene* const FRenderer::getCurrentFScene()
+{
+	return _sceneToRender;
 }

@@ -6,6 +6,7 @@ FComponent::FComponent(std::string name, FActor* actorP)
 	:FObject(name),
 	_parentActor(actorP)
 {
+	_parentActor->addOwnedComponent(this);
 }
 
 

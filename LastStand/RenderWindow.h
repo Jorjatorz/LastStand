@@ -11,7 +11,7 @@
 #include "SingleInstance.h"
 
 class Viewport;
-class FWorldRenderer;
+class FRenderer;
 class FWorld;
 
 /*
@@ -46,7 +46,7 @@ private:
 	Viewport* _viewportDisplayed;
 
 	//The renderer of the world
-	FWorldRenderer* _worldRenderer;
+	FRenderer* _worldRenderer;
 
 	//SDL Staff
 	SDL_Window* _SDLWindow;

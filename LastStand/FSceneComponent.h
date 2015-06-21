@@ -17,12 +17,14 @@ public:
 	FSceneComponent(std::string name, FActor* parentActor);
 	~FSceneComponent();
 
-	//Overloaded setParent
+	//Overloaded setParent. Sets the nwe parent and register itself to the rootComponent of the new actor parent
 	virtual void setParent(FActor* newParent) override;
-	//Adds childrens components to itself. Returns false if it already exists
-	bool addChildrenComponent(FSceneComponent* children);
-	//Deletes a child.
-	void removeChildrenComponent(std::string name);
+	bool addChildrenComponent(FSceneComponent* children); //Adds childrens components to itself. Returns false if it already exists
+	void removeChildrenComponent(std::string name); //Deletes a child.
+
+	//Event
+	virtual void onAttachedToComponent(); //Fired when the SceneComponent is attached to a new component paren
+	virtual void onRemovedFromComponent(); //Fired when the SceneComponent is removed from a component
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
 	void setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale);
