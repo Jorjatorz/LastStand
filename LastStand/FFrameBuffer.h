@@ -7,11 +7,11 @@
 
 class Texture;
 
-class FrameBuffer
+class FFrameBuffer
 {
 public:
-	FrameBuffer(std::string name, int width, int height);
-	~FrameBuffer();
+	FFrameBuffer(std::string name, int width, int height);
+	~FFrameBuffer();
 
 	//Creates a new texture and link it to the buffer
 	void addTexture(std::string textureName, GLint format);
@@ -21,9 +21,9 @@ public:
 	void bindTextures(int idStart = 0); //Idstart is the start of the active texture (i.e if u bind several buffers at the same time this prevents the textures to use the same location)
 
 	//Bind the framebuffer
-	void bind();
+	void bindFrameBuffer();
 	//Unbind the framebuffer
-	void unBind();
+	void unBindFrameBuffer();
 
 	//Return the texture by the name, is the same as calling it from the resourceManager
 	Texture* getFrameBufferTexture(std::string textureName);
@@ -35,6 +35,8 @@ protected:
 	std::string _name;
 	//Size of the frame buffer, all the textures has this size
 	int _width, _height;
+	//Keeps track if the deferred buffer has been binded
+	bool _binded;
 
 	//Map holding all the framebuffer texture pointers for fast acces (Accesible also from the resourceManager)
 	std::unordered_map<std::string, Texture*> _texturePointersMap;

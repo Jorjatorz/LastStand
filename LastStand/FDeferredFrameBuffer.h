@@ -2,15 +2,15 @@
 
 #include <string>
 
-#include "FrameBuffer.h"
+#include "FFrameBuffer.h"
 #include "SingleInstance.h"
 
 //FrameBuffer for deferred pass. Only one can be created
-class DeferredFrameBuffer: public FrameBuffer, SingleInstance<DeferredFrameBuffer>
+class FDeferredFrameBuffer: public FFrameBuffer, SingleInstance<FDeferredFrameBuffer>
 {
 public:
-	DeferredFrameBuffer(std::string name, int width, int height);
-	~DeferredFrameBuffer();
+	FDeferredFrameBuffer(std::string name, int width, int height);
+	~FDeferredFrameBuffer();
 
 	//Binds the textures that needs to be modified in the geometry pass (special call of the inherited function bindForDrawingToTextures)
 	void bindForGeometryPass();

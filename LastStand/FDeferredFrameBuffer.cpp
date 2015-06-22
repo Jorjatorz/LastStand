@@ -1,10 +1,10 @@
-#include "DeferredFrameBuffer.h"
+#include "FDeferredFrameBuffer.h"
 
 #include "FEngine.h"
 #include "FResourceManager.h"
 
-DeferredFrameBuffer::DeferredFrameBuffer(std::string name, int width, int height)
-	:FrameBuffer(name, width, height)
+FDeferredFrameBuffer::FDeferredFrameBuffer(std::string name, int width, int height)
+	:FFrameBuffer(name, width, height)
 {
 	//Create the textures
 	//Color Texture. Attachment 0
@@ -34,25 +34,25 @@ DeferredFrameBuffer::DeferredFrameBuffer(std::string name, int width, int height
 }
 
 
-DeferredFrameBuffer::~DeferredFrameBuffer()
+FDeferredFrameBuffer::~FDeferredFrameBuffer()
 {
 	glDeleteTextures(1, &depthTextureId);
 }
 
-void DeferredFrameBuffer::bindForGeometryPass()
+void FDeferredFrameBuffer::bindForGeometryPass()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
-	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1}; //Bind color and normals texture
+	bindFrameBuffer();
 
+	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1}; //Bind color and normals texture
 	//Draw to buffers
 	glDrawBuffers(2, geometryAttachments);
 }
 
-void DeferredFrameBuffer::bindForLightPass()
+void FDeferredFrameBuffer::bindForLightPass()
 {
-	//glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
-	GLuint lightAttachments[] = { GL_COLOR_ATTACHMENT2}; //Bind light texture
+	bindFrameBuffer();
 
+	GLuint lightAttachments[] = { GL_COLOR_ATTACHMENT2}; //Bind light texture
 	//Draw to buffer
 	glDrawBuffers(1, lightAttachments);
 }

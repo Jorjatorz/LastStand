@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Singleton.h"
-#include "DeferredFrameBuffer.h"
+#include "FDeferredFrameBuffer.h"
 
 #include <gl/glew.h>
 
@@ -24,7 +24,7 @@ public:
 
 private:
 	//Deferred framebuffer
-	DeferredFrameBuffer* _gBuffer;
+	FDeferredFrameBuffer* _gBuffer;
 	Shader* _deferredShader_combinationPass;
 
 	//Rendenders a Quad (with desired dimensions) and writes there the result of the deferred pass

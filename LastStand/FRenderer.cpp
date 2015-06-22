@@ -6,7 +6,7 @@
 #include "FWorld.h"
 #include "FObject.h"
 #include "Shader.h"
-#include "DeferredFrameBuffer.h"
+#include "FDeferredFrameBuffer.h"
 #include "Texture.h"
 #include "FScene.h"
 
@@ -29,7 +29,7 @@ FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	_gBuffer = new DeferredFrameBuffer("FGBuffer", width, height);
+	_gBuffer = new FDeferredFrameBuffer("FGBuffer", width, height);
 	_deferredShader_combinationPass = FEngine::getSingleton()->getResourceManagerPtr()->getShaderInMemory("DeferredShading_Combination");
 }
 
@@ -58,7 +58,7 @@ void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& pro
 void FRenderer::drawToScreenQuad(float startX, float startY, float endX, float endY)
 {
 	//Unbind any active framebuffer
-	_gBuffer->unBind();
+	_gBuffer->unBindFrameBuffer();
 
 	//Update Vertex and UV data
 	const GLfloat vertex_positions[] =

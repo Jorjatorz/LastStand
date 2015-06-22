@@ -9,7 +9,7 @@ FPrimitiveComponentProxy::FPrimitiveComponentProxy(FPrimitiveComponent* mTarget)
 
 
 FPrimitiveComponentProxy::~FPrimitiveComponentProxy()
-{
+{//Warning -- Constructor not called when removing need to include it at FPrimitiveComponent
 }
 
 std::string FPrimitiveComponentProxy::getProxyName()

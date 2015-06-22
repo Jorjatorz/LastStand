@@ -1,25 +1,25 @@
-#include "FrameBuffer.h"
+#include "FFrameBuffer.h"
 
 #include "FEngine.h"
 #include "FResourceManager.h"
 #include "Texture.h"
 
-FrameBuffer::FrameBuffer(std::string name, int width, int height)
+FFrameBuffer::FFrameBuffer(std::string name, int width, int height)
+	:_name(name),
+	_width(width),
+	_height(height),
+	_binded(false)
 {
-	_name = name;
-	_width = width;
-	_height = height;
-
 	//Create the framebuffer in the constructor
 	glGenFramebuffers(1, &_frameBufferId);
 }
 
-FrameBuffer::~FrameBuffer()
+FFrameBuffer::~FFrameBuffer()
 {
 	glDeleteFramebuffers(1, &_frameBufferId);
 }
 
-void FrameBuffer::addTexture(std::string textureName, GLint format)
+void FFrameBuffer::addTexture(std::string textureName, GLint format)
 {
 	//Create the new texture, by deafult no mipmap
 	Texture* texture = FEngine::getSingleton()->getResourceManagerPtr()->createNewTextureInMemory(textureName, _width, _height, format, false);
@@ -29,9 +29,10 @@ void FrameBuffer::addTexture(std::string textureName, GLint format)
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + _texturePointersMap.size() - 1, GL_TEXTURE_2D, texture->getTextureId(), 0); //mTextureMap.size() - 1 Because we want to start at 0
 }
 
-void FrameBuffer::bindForDrawingToTextures()
+void FFrameBuffer::bindForDrawingToTextures()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+	bindFrameBuffer();
+
 	//Create a vector for storing the buffer color attachments, reserve space for all the textures attached to the buffer
 	std::vector<GLuint> bufferAttachments;
 	bufferAttachments.reserve(_texturePointersMap.size());
@@ -44,10 +45,10 @@ void FrameBuffer::bindForDrawingToTextures()
 	glDrawBuffers(_texturePointersMap.size(), bufferAttachments.data());
 }
 
-void FrameBuffer::bindTextures(int idStart)
+void FFrameBuffer::bindTextures(int idStart)
 {
 	//Detach any binded frame buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	unBindFrameBuffer();
 
 	int i = 0;
 	for(auto it : _texturePointersMap)
@@ -58,17 +59,23 @@ void FrameBuffer::bindTextures(int idStart)
 	}
 }
 
-void FrameBuffer::bind()
+void FFrameBuffer::bindFrameBuffer()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+	if (!_binded)
+		glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+
+	_binded = true;
 }
 
-void FrameBuffer::unBind()
+void FFrameBuffer::unBindFrameBuffer()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	if (_binded)
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	_binded = false;
 }
 
-Texture* FrameBuffer::getFrameBufferTexture(std::string textureName)
+Texture* FFrameBuffer::getFrameBufferTexture(std::string textureName)
 {
 	return _texturePointersMap.find(textureName)->second;
 }
