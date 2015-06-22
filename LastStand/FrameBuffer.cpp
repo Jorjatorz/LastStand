@@ -58,6 +58,11 @@ void FrameBuffer::bindTextures(int idStart)
 	}
 }
 
+void FrameBuffer::bind()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+}
+
 void FrameBuffer::unBind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -19,6 +19,9 @@ public:
 	void bindForDrawingToTextures();
 	//Bind the buffer textures
 	void bindTextures(int idStart = 0); //Idstart is the start of the active texture (i.e if u bind several buffers at the same time this prevents the textures to use the same location)
+
+	//Bind the framebuffer
+	void bind();
 	//Unbind the framebuffer
 	void unBind();
 

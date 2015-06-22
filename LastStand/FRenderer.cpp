@@ -43,10 +43,13 @@ FRenderer::~FRenderer()
 void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionViewMatrix)
 {
 	//Bind GBuffer
-	//Fill path
+	_gBuffer->bindForGeometryPass();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	_sceneToRender->drawAllElements();
 
 	//Light Pass
+	_gBuffer->bindForLightPass();
 
 	//Combine passes
 	drawToScreenQuad(-1, -1, 1, 1);

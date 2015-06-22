@@ -42,7 +42,7 @@ DeferredFrameBuffer::~DeferredFrameBuffer()
 void DeferredFrameBuffer::bindForGeometryPass()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
-	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1}; //Bind color and normals texture
 
 	//Draw to buffers
 	glDrawBuffers(2, geometryAttachments);
@@ -50,8 +50,8 @@ void DeferredFrameBuffer::bindForGeometryPass()
 
 void DeferredFrameBuffer::bindForLightPass()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
-	GLuint lightAttachments[] = { GL_COLOR_ATTACHMENT2};
+	//glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
+	GLuint lightAttachments[] = { GL_COLOR_ATTACHMENT2}; //Bind light texture
 
 	//Draw to buffer
 	glDrawBuffers(1, lightAttachments);

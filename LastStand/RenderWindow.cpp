@@ -90,9 +90,6 @@ void RenderWindow::swapBuffers(FWorld* currentWorld)
 	//Gl enables
 	//glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_DEPTH_TEST);
-
-	//Clear the buffer each frame
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	if (_viewportDisplayed)
 	{

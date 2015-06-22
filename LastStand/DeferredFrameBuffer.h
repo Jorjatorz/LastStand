@@ -12,7 +12,7 @@ public:
 	DeferredFrameBuffer(std::string name, int width, int height);
 	~DeferredFrameBuffer();
 
-	//Binds the textures that needs to be modified in the geometry pass (special call of the inherited function bindTexturesForDrawing)
+	//Binds the textures that needs to be modified in the geometry pass (special call of the inherited function bindForDrawingToTextures)
 	void bindForGeometryPass();
 	//Binds the textures that need to be modified in the light pass
 	void bindForLightPass();
