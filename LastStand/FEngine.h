@@ -41,11 +41,6 @@ public:
 	{
 		return _timerManagerPtr;
 	}
-	//Return a pointer to the resource manager
-	FResourceManager* const getResourceManagerPtr()
-	{
-		return _FResourceManagerPtr;
-	}
 	//Return a pointer to the current world
 	FWorld* const getFWorldPtr()
 	{

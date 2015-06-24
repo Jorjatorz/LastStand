@@ -4,7 +4,7 @@
 
 class FPrimitiveComponentProxy;
 
-//Component that has a rendering and physics representation.
+//Component that has a rendering and physics representation. (It can be rendered and collide)
 class FPrimitiveComponent : public FSceneComponent
 {
 public:

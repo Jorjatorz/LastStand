@@ -3,14 +3,14 @@
 #include <unordered_map>
 #include <gl/glew.h>
 
-#include "SingleInstance.h"
+#include "Singleton.h"
 
 class Mesh;
 class Shader;
 class Texture;
 
 //Class that manage all external resources that are added to the game.
-class FResourceManager : public SingleInstance<FResourceManager>
+class FResourceManager : public Singleton<FResourceManager>
 {
 public:
 	FResourceManager();
