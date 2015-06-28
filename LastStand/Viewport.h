@@ -13,7 +13,7 @@ public:
 	void updateViewport();
 
 	//Return the viewmatrix of the camera attached to the viewport
-	Matrix4 getViewportViewMatrix();
+	void getViewportProjectionandViewMatrix(Matrix4& projectionM, Matrix4& viewM);
 
 	//Change the clear color
 	void setClearColor(const Vector3& newColor);

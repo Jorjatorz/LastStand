@@ -15,7 +15,7 @@ FStaticMeshComponent::~FStaticMeshComponent()
 
 void FStaticMeshComponent::drawDynamicElements()
 {
-	_staticMesh.renderStaticMesh();
+	_staticMesh.renderStaticMesh(_transformationMatrix);
 }
 
 void FStaticMeshComponent::setStaticMesh(std::string meshName)

@@ -2,6 +2,9 @@
 
 #include "Vector3.h"
 
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\matrix_inverse.hpp>
+
 Matrix4::Matrix4()
 	:_GLMMatrix(1.0)
 {
@@ -65,14 +68,14 @@ Matrix4 Matrix4::operator/(const Matrix4& other)
 	return newM;
 }
 
-Matrix4 Matrix4::getInverseMatrix()
+Matrix4 Matrix4::getInverseMatrix() const
 {
 	Matrix4 newM;
 	newM._GLMMatrix = glm::inverse(_GLMMatrix);
 	return newM;
 }
 
-Matrix4 Matrix4::getTransposeMatrix()
+Matrix4 Matrix4::getTransposeMatrix() const
 {
 	Matrix4 newM;
 	newM._GLMMatrix = glm::transpose(_GLMMatrix);
@@ -81,19 +84,21 @@ Matrix4 Matrix4::getTransposeMatrix()
 
 
 
+Matrix4 Matrix4::getInverseTransposeMatrix() const
+{
+	Matrix4 newM;
+	newM._GLMMatrix = glm::inverseTranspose(_GLMMatrix);
+	return newM;
+}
+
 void Matrix4::translate(const Vector3& transVec)
 {
 	_GLMMatrix = glm::translate(_GLMMatrix, glm::vec3(transVec.x, transVec.y, transVec.z));
 }
 
-void Matrix4::rotate(float angle, const Vector3& rotVec)
+void Matrix4::rotate(float angle, const Vector3& axisVector)
 {
-	_GLMMatrix = glm::rotate(_GLMMatrix, angle, glm::vec3(rotVec.x, rotVec.y, rotVec.z));
-}
-
-void Matrix4::rotate(const Vector3& rotVec)
-{
-	_GLMMatrix = glm::rotate(_GLMMatrix, (float)1.0, glm::vec3(rotVec.x, rotVec.y, rotVec.z));
+	_GLMMatrix = glm::rotate(_GLMMatrix, angle, glm::vec3(axisVector.x, axisVector.y, axisVector.z));
 }
 
 void Matrix4::scale(const Vector3& scaleVec)

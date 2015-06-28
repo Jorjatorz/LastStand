@@ -42,7 +42,7 @@ public:
 		_singleton = 0;
 	}
 
-	static T* const getSingleton(void) //Return a pointer to the singleton object
+	static T* const getInstance(void) //Return a pointer to the singleton object
 	{
 		if (!_singleton)
 		{

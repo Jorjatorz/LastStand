@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
 
 //Forward declaration
 class Vector3;
@@ -26,16 +25,16 @@ public:
 	Matrix4 operator/(const Matrix4& other);
 
 	//Return a matrix that is the inverse of itself
-	Matrix4 getInverseMatrix();
+	Matrix4 getInverseMatrix() const;
 	//Return a matrix that is the transpose of itself
-	Matrix4 getTransposeMatrix();
+	Matrix4 getTransposeMatrix() const;
+	//Return a matrix that is the transpose of the inverse of itself (same as transppose(inverse(matrix))
+	Matrix4 getInverseTransposeMatrix() const;
 
 	//Translates the matrix by a given vector
 	void translate(const Vector3& transVec);
 	//Rotates the matrix by a given an angle and a vector
-	void rotate(float angle, const Vector3& rotVec);
-	//Rotates the matrix by a given a degree vector
-	void rotate(const Vector3& rotVec);
+	void rotate(float angle, const Vector3& axisVector);
 	//Scales the matrix by a given vector value
 	void scale(const Vector3& scaleVec);
 

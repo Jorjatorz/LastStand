@@ -16,19 +16,19 @@ FResourceManager::FResourceManager()
 FResourceManager::~FResourceManager()
 {
 	//Delete all shaders
-	for( auto it : _shaderMap)
+	for( auto &it : _shaderMap)
 	{
 		delete it.second;
 	}
 	_shaderMap.clear();
 	//Delete all textures
-	for (auto it : _textureMap)
+	for (auto &it : _textureMap)
 	{
 		delete it.second;
 	}
 	_textureMap.clear();
 	//Delete all mshes
-	for (auto it : _meshMap)
+	for (auto &it : _meshMap)
 	{
 		delete it.second;
 	}
@@ -90,7 +90,7 @@ Shader* FResourceManager::getShaderInMemory(std::string shaderName)
 void FResourceManager::reloadAllShadersFromDisk()
 {
 	FLog(FLog::INFO, "Reloading all the shaders from its file");
-	for(auto it : _shaderMap)
+	for(auto& it : _shaderMap)
 	{
 		it.second->loadFromDisk("Data\\Shaders\\" + it.first);
 	}

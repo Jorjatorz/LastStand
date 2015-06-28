@@ -11,6 +11,8 @@
 #include "FScene.h"
 
 FRenderer::FRenderer(unsigned short int width, unsigned short int height)
+	:_currentFrameProjectionM(NULL),
+	_currentFrameViewM(NULL)
 {
 	//Create the FScene
 	_sceneToRender = new FScene();
@@ -30,7 +32,7 @@ FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	glBindVertexArray(0);
 
 	_gBuffer = new FDeferredFrameBuffer("FGBuffer", width, height);
-	_deferredShader_combinationPass = FEngine::getSingleton()->getResourceManagerPtr()->getShaderInMemory("DeferredShading_Combination");
+	_deferredShader_combinationPass = FResourceManager::getInstance()->getShaderInMemory("DeferredShading_Combination");
 }
 
 
@@ -40,12 +42,17 @@ FRenderer::~FRenderer()
 	delete _sceneToRender;
 }
 
-void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionViewMatrix)
+void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionMatrix, const Matrix4& viewMatrix)
 {
+	//Set uniforms
+	_currentFrameProjectionM = &projectionMatrix;
+	_currentFrameViewM = &viewMatrix;
+
 	//Bind GBuffer
 	_gBuffer->bindForGeometryPass();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//Fill Pass
 	_sceneToRender->drawAllElements();
 
 	//Light Pass
@@ -104,4 +111,14 @@ void FRenderer::drawToScreenQuad(float startX, float startY, float endX, float e
 FScene* const FRenderer::getCurrentFScene()
 {
 	return _sceneToRender;
+}
+
+const Matrix4& FRenderer::getCurrentFrameProjectionMatrix()
+{
+	return *_currentFrameProjectionM;
+}
+
+const Matrix4& FRenderer::getCurrentFrameViewMatrix()
+{
+	return *_currentFrameViewM;
 }

@@ -4,6 +4,7 @@
 
 #include "FLog.h"
 #include "Shader.h"
+#include "Matrix4.h"
 
 Mesh::Mesh()
 {
@@ -132,16 +133,26 @@ void Mesh::generateMeshComponentsBuffers(tMeshComponentsStruct& mMeshComp)
 	glGenBuffers(1, &mMeshComp.indexBuffer);
 }
 
-void Mesh::renderAllSubMeshes()
+void Mesh::renderAllSubMeshes(const Matrix4& worldTransformationM)
 {
 	//For each submesh renders its vertex array to the buffer
-	for(auto it : _subMeshComponentsList)
+	for(auto &it : _subMeshComponentsList)
 	{
+		//Apply the material
+		it._subMeshMaterial.applyMaterialToStaticMesh();
+
+		//Send the mesh matrices
+		it._subMeshMaterial.getMaterialShader()->uniformMatrix("Renderer_ModelMatrix", worldTransformationM);
+		it._subMeshMaterial.getMaterialShader()->uniformMatrix("Renderer_NormalMatrix", worldTransformationM.getInverseTransposeMatrix());
+
 		glBindVertexArray(it.vertexArrayObject);
 
 		glDrawElements(GL_TRIANGLES, it._indexVector.size(), GL_UNSIGNED_INT, 0);
 
 		glBindVertexArray(0);
+
+		//Shader of the amterial must be detached
+		Shader::unBind();
 	}
 }
 
@@ -149,7 +160,7 @@ void Mesh::clearSubMeshesVectors()
 {
 	if (!_subMeshComponentsList.empty())
 	{
-		for (auto it : _subMeshComponentsList)
+		for (auto &it : _subMeshComponentsList)
 		{
 			it._vertexVector.clear();
 			it._vertexVector.reserve(0);
@@ -163,4 +174,15 @@ void Mesh::clearSubMeshesVectors()
 		_subMeshComponentsList.clear();
 		_subMeshComponentsList.reserve(0);
 	}
+}
+
+std::vector<FMaterial*> Mesh::getMaterialList()
+{
+	std::vector<FMaterial*> toRetVector;
+	for (auto &it : _subMeshComponentsList)
+	{
+		toRetVector.push_back(&(it._subMeshMaterial));
+	}
+
+	return toRetVector;
 }

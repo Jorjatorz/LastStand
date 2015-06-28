@@ -22,6 +22,10 @@ public:
 	//Update the current texture to have this new parameters
 	void updateTexture(int width, int height, GLint format, bool mipmap, const GLvoid* pixels);
 
+	//Binds the texture in the desired active slot
+	void bindTexture(int activeTextureSlot = 0);
+	static void unBindTexture(int activeTextureSlot = 0);
+
 	//Return the texture opengl id
 	GLuint getTextureId()
 	{

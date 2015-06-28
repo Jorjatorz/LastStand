@@ -55,8 +55,12 @@ public:
 		return _GLMQuat.w;
 	}
 
+	Vector3 getEulerAnglesVector();
+
 private:
 	//GLM quaternion, incharge of all the operations.
 	glm::quat _GLMQuat;
+
+	friend class Math;
 };
 

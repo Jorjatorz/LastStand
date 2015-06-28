@@ -88,3 +88,10 @@ void Quaternion::normalize()
 {
 	_GLMQuat = glm::normalize(_GLMQuat);
 }
+
+Vector3 Quaternion::getEulerAnglesVector()
+{
+	glm::vec3 eulerA = glm::eulerAngles(_GLMQuat);
+
+	return Vector3(eulerA.x, eulerA.y, eulerA.z);
+}

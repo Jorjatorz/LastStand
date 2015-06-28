@@ -10,7 +10,7 @@ FWorld::FWorld()
 
 FWorld::~FWorld()
 {
-	for (auto it : _actorsInWorldList)
+	for (auto &it : _actorsInWorldList)
 	{
 		delete it.second;
 	}

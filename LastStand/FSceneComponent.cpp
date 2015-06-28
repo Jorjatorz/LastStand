@@ -2,6 +2,7 @@
 
 #include "FLog.h"
 #include "FActor.h"
+#include "Math.h"
 
 FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 	:FComponent(name, parentActor),
@@ -16,7 +17,7 @@ FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 FSceneComponent::~FSceneComponent()
 {
 	//Each component is in charge of deleting its childrens
-	for (auto it : _childrenComponentsList)
+	for (auto &it : _childrenComponentsList)
 	{
 		delete it.second;
 	}
@@ -38,7 +39,7 @@ void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quat
 
 void FSceneComponent::updateChildrensTransformationObjects()
 {
-	for (auto it : _childrenComponentsList)
+	for (auto const &it : _childrenComponentsList)
 	{
 		it.second->getWorldTransformationsFromParent();
 	}
@@ -58,6 +59,12 @@ void FSceneComponent::getWorldTransformationsFromParent()
 		_worldRotationValue = _localRotationValue;
 		_worldScaleValue = _localScaleValue;
 	}
+
+	//Update the transformation matrix
+	_transformationMatrix = Matrix4(1.0);
+	_transformationMatrix.translate(_worldPosition);
+	_transformationMatrix = _transformationMatrix * Math::getRotationMatrixFromQuaternion(_worldRotationValue);
+	_transformationMatrix.scale(_worldScaleValue);
 
 	updateChildrensTransformationObjects();
 }

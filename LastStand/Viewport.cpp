@@ -10,7 +10,7 @@ Viewport::Viewport(const int& x, const int& y, const int& width, const int& heig
 	_width(width),
 	_height(height),
 	_isDirty(true),
-	_clearColor(0), //Black
+	_clearColor(0.5), //Black
 	_projectionMatrix(Math::createPerspectiveMatrix(45.0f, width / height, 0.1f))
 {
 }
@@ -49,15 +49,9 @@ void Viewport::setClearColor(const Vector3& newColor)
 	_isDirty = true;
 }
 
-Matrix4 Viewport::getViewportViewMatrix()
+void Viewport::getViewportProjectionandViewMatrix(Matrix4& projectionM, Matrix4& viewM)
 {
-	/*if (mAttachedCamera == NULL)
-	{
-		FE_LOG(FE_LOG::ERR, "No camera attached to the viewport");
-		assert(0);
-	}
-
-	return mAttachedCamera->getViewMatrix();*/
-
-	return _projectionMatrix; //* cameraMatrix
+	projectionM = _projectionMatrix;
+	///DEBUG
+	viewM.translate(Vector3(0.0, 0.0, -5.0));
 }

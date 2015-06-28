@@ -46,7 +46,7 @@ private:
 	Viewport* _viewportDisplayed;
 
 	//The renderer of the world
-	FRenderer* _worldRenderer;
+	FRenderer* _rendererPtr;
 
 	//SDL Staff
 	SDL_Window* _SDLWindow;

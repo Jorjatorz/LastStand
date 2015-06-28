@@ -1,6 +1,5 @@
 #include "FStaticMesh.h"
 
-#include "FEngine.h"
 #include "FResourceManager.h"
 
 FStaticMesh::FStaticMesh()
@@ -18,11 +17,11 @@ FStaticMesh::FStaticMesh(std::string meshName)
 		assert(0);
 	}
 
-	_meshPtr = FEngine::getSingleton()->getResourceManagerPtr()->getMeshInMemory(meshName);
+	_meshPtr = FResourceManager::getInstance()->getMeshInMemory(meshName);
 
 	if (!_meshPtr)
 	{
-		_meshPtr = FEngine::getSingleton()->getResourceManagerPtr()->loadMeshIntoMemoryFromDisk(meshName);
+		_meshPtr = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk(meshName);
 	}
 }
 
@@ -30,17 +29,17 @@ FStaticMesh::~FStaticMesh()
 {
 }
 
-void FStaticMesh::renderStaticMesh()
+void FStaticMesh::renderStaticMesh(const Matrix4& worldTransformationM)
 {
-	_meshPtr->renderAllSubMeshes();
+	_meshPtr->renderAllSubMeshes(worldTransformationM);
 }
 
 void FStaticMesh::setNewMesh(std::string meshName)
 {
-	_meshPtr = FEngine::getSingleton()->getResourceManagerPtr()->getMeshInMemory(meshName);
+	_meshPtr = FResourceManager::getInstance()->getMeshInMemory(meshName);
 
 	if (!_meshPtr)
 	{
-		_meshPtr = FEngine::getSingleton()->getResourceManagerPtr()->loadMeshIntoMemoryFromDisk(meshName);
+		_meshPtr = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk(meshName);
 	}
 }

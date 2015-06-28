@@ -21,7 +21,7 @@ void InputManager::pollInputEvents()
 	{
 		if (mEvent.type == SDL_QUIT)
 		{
-			FEngine::getSingleton()->stopEngine();
+			FEngine::getInstance()->stopEngine();
 			break;
 		}
 

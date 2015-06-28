@@ -149,9 +149,12 @@ void Shader::uniformTexture(const std::string& uniformName, GLint activeTextureS
 	//glActiveTexture(GL_TEXTURE0+slot);
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
-#ifdef DEBUG_SHADERS
+	{
+		#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
-#endif
+		#endif
+	}
+
 
 	glUniform1i(id, activeTextureSlot);
 }
@@ -161,10 +164,26 @@ void Shader::uniform(const std::string& uniformName, GLint value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
-#ifdef DEBUG_SHADERS
+	{
+		#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
-#endif
+		#endif
+	}
+
 	glUniform1iARB(id, value);
+}
+
+void Shader::uniform(const std::string& uniformName, GLuint value)
+{
+	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
+	if (id == -1)
+	{
+		#ifdef DEBUG_SHADERS
+		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
+		#endif
+	}
+
+	glUniform1uiEXT(id, value);
 }
 
 // sent float value
@@ -172,9 +191,12 @@ void Shader::uniform(const std::string& uniformName, GLfloat value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
-#ifdef DEBUG_SHADERS
+	{
+		#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
-#endif
+		#endif
+	}
+
 	glUniform1fARB(id, value);
 }
 
@@ -182,9 +204,12 @@ void Shader::uniform(const std::string& uniformName, const Vector3& value)
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
-#ifdef DEBUG_SHADERS
+	{
+		#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
-#endif
+		#endif
+	}
+
 	glUniform3fvARB(id, 1, value.getValuePtr());
 }
 
@@ -192,8 +217,11 @@ void Shader::uniformMatrix(const std::string & uniformName, const Matrix4& value
 {
 	GLuint id = glGetUniformLocation(_program, uniformName.c_str());
 	if (id == -1)
-#ifdef DEBUG_SHADERS
+	{
+		#ifdef DEBUG_SHADERS
 		FLog(FLog::WARNING, _name + " Couldn't get uniform location of " + uniformName);
-#endif
+		#endif
+	}
+
 	glUniformMatrix4fvARB(id, 1, false, value.getValuePtr());
 }

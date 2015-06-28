@@ -12,6 +12,10 @@
 #include <assimp\types.h>
 #include <assimp\vector3.h>
 
+#include "FMaterial.h"
+
+class Matrix4;
+
 class Mesh
 {
 public:
@@ -23,7 +27,10 @@ public:
 	bool loadMesh(std::string meshPath);
 
 	//Renders all the submeshes into the buffer
-	void renderAllSubMeshes();
+	void renderAllSubMeshes(const Matrix4& worldTransformationM);
+
+	//Return a vector with all the materials in the mesh
+	std::vector<FMaterial*> getMaterialList();
 
 private:
 	//Struct with all the information need for openGL to render it.
@@ -35,6 +42,9 @@ private:
 		std::vector<GLfloat> _normalsVector;
 		std::vector<GLfloat> _texCoordsVector;
 		std::vector<GLuint> _indexVector;
+
+		//Mesh materials
+		FMaterial _subMeshMaterial;
 
 		//openGL buffers
 		GLuint vertexBuffer, normalBuffer, texCoordsBuffer, indexBuffer, vertexArrayObject;

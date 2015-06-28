@@ -40,7 +40,7 @@ void FScene::removeProxy(std::string proxyName)
 
 void FScene::drawAllElements()
 {
-	for (auto it : _primitiveComponentProxies)
+	for (auto const &it : _primitiveComponentProxies)
 	{
 		it.second->drawDynamicElements();
 	}

@@ -49,7 +49,7 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 	std::cout << "GLSL version: " << glslVersion << std::endl;
 
 	//Create the world renderer
-	_worldRenderer = new FRenderer(_width, _height);
+	_rendererPtr = new FRenderer(_width, _height);
 }
 
 
@@ -61,7 +61,7 @@ RenderWindow::~RenderWindow()
 		delete _viewportDisplayed;
 	}
 
-	delete _worldRenderer;
+	delete _rendererPtr;
 
 	//Delete the context
 	SDL_GL_DeleteContext(_SDL_GL_Context);
@@ -96,7 +96,9 @@ void RenderWindow::swapBuffers(FWorld* currentWorld)
 		_viewportDisplayed->updateViewport();
 	}
 
-	_worldRenderer->renderObjectsInTheWorld(currentWorld, _viewportDisplayed->getViewportViewMatrix());
+	Matrix4 projectionM, viewM;
+	_viewportDisplayed->getViewportProjectionandViewMatrix(projectionM, viewM);
+	_rendererPtr->renderObjectsInTheWorld(currentWorld, projectionM, viewM);
 
 	SDL_GL_SwapWindow(_SDLWindow);
 }

@@ -11,6 +11,7 @@ public:
 	FStaticMeshActor(std::string actorName);
 	~FStaticMeshActor();
 
+	//Sets the static mesh to the staticMeshComponent. If the component doesnt exists it creates one.
 	void setStaticMesh(std::string meshName);
 };
 

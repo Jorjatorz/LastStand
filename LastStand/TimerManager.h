@@ -14,8 +14,14 @@ class TimerManager : public SingleInstance<TimerManager>
 public:
 	TimerManager();
 	~TimerManager();
-
+	
+	//Return the total amount of time since start
 	static unsigned int getTotalExecutionTime();
+	//Return the last frame delta time
+	int getDeltaTime()
+	{
+		return _deltaTimeLastFrame;
+	}
 
 	//Creates a new timer given a member function, a duration of the timer and a boolean that is true if the timer loops
 	template <class T, class U>
@@ -33,6 +39,9 @@ public:
 
 private:
 	friend class FEngine; //Let FEngine access tick function
+
+	//Last frame delta time
+	float _deltaTimeLastFrame;
 
 	//Updates the tick of all timers
 	///TODO make this function eficient (with a queue with only the unpaused timers etc)

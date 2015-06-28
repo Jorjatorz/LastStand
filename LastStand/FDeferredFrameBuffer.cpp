@@ -30,7 +30,7 @@ FDeferredFrameBuffer::FDeferredFrameBuffer(std::string name, int width, int heig
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//Load the shader for the combination pass
-	FEngine::getSingleton()->getResourceManagerPtr()->loadShaderIntoMemoryFromDisk("DeferredShading_Combination");
+	FResourceManager::getInstance()->loadShaderIntoMemoryFromDisk("DeferredShading_Combination");
 }
 
 

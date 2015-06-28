@@ -4,6 +4,8 @@
 
 #include <string>
 
+class Matrix4;
+
 //Class that hold a mesh
 class FStaticMesh
 {
@@ -12,7 +14,7 @@ public:
 	FStaticMesh(std::string meshName);
 	~FStaticMesh();
 
-	void renderStaticMesh();
+	void renderStaticMesh(const Matrix4& worldTransformationM);
 
 	void setNewMesh(std::string meshName);
 

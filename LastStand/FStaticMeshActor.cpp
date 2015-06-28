@@ -13,6 +13,7 @@ FStaticMeshActor::~FStaticMeshActor()
 
 void FStaticMeshActor::setStaticMesh(std::string meshName)
 {
+	//Search for the staticMeshComponent
 	auto it = _ownedComponents.cbegin();
 	while (it != _ownedComponents.cend())
 	{

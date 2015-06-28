@@ -140,3 +140,15 @@ void Texture::updateTexture(int width, int height, GLint format, bool mipmap, co
 	glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, pixels); //Free image loads in BGR
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void Texture::bindTexture(int activeTextureSlot /*= 0*/)
+{
+	glActiveTexture(GL_TEXTURE0 + activeTextureSlot);
+	glBindTexture(GL_TEXTURE_2D, _textureID);
+}
+
+void Texture::unBindTexture(int activeTextureSlot /*= 0*/)
+{
+	glActiveTexture(GL_TEXTURE0 + activeTextureSlot);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}

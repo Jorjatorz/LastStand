@@ -4,6 +4,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 
 #include "Matrix4.h"
+#include "Quaternion.h"
 
 Math::Math()
 {
@@ -27,4 +28,12 @@ Matrix4 Math::createPerspectiveMatrix(float fov, float aspectRatio, float zNear,
 	}
 
 	return perspectiveM;
+}
+
+Matrix4 Math::getRotationMatrixFromQuaternion(const Quaternion& quat)
+{
+	Matrix4 mat;
+	mat._GLMMatrix = glm::toMat4(quat._GLMQuat);
+
+	return mat;
 }

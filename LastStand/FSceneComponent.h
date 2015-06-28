@@ -5,6 +5,7 @@
 #include "FComponent.h"
 #include "Vector3.h"
 #include "Quaternion.h"
+#include "Matrix4.h"
 
 class FActor;
 
@@ -53,8 +54,12 @@ public:
 	{
 		return _worldScaleValue;
 	}
+	const Matrix4& getTransformationMatrix()
+	{
+		return _transformationMatrix;
+	}
 
-private:
+protected:
 	//Parent of the FTransformationObject. Null if no parent
 	FSceneComponent* _parentComponent;
 	//Children map
@@ -70,5 +75,6 @@ private:
 	Quaternion _worldRotationValue;
 	Vector3 _localScaleValue;
 	Vector3 _worldScaleValue;
+	Matrix4 _transformationMatrix; //Matrix that represents the world transformations
 };
 

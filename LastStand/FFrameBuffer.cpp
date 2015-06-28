@@ -22,7 +22,7 @@ FFrameBuffer::~FFrameBuffer()
 void FFrameBuffer::addTexture(std::string textureName, GLint format)
 {
 	//Create the new texture, by deafult no mipmap
-	Texture* texture = FEngine::getSingleton()->getResourceManagerPtr()->createNewTextureInMemory(textureName, _width, _height, format, false);
+	Texture* texture = FResourceManager::getInstance()->createNewTextureInMemory(textureName, _width, _height, format, false);
 	_texturePointersMap.emplace(textureName, texture);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferId);
@@ -51,7 +51,7 @@ void FFrameBuffer::bindTextures(int idStart)
 	unBindFrameBuffer();
 
 	int i = 0;
-	for(auto it : _texturePointersMap)
+	for(auto& it : _texturePointersMap)
 	{
 		glActiveTexture(GL_TEXTURE0 + i + idStart);
 		glBindTexture(GL_TEXTURE_2D, it.second->getTextureId());

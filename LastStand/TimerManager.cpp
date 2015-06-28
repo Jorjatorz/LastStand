@@ -6,14 +6,15 @@
 #include <queue>
 
 TimerManager::TimerManager()
-	:_nextId(0)
+	:_nextId(0),
+	_deltaTimeLastFrame(0)
 {
 }
 
 
 TimerManager::~TimerManager()
 {
-	for (auto it : _timersList)
+	for (auto &it : _timersList)
 	{
 		delete it.second;
 	}
@@ -39,10 +40,13 @@ void TimerManager::deleteTimer(Timer* timer)
 
 void TimerManager::tick(int deltaTime)
 {
+	//Update delta time
+	_deltaTimeLastFrame = deltaTime;
+
 	//Queue to store the timers that will be deleted after the tick
 	std::queue<int> timersToErase;
 	//Tick all timers
-	for (auto it : _timersList)
+	for (auto const &it : _timersList)
 	{
 		if (it.second->tick(deltaTime))
 		{
