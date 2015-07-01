@@ -8,9 +8,9 @@ FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 	:FComponent(name, parentActor),
 	_localPosition(0.0),
 	_localRotationValue(),
-	_localScaleValue(1.0)
+	_localScaleValue(1.0),
+	_transformationMatrix(1.0)
 {
-	getWorldTransformationsFromParent(); //Update variables
 }
 
 
@@ -25,17 +25,6 @@ FSceneComponent::~FSceneComponent()
 
 	_parentComponent = NULL;
 }
-
-void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
-{
-	_localPosition += deltaPos;
-	_localRotationValue = deltaRot * _localRotationValue;
-	_localScaleValue = _localScaleValue * deltaScale;
-
-	//Update _world transformations
-	getWorldTransformationsFromParent();
-}
-
 
 void FSceneComponent::updateChildrensTransformationObjects()
 {
@@ -128,10 +117,45 @@ void FSceneComponent::removeChildrenComponent(std::string name)
 
 void FSceneComponent::onAttachedToComponent()
 {
-
+	getWorldTransformationsFromParent(); //Update variables
 }
 
 void FSceneComponent::onRemovedFromComponent()
 {
 
+}
+
+void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
+{
+	_localPosition += deltaPos;
+	_localRotationValue = deltaRot * _localRotationValue;
+	_localScaleValue = _localScaleValue * deltaScale;
+
+	//Update _world transformations
+	getWorldTransformationsFromParent();
+}
+
+
+void FSceneComponent::setLocalPosition(const Vector3& pos)
+{
+	_localPosition = pos;
+
+	//Update _world transformations
+	getWorldTransformationsFromParent();
+}
+
+void FSceneComponent::setLocalOrientation(const Quaternion& quat)
+{
+	_localRotationValue = quat;
+
+	//Update _world transformations
+	getWorldTransformationsFromParent();
+}
+
+void FSceneComponent::setLocalScale(const Vector3& scale)
+{
+	_localScaleValue = scale;
+
+	//Update _world transformations
+	getWorldTransformationsFromParent();
 }

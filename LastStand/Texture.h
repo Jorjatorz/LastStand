@@ -32,6 +32,9 @@ public:
 		return _textureID;
 	}
 
+	//Copy the raw data of one image to another
+	static void copyTextureRawData(const Texture* source, const Texture* dest);
+
 private:
 	//is mipmap
 	bool _isMipmap;

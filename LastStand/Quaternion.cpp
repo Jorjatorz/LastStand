@@ -75,6 +75,24 @@ Quaternion Quaternion::operator*(const Quaternion& other) const
 	return quat;
 }
 
+Vector3 Quaternion::operator*(const Vector3& other)
+{
+	glm::vec3 aux(other.x, other.y, other.z);
+
+	glm::vec3 ret = _GLMQuat * aux;
+
+	return Vector3(ret.x, ret.y, ret.z);
+}
+
+Vector3 Quaternion::operator*(const Vector3& other) const
+{
+	glm::vec3 aux(other.x, other.y, other.z);
+
+	glm::vec3 ret = _GLMQuat * aux;
+
+	return Vector3(ret.x, ret.y, ret.z);
+}
+
 Quaternion Quaternion::operator-()
 {
 	Quaternion newQuat;

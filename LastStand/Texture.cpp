@@ -152,3 +152,8 @@ void Texture::unBindTexture(int activeTextureSlot /*= 0*/)
 	glActiveTexture(GL_TEXTURE0 + activeTextureSlot);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
+
+void Texture::copyTextureRawData(const Texture* source, const Texture* dest)
+{
+	glCopyImageSubData(source->_textureID, GL_TEXTURE_2D, 0, 0, 0, 0, dest->_textureID, GL_TEXTURE_2D, 0, 0, 0, 0, source->_width, source->_height, 1);
+}

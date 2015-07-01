@@ -96,9 +96,7 @@ void RenderWindow::swapBuffers(FWorld* currentWorld)
 		_viewportDisplayed->updateViewport();
 	}
 
-	Matrix4 projectionM, viewM;
-	_viewportDisplayed->getViewportProjectionandViewMatrix(projectionM, viewM);
-	_rendererPtr->renderObjectsInTheWorld(currentWorld, projectionM, viewM);
+	_rendererPtr->renderObjectsInTheWorld(currentWorld);
 
 	SDL_GL_SwapWindow(_SDLWindow);
 }

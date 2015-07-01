@@ -12,9 +12,6 @@ public:
 	//Check if the viewport is dirty and if it's update it.
 	void updateViewport();
 
-	//Return the viewmatrix of the camera attached to the viewport
-	void getViewportProjectionandViewMatrix(Matrix4& projectionM, Matrix4& viewM);
-
 	//Change the clear color
 	void setClearColor(const Vector3& newColor);
 
@@ -29,8 +26,5 @@ private:
 	bool _isDirty;
 	//Clear color
 	Vector3 _clearColor;
-
-	//Projection matrix of the viewport
-	Matrix4 _projectionMatrix;
 };
 

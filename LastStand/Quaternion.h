@@ -33,6 +33,9 @@ public:
 	Quaternion operator*(const Quaternion& other);
 	Quaternion operator*(const Quaternion& other) const;
 
+	Vector3 operator*(const Vector3& other);
+	Vector3 operator*(const Vector3& other) const;
+
 	Quaternion operator-();
 
 	//Normalize the quaternion

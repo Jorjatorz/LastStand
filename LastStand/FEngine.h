@@ -10,6 +10,7 @@ class InputManager;
 class RenderWindow;
 class TimerManager;
 class FWorld;
+class FCameraManager;
 
 
 /*
@@ -46,7 +47,11 @@ public:
 	{
 		return _FWorldPtr;
 	}
-
+	//Return a pointer to the camera manager
+	FCameraManager* const getCameraManagerPtr()
+	{
+		return _FCameraManagerPtr;
+	}
 private:
 	bool _engineRunning;
 
@@ -56,5 +61,6 @@ private:
 	TimerManager* _timerManagerPtr;
 	FResourceManager* _FResourceManagerPtr;
 	FWorld* _FWorldPtr;
+	FCameraManager* _FCameraManagerPtr;
 };
 

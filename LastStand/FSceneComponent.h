@@ -29,6 +29,12 @@ public:
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
 	void setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale);
+	//Sets the new local position of the component
+	void setLocalPosition(const Vector3& pos);
+	//Sets the new local orientation of the component
+	void setLocalOrientation(const Quaternion& quat);
+	//Sets the new local scale of the component
+	void setLocalScale(const Vector3& scale);
 
 	Vector3 getLocalPosition()
 	{

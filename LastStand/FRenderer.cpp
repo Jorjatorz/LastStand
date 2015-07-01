@@ -9,6 +9,8 @@
 #include "FDeferredFrameBuffer.h"
 #include "Texture.h"
 #include "FScene.h"
+#include "FCameraManager.h"
+#include "FCameraComponent.h"
 
 FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	:_currentFrameProjectionM(NULL),
@@ -42,11 +44,31 @@ FRenderer::~FRenderer()
 	delete _sceneToRender;
 }
 
-void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& projectionMatrix, const Matrix4& viewMatrix)
+void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld)
 {
-	//Set uniforms
-	_currentFrameProjectionM = &projectionMatrix;
-	_currentFrameViewM = &viewMatrix;
+	for (auto &it : FEngine::getInstance()->getCameraManagerPtr()->getCameraComponentsList())
+	{
+		if (it != FEngine::getInstance()->getCameraManagerPtr()->getViewportCamera())
+		{
+			//It's only usefull to render from a camera if it has a rendering target
+			if (it->hasRenderingTarget())
+			{
+				doDeferredPass(it);
+			}
+		}
+	}
+
+	//DO the deferred pass only with the viewport camera and draw the output to the ScreenQuad
+	FCameraComponent* viewCamera = FEngine::getInstance()->getCameraManagerPtr()->getViewportCamera();
+	doDeferredPass(viewCamera);
+	//Combine passes
+	drawToScreenQuad(-1, -1, 1, 1);
+}
+
+void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
+{
+	//Set frame matrices
+	currentCamera->getCameraProjectionAndViewMatricesPtr(_currentFrameProjectionM, _currentFrameViewM);
 
 	//Bind GBuffer
 	_gBuffer->bindForGeometryPass();
@@ -59,7 +81,16 @@ void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld, const Matrix4& pro
 	_gBuffer->bindForLightPass();
 
 	//Combine passes
-	drawToScreenQuad(-1, -1, 1, 1);
+	//Bind shader
+	_deferredShader_combinationPass->bind();
+
+	///TODO -- Set here the combination texture
+	if (currentCamera->hasRenderingTarget())
+	{
+		Texture::copyTextureRawData(_gBuffer->getFrameBufferTexture("DeferredFrameBufferText_Color"), currentCamera->getRendeingTargetPtr());
+	}
+
+	Shader::unBind();
 }
 
 void FRenderer::drawToScreenQuad(float startX, float startY, float endX, float endY)
