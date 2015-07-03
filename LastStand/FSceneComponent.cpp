@@ -7,8 +7,11 @@
 FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 	:FComponent(name, parentActor),
 	_localPosition(0.0),
+	_worldPosition(0.0),
 	_localRotationValue(),
+	_worldRotationValue(),
 	_localScaleValue(1.0),
+	_worldScaleValue(1.0),
 	_transformationMatrix(1.0)
 {
 }
@@ -84,6 +87,8 @@ bool FSceneComponent::addChildrenComponent(FSceneComponent* children)
 		_childrenComponentsList.insert(std::make_pair(children->_name, children));
 		children->_parentComponent = this;
 
+		//Update children location
+		children->getWorldTransformationsFromParent();
 		//Fire attached event
 		children->onAttachedToComponent();
 	}
@@ -104,7 +109,7 @@ void FSceneComponent::removeChildrenComponent(std::string name)
 	{
 		//Fire onRemovedFromComponent before deleting the component
 		it->second->onRemovedFromComponent();
-		//As components are not shared if we remove it we have to delete it or return it.
+		//As components are not shared if we remove it we have to delete it.
 		delete it->second;
 		_childrenComponentsList.erase(name);
 	}
@@ -117,12 +122,10 @@ void FSceneComponent::removeChildrenComponent(std::string name)
 
 void FSceneComponent::onAttachedToComponent()
 {
-	getWorldTransformationsFromParent(); //Update variables
 }
 
 void FSceneComponent::onRemovedFromComponent()
 {
-
 }
 
 void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)

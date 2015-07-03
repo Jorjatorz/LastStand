@@ -56,3 +56,13 @@ Vector3 Math::cross(const Vector3& a, const Vector3& b)
 
 	return Vector3(c.x, c.y, c.z);
 }
+
+float Math::dot(const Vector3& a, const Vector3& b)
+{
+	glm::vec3 a1(a.x, a.y, a.z);
+	glm::vec3 b1(b.x, b.y, b.z);
+
+	float d = glm::dot(a1, b1);
+
+	return d;
+}

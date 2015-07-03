@@ -37,7 +37,6 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	//Compute the view Matrix
 	Vector3 camera_roll_direction = _worldRotationValue * Vector3(0, 0, -1);
 	Vector3 camera_pitch_direction = _worldRotationValue * Vector3(-1, 0, 0);
-
 	_viewCameraMatrix = Math::createLookAtMatrix(_worldPosition, _worldPosition + camera_roll_direction, Math::cross(camera_roll_direction, camera_pitch_direction));
 	viewM = &_viewCameraMatrix;
 }

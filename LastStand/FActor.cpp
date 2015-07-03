@@ -23,8 +23,7 @@ void FActor::removeComponentFromRootComponent(std::string name)
 
 void FActor::setPosition(const Vector3& pos)
 {
-	Vector3 delta = pos - _rootComponent.getWorldPosition();
-	_rootComponent.setLocalTransformation(delta, Quaternion(), Vector3(1.0));
+	_rootComponent.setLocalPosition(pos);
 }
 
 void FActor::translate(const Vector3& delta)

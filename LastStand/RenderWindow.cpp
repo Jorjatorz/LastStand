@@ -85,7 +85,7 @@ Viewport* RenderWindow::addViewport(const int& x, const int& y, const int& width
 	return _viewportDisplayed;
 }
 
-void RenderWindow::swapBuffers(FWorld* currentWorld)
+void RenderWindow::swapBuffers()
 {
 	//Gl enables
 	//glEnable(GL_SCISSOR_TEST);
@@ -96,7 +96,7 @@ void RenderWindow::swapBuffers(FWorld* currentWorld)
 		_viewportDisplayed->updateViewport();
 	}
 
-	_rendererPtr->renderObjectsInTheWorld(currentWorld);
+	_rendererPtr->renderObjectsInTheWorld();
 
 	SDL_GL_SwapWindow(_SDLWindow);
 }

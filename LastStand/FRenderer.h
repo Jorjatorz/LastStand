@@ -21,7 +21,7 @@ public:
 	FScene* const getCurrentFScene();
 
 	//Main function. Renders all the objects in the worlds that are visible.
-	void renderObjectsInTheWorld(FWorld* currentWorld);
+	void renderObjectsInTheWorld();
 
 	const Matrix4& getCurrentFrameProjectionMatrix();
 	const Matrix4& getCurrentFrameViewMatrix();

@@ -25,7 +25,7 @@ public:
 	~RenderWindow();
 
 	//Swaps the back buffer to the fron buffer.
-	void swapBuffers(FWorld* currentWorld);
+	void swapBuffers();
 
 	//Adds a new viewport to the renderWindow. Notice that if two viewports collapse, the last one added will have priority
 	Viewport* addViewport(const int& x, const int& y, const int& width, const int& height);

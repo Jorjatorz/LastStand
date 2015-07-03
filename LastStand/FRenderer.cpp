@@ -44,13 +44,14 @@ FRenderer::~FRenderer()
 	delete _sceneToRender;
 }
 
-void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld)
+void FRenderer::renderObjectsInTheWorld()
 {
-	for (auto &it : FEngine::getInstance()->getCameraManagerPtr()->getCameraComponentsList())
+	FCameraManager* cameraManagerPtr = FEngine::getInstance()->getCameraManagerPtr();
+	for (auto &it : cameraManagerPtr->getCameraComponentsList())
 	{
-		if (it != FEngine::getInstance()->getCameraManagerPtr()->getViewportCamera())
+		if (it != cameraManagerPtr->getViewportCamera())
 		{
-			//It's only usefull to render from a camera if it has a rendering target
+			//It's only useful to render from a camera if it has a rendering target
 			if (it->hasRenderingTarget())
 			{
 				doDeferredPass(it);
@@ -59,7 +60,7 @@ void FRenderer::renderObjectsInTheWorld(FWorld* currentWorld)
 	}
 
 	//DO the deferred pass only with the viewport camera and draw the output to the ScreenQuad
-	FCameraComponent* viewCamera = FEngine::getInstance()->getCameraManagerPtr()->getViewportCamera();
+	FCameraComponent* viewCamera = cameraManagerPtr->getViewportCamera();
 	doDeferredPass(viewCamera);
 	//Combine passes
 	drawToScreenQuad(-1, -1, 1, 1);
@@ -101,13 +102,13 @@ void FRenderer::drawToScreenQuad(float startX, float startY, float endX, float e
 	//Update Vertex and UV data
 	const GLfloat vertex_positions[] =
 	{
-		startX, startY, 0.0f, 1.0f,
-		endX, startY, 1.0f, 1.0f,
-		endX, endY, 1.0f, 0.0f,
+		startX, startY, 0.0f, 0.0f,
+		endX, startY, 1.0f, 0.0f,
+		endX, endY, 1.0f, 1.0f,
 
-		endX, endY, 1.0f, 0.0f,
-		startX, endY, 0.0f, 0.0f,
-		startX, startY, 0.0f, 1.0f
+		endX, endY, 1.0f, 1.0f,
+		startX, endY, 0.0f, 1.0f,
+		startX, startY, 0.0f, 0.0f
 	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, screenQuadVBO);

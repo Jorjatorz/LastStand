@@ -65,7 +65,7 @@ void FEngine::runEngine()
 		frameStartTime = _timerManagerPtr->getTotalExecutionTime();
 
 		//Render the world and Swap the buffers
-		_mainRenderWindowPtr->swapBuffers(_FWorldPtr);
+		_mainRenderWindowPtr->swapBuffers();
 
 		//Frames management
 		int deltaTime = _timerManagerPtr->getTotalExecutionTime() - frameStartTime;
