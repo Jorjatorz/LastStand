@@ -28,6 +28,10 @@ bool Mesh::loadMesh(std::string meshPath)
 
 	clearSubMeshesVectors();
 
+	//Information data to print into screen when the load is done
+	unsigned int numberOfVertices = 0;
+	unsigned int numberOfFaces = 0;
+
 	//Process all the submeshes
 	_subMeshComponentsList.reserve(mAiScene->mNumMeshes);
 	for (unsigned int i = 0; i < mAiScene->mNumMeshes; ++i)
@@ -37,10 +41,10 @@ bool Mesh::loadMesh(std::string meshPath)
 		tMeshComponentsStruct newSubMesh;
 		generateMeshComponentsBuffers(newSubMesh);
 
-		newSubMesh._vertexVector.reserve(loadedMesh->mNumVertices * 3);
-		newSubMesh._normalsVector.reserve(loadedMesh->mNumVertices * 3);
-		newSubMesh._texCoordsVector.reserve(loadedMesh->mNumVertices * 2);
-		newSubMesh._indexVector.reserve(loadedMesh->mNumFaces * 3);
+		newSubMesh._vertexVector.reserve(loadedMesh->mNumVertices); numberOfVertices += loadedMesh->mNumVertices;
+		newSubMesh._normalsVector.reserve(loadedMesh->mNumVertices);
+		newSubMesh._texCoordsVector.reserve(loadedMesh->mNumVertices);
+		newSubMesh._indexVector.reserve(loadedMesh->mNumFaces); numberOfFaces += loadedMesh->mNumFaces;
 		for (unsigned int j = 0; j < loadedMesh->mNumVertices; ++j)
 		{
 			//create vertex array
@@ -120,6 +124,8 @@ bool Mesh::loadMesh(std::string meshPath)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	FLog(FLog::INFO, meshPath + " Vertices: " + std::to_string(numberOfVertices) + " Faces: " + std::to_string(numberOfFaces));
 
 	return true;
 }
