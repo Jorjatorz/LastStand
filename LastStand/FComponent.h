@@ -13,7 +13,12 @@ public:
 	FComponent(std::string name, FActor* actorP);
 	~FComponent();
 
-	//Sets the new parent. But this not register the component to the parent. (This is done by the overloaded setParent at FTransformationComponent or manually)
+	//Ticks the component every frame. Can do some logic inside it. 
+	//By default is empty.
+	virtual void tick(float deltaTime)
+	{}
+
+	//Sets the new parent. But this method does not register the component inside the parent (This is done by the overloaded setParent at FTransformationComponent or manually)
 	virtual void setParent(FActor* newParent);
 
 protected:

@@ -10,3 +10,5 @@ LastStand.sdf
 LastStand.sln
 LastStand.v12.suo
 Debug/*
+Release/*
+LastStand/Release/*

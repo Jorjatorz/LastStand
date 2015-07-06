@@ -2,7 +2,6 @@
 
 #include "FLog.h"
 
-
 FWorld::FWorld()
 {
 }
@@ -29,4 +28,9 @@ void FWorld::removeActortFromWorld(std::string name)
 
 	delete it->second;
 	_actorsInWorldList.erase(it);
+}
+
+void FWorld::tick(int deltaTime)
+{
+	_playerWorldController.tick(deltaTime);
 }

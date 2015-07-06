@@ -55,6 +55,7 @@ void FEngine::runEngine()
 	unsigned int frameStartTime = 0;
 	int frames = 0;
 	int elapsedTime = 0;
+	int deltaTime = 0;
 
 	//Main game loop
 	while (_engineRunning)
@@ -64,15 +65,18 @@ void FEngine::runEngine()
 
 		frameStartTime = _timerManagerPtr->getTotalExecutionTime();
 
+		//Update timers
+		_timerManagerPtr->tick(deltaTime);
+		//Tick the world. This will tick all the Actors and components if activated
+		_FWorldPtr->tick(deltaTime);
+
 		//Render the world and Swap the buffers
 		_mainRenderWindowPtr->swapBuffers();
 
 		//Frames management
-		int deltaTime = _timerManagerPtr->getTotalExecutionTime() - frameStartTime;
+		deltaTime = _timerManagerPtr->getTotalExecutionTime() - frameStartTime;
 		elapsedTime += deltaTime;
 		frames++;
-		//Update timers
-		_timerManagerPtr->tick(deltaTime);
 
 		if (elapsedTime >= 1000)
 		{

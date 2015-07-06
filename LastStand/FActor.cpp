@@ -2,7 +2,7 @@
 
 FActor::FActor(std::string name)
 	:FObject(name),
-	_rootComponent(name, this)
+	_rootComponent("DefaultSceneComponent", this)
 {
 }
 

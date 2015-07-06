@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "SingleInstance.h"
+#include "FPlayerController.h"
 
 class FActor;
 
@@ -13,6 +14,8 @@ class FWorld : public SingleInstance<FWorld>
 public:
 	FWorld();
 	~FWorld();
+
+	void tick(int deltaTime);
 
 	template <typename T>
 	T* addActorToWorld(std::string name)
@@ -33,13 +36,14 @@ public:
 	}
 	void removeActortFromWorld(std::string name);
 
-	//Return a constant pointer to the constant list of objects in world
-	const std::unordered_map<std::string, FActor*>* const getObjectsInWorldConstPtr()
+	FPlayerController* const getPlayerController()
 	{
-		return &_actorsInWorldList;
+		return &_playerWorldController;
 	}
 
 private:
 	std::unordered_map<std::string, FActor*> _actorsInWorldList;
+	//World human player controller
+	FPlayerController _playerWorldController;
 };
 
