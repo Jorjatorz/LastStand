@@ -41,6 +41,11 @@ public:
 	//Return the constant pointer to the first element of the vector
 	const float* getValuePtr() const;
 
+	//Auxiliary functions
+	//Creates a perspective matrix, if zFar is set to 0 its an infinite perspective
+	static Matrix4 createPerspectiveMatrix(float fov, float aspectRatio, float zNear, float zFar = 0.0);
+	static Matrix4 createLookAtMatrix(const Vector3& eye, const Vector3& center, const Vector3& up);
+
 private:
 	//Real matrix. Use GLM to do matrix calculations
 	glm::mat4 _GLMMatrix;

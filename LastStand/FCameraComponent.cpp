@@ -2,7 +2,6 @@
 
 #include "FEngine.h"
 #include "FCameraManager.h"
-#include "Math.h"
 
 FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	:FSceneComponent(name, actor),
@@ -13,7 +12,7 @@ FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	_viewCameraMatrix(1.0)
 {
 	//Set the projection matrix
-	_projectionCameraMatrix = Math::createPerspectiveMatrix(_FOV, _aspectRatio, 0.1);
+	_projectionCameraMatrix = Matrix4::createPerspectiveMatrix(_FOV, _aspectRatio, 0.1);
 	//Register to the camera manager
 	FEngine::getInstance()->getCameraManagerPtr()->registerCameraComponent(this);
 }
@@ -37,7 +36,7 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	//Compute the view Matrix
 	Vector3 camera_roll_direction = _worldRotationValue * Vector3(0, 0, -1);
 	Vector3 camera_pitch_direction = _worldRotationValue * Vector3(-1, 0, 0);
-	_viewCameraMatrix = Math::createLookAtMatrix(_worldPosition, _worldPosition + camera_roll_direction, Math::cross(camera_roll_direction, camera_pitch_direction));
+	_viewCameraMatrix = Matrix4::createLookAtMatrix(_worldPosition, _worldPosition + camera_roll_direction, Vector3::cross(camera_roll_direction, camera_pitch_direction));
 	viewM = &_viewCameraMatrix;
 }
 

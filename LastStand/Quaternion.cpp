@@ -113,3 +113,12 @@ Vector3 Quaternion::getEulerAnglesVector()
 
 	return Vector3(eulerA.x, eulerA.y, eulerA.z);
 }
+
+Quaternion Quaternion::SLERP(const Quaternion& quat1, const Quaternion& quat2, float amount)
+{
+	Quaternion toRet;
+
+	toRet._GLMQuat = glm::mix(quat1._GLMQuat, quat2._GLMQuat, amount);
+
+	return toRet;
+}

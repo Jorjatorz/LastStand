@@ -50,6 +50,11 @@ public:
 	union{ float y, g, t; };
 	union{ float z, b, p; };
 
+	static Vector3 cross(const Vector3& a, const Vector3& b);
+	static float dot(const Vector3& a, const Vector3& b);
+
+
+
 	friend class Math;
 
 };

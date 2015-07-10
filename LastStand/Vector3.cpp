@@ -220,3 +220,23 @@ Vector3 Vector3::operator-()
 	Vector3 newVec(-x, -y, -z);
 	return newVec;
 }
+
+Vector3 Vector3::cross(const Vector3& a, const Vector3& b)
+{
+	glm::vec3 a1(a.x, a.y, a.z);
+	glm::vec3 b1(b.x, b.y, b.z);
+
+	glm::vec3 c = glm::cross(a1, b1);
+
+	return Vector3(c.x, c.y, c.z);
+}
+
+float Vector3::dot(const Vector3& a, const Vector3& b)
+{
+	glm::vec3 a1(a.x, a.y, a.z);
+	glm::vec3 b1(b.x, b.y, b.z);
+
+	float d = glm::dot(a1, b1);
+
+	return d;
+}

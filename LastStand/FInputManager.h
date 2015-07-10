@@ -19,9 +19,11 @@ public:
 	{
 		UNKNOWN = 0,
 
-		MOUSE_LEFT_BUTTON = 1,
-		MOUSE_MIDDLE_BUTTON = 2,
-		MOUSE_RIGHT_BUTTON = 3,
+		MOUSE_LEFT_BUTTON = 251,
+		MOUSE_MIDDLE_BUTTON = 252,
+		MOUSE_RIGHT_BUTTON = 253,
+		MOUSE_X = 254, //Movement of mouse in X axis
+		MOUSE_Y = 255,//Movement of mouse in Y axis
 
 		A = 4,
 		B = 5,
@@ -98,5 +100,7 @@ private:
 	//Calculate and sends the input event information to the playerController (from the action and axis mapping)
 	void informAboutInputEventProduced_Pressed(int key, FPlayerController* currentController);
 	void informAboutInputEventProduced_Released(int key, FPlayerController* currentController);
+	//Sets the correct axis mappings values for mouseX and mouseY axis mappings.
+	void handleAxisMappingsForMouseMotion(int relativeMovementX, int relativeMovementY);
 };
 

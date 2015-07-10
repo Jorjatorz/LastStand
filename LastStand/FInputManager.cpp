@@ -12,6 +12,7 @@ FInputManager::FInputManager()
 	:_mouseX(0.0),
 	_mouseY(0.0)
 {
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 
@@ -22,6 +23,9 @@ FInputManager::~FInputManager()
 void FInputManager::pollInputEvents()
 {
 	FPlayerController* pController = FEngine::getInstance()->getFWorldPtr()->getPlayerController();
+
+	//Reset mousemotion values to 0 each frame (so we care if the mouse is not moved)
+	handleAxisMappingsForMouseMotion(0.0, 0.0);
 
 	SDL_Event mEvent;
 	while (SDL_PollEvent(&mEvent))
@@ -36,6 +40,8 @@ void FInputManager::pollInputEvents()
 		{
 			_mouseX = mEvent.motion.x;
 			_mouseY = mEvent.motion.y;
+
+			handleAxisMappingsForMouseMotion(mEvent.motion.xrel, -mEvent.motion.yrel);
 		}
 
 		if (mEvent.type == SDL_MOUSEBUTTONDOWN)
@@ -163,6 +169,31 @@ void FInputManager::informAboutInputEventProduced_Released(int key, FPlayerContr
 		for (const auto& it : bindingsAxis->second.first)
 		{
 			_axisMappingCurrentScaleValueMap[it] = 0.0f;
+		}
+	}
+}
+
+void FInputManager::handleAxisMappingsForMouseMotion(int relativeMovementX, int relativeMovementY)
+{
+	//Axis mappings for MOUSE_X
+	auto bindingsAxis = _axisMappingMap.find(MOUSE_X);
+	if ((bindingsAxis != _axisMappingMap.end() && (!bindingsAxis->second.first.empty())))
+	{
+		//Set all the current axis value of the mappings of that key to its corresponding value
+		for (const auto& it : bindingsAxis->second.first)
+		{
+			_axisMappingCurrentScaleValueMap[it] = bindingsAxis->second.second * relativeMovementX;
+		}
+	}
+
+	//Axis mappings for MOUSE_Y
+	bindingsAxis = _axisMappingMap.find(MOUSE_Y);
+	if ((bindingsAxis != _axisMappingMap.end() && (!bindingsAxis->second.first.empty())))
+	{
+		//Set all the current axis value of the mappings of that key to its corresponding value
+		for (const auto& it : bindingsAxis->second.first)
+		{
+			_axisMappingCurrentScaleValueMap[it] = bindingsAxis->second.second * relativeMovementY;
 		}
 	}
 }

@@ -110,3 +110,26 @@ const float* Matrix4::getValuePtr() const
 {
 	return &_GLMMatrix[0].x;
 }
+
+Matrix4 Matrix4::createPerspectiveMatrix(float fov, float aspectRatio, float zNear, float zFar)
+{
+	Matrix4 perspectiveM;
+	if (zFar > 0.0)
+	{
+		perspectiveM._GLMMatrix = glm::perspective(fov, aspectRatio, zNear, zFar);
+	}
+	else
+	{
+		perspectiveM._GLMMatrix = glm::infinitePerspective(fov, aspectRatio, zNear);
+	}
+
+	return perspectiveM;
+}
+
+Matrix4 Matrix4::createLookAtMatrix(const Vector3& eye, const Vector3& center, const Vector3& up)
+{
+	Matrix4 mat;
+	mat._GLMMatrix = glm::lookAt(glm::vec3(eye.x, eye.y, eye.z), glm::vec3(center.x, center.y, center.z), glm::vec3(up.x, up.y, up.z));
+
+	return mat;
+}

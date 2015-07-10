@@ -136,7 +136,7 @@ void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quat
 	if (deltaTime != 0.0)
 	{
 		_localPosition += deltaPos * deltaTime;
-		_localRotationValue = deltaRot * _localRotationValue* deltaTime;
+		_localRotationValue = Quaternion::SLERP(_localRotationValue, deltaRot, deltaTime);
 		_localScaleValue = _localScaleValue * deltaScale;/// *deltaTime;
 
 		//Update _world transformations

@@ -60,6 +60,9 @@ public:
 
 	Vector3 getEulerAnglesVector();
 
+	//Do a linear interpolation between quaternions
+	static Quaternion SLERP(const Quaternion& quat1, const Quaternion& quat2, float amount);
+
 private:
 	//GLM quaternion, incharge of all the operations.
 	glm::quat _GLMQuat;
