@@ -5,6 +5,7 @@
 #include <list>
 
 class FInputComponent;
+class FActionMappingEvent;
 
 //Controller that represents the human player
 //This controller resides in the Fworld.
@@ -23,7 +24,11 @@ public:
 	void unregisterInputComponent(FInputComponent* comp);
 
 	//Called every frame, it checks for axisMapping inputs
-	virtual void tick(int deltaTime);
+	virtual void tick(int deltaTime) override;
+
+	//Sends the input event to all the inputComponentsList in a Chain of Responsability pattern way
+	//It also cheacks if this input event is also an Axis Mapping 
+	void inputEventProduced(const FActionMappingEvent& eventTriggered);
 
 private:
 	//List containing all the inputComponents of the actors that can recive input

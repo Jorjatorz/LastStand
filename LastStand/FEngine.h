@@ -6,7 +6,7 @@
 
 //Forward declaration
 class FResourceManager;
-class InputManager;
+class FInputManager;
 class RenderWindow;
 class TimerManager;
 class FWorld;
@@ -42,6 +42,9 @@ public:
 	{
 		return _timerManagerPtr;
 	}
+	//Return the deltaTime of the lastframe. Can be done through the TimerManager
+	int getDeltaTime();
+
 	//Return a pointer to the current world
 	FWorld* const getFWorldPtr()
 	{
@@ -57,7 +60,7 @@ private:
 
 	//Pointers to Singletons/Unique classes
 	RenderWindow* _mainRenderWindowPtr;
-	InputManager* _inputManagerPtr;
+	FInputManager* _inputManagerPtr;
 	TimerManager* _timerManagerPtr;
 	FResourceManager* _FResourceManagerPtr;
 	FWorld* _FWorldPtr;

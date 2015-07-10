@@ -3,7 +3,7 @@
 #include "Vector3.h"
 #include "Texture.h"
 #include "Shader.h"
-#include "FResourceManager.h"ç
+#include "FResourceManager.h"
 #include "FRenderer.h"
 #include "FEngine.h"
 #include "TimerManager.h"

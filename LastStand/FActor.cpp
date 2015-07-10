@@ -1,22 +1,27 @@
 #include "FActor.h"
 
+#include "FInputComponent.h"
+
 FActor::FActor(std::string name)
 	:FObject(name),
-	_rootComponent("DefaultSceneComponent", this)
+	_rootComponent("DefaultRootSceneComponent", this),
+	_inputComponent(NULL)
 {
+	addOwnedComponent(&_rootComponent);
 }
 
 
 FActor::~FActor()
 { //Root element deleted automatically here
+	disableInput();
 }
 
-void FActor::addComponentToRootComponent(FSceneComponent* component)
+void FActor::addComponent(FSceneComponent* component)
 {
 	_rootComponent.addChildrenComponent(component);
 }
 
-void FActor::removeComponentFromRootComponent(std::string name)
+void FActor::removeComponent(std::string name)
 {
 	_rootComponent.removeChildrenComponent(name);
 }
@@ -73,6 +78,24 @@ void FActor::removeOwnedComponent(FComponent* ownedComp)
 			_ownedComponents.erase(it);
 			break;
 		}
+
+		it++;
 	}
 }
 
+void FActor::enableInput()
+{
+	if (!_inputComponent)
+	{
+		_inputComponent = new FInputComponent("DefaultInputComponent", this);
+	}
+}
+
+void FActor::disableInput()
+{
+	if (_inputComponent)
+	{
+		delete _inputComponent;
+		_inputComponent = NULL;
+	}
+}

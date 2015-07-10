@@ -12,6 +12,7 @@ FComponent::FComponent(std::string name, FActor* actorP)
 
 FComponent::~FComponent()
 {
+	_parentActor->removeOwnedComponent(this);
 }
 
 void FComponent::setParent(FActor* newParent)

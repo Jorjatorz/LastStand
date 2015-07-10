@@ -25,8 +25,10 @@ void FStaticMeshActor::setStaticMesh(std::string meshName)
 			meshComp->setStaticMesh(meshName);
 			return;
 		}
+
+		it++;
 	}
 	//If we have no staticMeshComponent create one
-	FStaticMeshComponent* meshComp = addComponentToRootComponent<FStaticMeshComponent>(_name + "_StaticMeshComponent");
+	FStaticMeshComponent* meshComp = addComponent<FStaticMeshComponent>("DefaultStaticMeshComponent_" + _name);
 	meshComp->setStaticMesh(meshName);
 }

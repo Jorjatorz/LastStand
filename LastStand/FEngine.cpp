@@ -1,7 +1,7 @@
 #include "FEngine.h"
 
 #include "FResourceManager.h"
-#include "InputManager.h"
+#include "FInputManager.h"
 #include "RenderWindow.h"
 #include "TimerManager.h"
 #include "FLog.h"
@@ -41,7 +41,7 @@ void FEngine::initializeEngine(std::string windowName, unsigned short int width,
 	//Create the main render window.
 	_mainRenderWindowPtr = new RenderWindow(windowName, width, height);
 	//Create the Input Manager Singleton
-	_inputManagerPtr = new InputManager();
+	_inputManagerPtr = new FInputManager();
 
 	//Create the camera manager
 	_FCameraManagerPtr = new FCameraManager();
@@ -101,4 +101,9 @@ unsigned short int FEngine::getRenderingWindow_Width()
 unsigned short int FEngine::getRenderingWindow_Height()
 {
 	return _mainRenderWindowPtr->getHeight();
+}
+
+int FEngine::getDeltaTime()
+{
+	return _timerManagerPtr->getDeltaTime();
 }

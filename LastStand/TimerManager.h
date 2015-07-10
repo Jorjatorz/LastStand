@@ -25,7 +25,7 @@ public:
 
 	//Creates a new timer given a member function, a duration of the timer and a boolean that is true if the timer loops
 	template <class T, class U>
-	Timer* addTimer(void* functClass, T&& function, U&& functionClass, float timerDuration, bool loop)
+	Timer* addTimer(U&& functionClass, T&& function, float timerDuration, bool loop)
 	{
 		Timer* t = new Timer(_nextId, std::bind(function, functionClass), timerDuration, loop);
 

@@ -1,5 +1,6 @@
 #include "FPlayerController.h"
 
+#include "FInputComponent.h"
 
 FPlayerController::FPlayerController()
 {
@@ -30,5 +31,23 @@ void FPlayerController::unregisterInputComponent(FInputComponent* comp)
 
 void FPlayerController::tick(int deltaTime)
 {
+	//Start from the end
+	auto it = _inputComponentsList.crbegin();
 
+	while ((it != _inputComponentsList.crend()))
+	{
+		(*it)->checkAxisMappingsValues();
+		it++;
+	}
+}
+
+void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTriggered)
+{
+	//Start from the end
+	auto it = _inputComponentsList.crbegin();
+
+	while ((it != _inputComponentsList.crend()) && (!(*it)->onActionMappingEventTriggered(eventTriggered)))
+	{
+		it++;
+	}
 }

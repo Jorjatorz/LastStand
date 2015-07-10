@@ -1,5 +1,6 @@
 #include "FSceneComponent.h"
 
+#include "FEngine.h"
 #include "FLog.h"
 #include "FActor.h"
 #include "Math.h"
@@ -74,7 +75,7 @@ void FSceneComponent::setParent(FActor* newParent)
 		_parentComponent->removeChildrenComponent(_name);
 	}
 	//Register in the FActor
-	newParent->addComponentToRootComponent(this);
+	newParent->addComponent(this);
 	FComponent::setParent(newParent); //Update our parent reference.
 }
 
@@ -130,12 +131,17 @@ void FSceneComponent::onRemovedFromComponent()
 
 void FSceneComponent::setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale)
 {
-	_localPosition += deltaPos;
-	_localRotationValue = deltaRot * _localRotationValue;
-	_localScaleValue = _localScaleValue * deltaScale;
+	float deltaTime = FEngine::getInstance()->getDeltaTime() / 1000.0f; //delta time in seconds
 
-	//Update _world transformations
-	getWorldTransformationsFromParent();
+	if (deltaTime != 0.0)
+	{
+		_localPosition += deltaPos * deltaTime;
+		_localRotationValue = deltaRot * _localRotationValue* deltaTime;
+		_localScaleValue = _localScaleValue * deltaScale;/// *deltaTime;
+
+		//Update _world transformations
+		getWorldTransformationsFromParent();
+	}
 }
 
 
