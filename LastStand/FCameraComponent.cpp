@@ -2,6 +2,7 @@
 
 #include "FEngine.h"
 #include "FCameraManager.h"
+#include "Math.h"
 
 FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	:FSceneComponent(name, actor),
@@ -32,11 +33,11 @@ void FCameraComponent::addRenderingTarget(Texture* texture2DTarget)
 void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM)
 {
 	projM = &_projectionCameraMatrix;
+
+	//Get the rotation matrix of the conjugate of the rotation quaternion and translate it by the negative position
+	_viewCameraMatrix = Math::getRotationMatrixFromQuaternion(Quaternion::conjugate(_worldTransform.getRotation()));
+	_viewCameraMatrix.translate(-_worldTransform.getPosition());
 	
-	//Compute the view Matrix
-	Vector3 camera_roll_direction = _worldRotationValue * Vector3(0, 0, -1);
-	Vector3 camera_pitch_direction = _worldRotationValue * Vector3(-1, 0, 0);
-	_viewCameraMatrix = Matrix4::createLookAtMatrix(_worldPosition, _worldPosition + camera_roll_direction, Vector3::cross(camera_roll_direction, camera_pitch_direction));
 	viewM = &_viewCameraMatrix;
 }
 

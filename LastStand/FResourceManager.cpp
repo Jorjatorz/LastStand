@@ -135,6 +135,8 @@ Texture* FResourceManager::createNewTextureInMemory(std::string textureName, uns
 	//Generate the new texture without pixels
 	newTexture->generateRawTexture(width, height, format, mipmap, NULL);
 
+	_textureMap.emplace(std::make_pair(textureName, newTexture));
+
 	FLog(FLog::INFO, "Texture Created: " + textureName);
 
 	return newTexture;

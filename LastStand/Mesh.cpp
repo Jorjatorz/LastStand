@@ -13,6 +13,14 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+	for (auto& subMeshComp : _subMeshComponentsList)
+	{
+		glDeleteBuffers(1, &subMeshComp.vertexBuffer);
+		glDeleteBuffers(1, &subMeshComp.normalBuffer);
+		glDeleteBuffers(1, &subMeshComp.texCoordsBuffer);
+		glDeleteBuffers(1, &subMeshComp.indexBuffer);
+		glDeleteVertexArrays(1, &subMeshComp.vertexArrayObject);
+	}
 }
 
 bool Mesh::loadMesh(std::string meshPath)

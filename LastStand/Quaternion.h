@@ -15,8 +15,6 @@ public:
 	Quaternion();
 	//Constructor with the components of the quaternion as arguments
 	Quaternion(float w, float x, float y, float z);
-	//Creates a quaternion given euler angles vector (in degrees)
-	Quaternion(const Vector3& eulerAngles);
 	//Builds a quaternion from an angle and a NORMALIZED axis
 	Quaternion(float degrees, const Vector3& normalizedAxis);
 	~Quaternion();
@@ -24,6 +22,7 @@ public:
 
 	//Operator overloading
 	friend std::ostream& operator<<(std::ostream& out, Quaternion& quat);
+	friend std::ostream& operator<<(std::ostream& out, const Quaternion& quat);
 
 	Quaternion& operator=(const Quaternion& other);
 	bool operator==(const Quaternion& other) const;
@@ -40,20 +39,22 @@ public:
 
 	//Normalize the quaternion
 	void normalize();
+	//Return a quaternion that is the conjugate of the parameter
+	static Quaternion conjugate(const Quaternion& quat);
 
-	float getX()
+	float getX() const
 	{
 		return _GLMQuat.x;
 	}
-	float getY()
+	float getY() const
 	{
 		return _GLMQuat.y;
 	}
-	float getZ()
+	float getZ() const
 	{
 		return _GLMQuat.z;
 	}
-	float getW()
+	float getW() const
 	{
 		return _GLMQuat.w;
 	}

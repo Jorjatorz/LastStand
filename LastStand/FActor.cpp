@@ -33,33 +33,37 @@ void FActor::setPosition(const Vector3& pos)
 
 void FActor::translate(const Vector3& delta)
 {
-	_rootComponent.setLocalTransformation(delta, Quaternion(), Vector3(1.0));
+	_rootComponent.translate(delta);
 }
 
-void FActor::setOrientation(const Quaternion& delta)
+void FActor::setOrientation(const Quaternion& quat)
 {
-	_rootComponent.setLocalTransformation(Vector3(0.0), delta, Vector3(1.0));
+	_rootComponent.setLocalRotation(quat);
 }
 
-void FActor::rotate(const Quaternion& delta)
+void FActor::rotate_WorldSpace(const Quaternion& delta)
 {
-	_rootComponent.setLocalTransformation(Vector3(0.0), delta, Vector3(1.0));
+	_rootComponent.rotate_WorldSpace(delta);
 }
 
-void FActor::rotate(const Vector3& degreeDelta)
+void FActor::rotate_WorldSpace(float degrees, const Vector3& axisVector)
 {
-	_rootComponent.setLocalTransformation(Vector3(0.0), Quaternion(degreeDelta), Vector3(1.0));
+	_rootComponent.rotate_WorldSpace(degrees, axisVector);
+}
+
+void FActor::rotate_LocalSpace(float degrees, const Vector3& axisVector)
+{
+	_rootComponent.rotate_LocalSpace(degrees, axisVector);
 }
 
 void FActor::setScale(const Vector3& scale)
 {
-	Vector3 delta = scale - _rootComponent.getWorldScale();
-	_rootComponent.setLocalTransformation(Vector3(0.0), Quaternion(), delta);
+	_rootComponent.setLocalScale(scale);
 }
 
 void FActor::scale(const Vector3& delta)
 {
-	_rootComponent.setLocalTransformation(Vector3(0.0), Quaternion(), delta);
+	_rootComponent.scale(delta);
 }
 
 void FActor::addOwnedComponent(FComponent* ownedComp)
@@ -98,4 +102,19 @@ void FActor::disableInput()
 		delete _inputComponent;
 		_inputComponent = NULL;
 	}
+}
+
+void FActor::pitch(float degrees)
+{
+	rotate_WorldSpace(degrees, Vector3(1.0, 0.0, 0.0));
+}
+
+void FActor::yaw(float degrees)
+{
+	rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
+}
+
+void FActor::roll(float degrees)
+{
+	rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
 }

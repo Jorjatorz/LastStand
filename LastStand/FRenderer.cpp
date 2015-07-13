@@ -40,6 +40,9 @@ FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 
 FRenderer::~FRenderer()
 {
+	glDeleteBuffers(1, &screenQuadVBO);
+	glDeleteVertexArrays(1, &screenQuadVAO);
+
 	delete _gBuffer;
 	delete _sceneToRender;
 }

@@ -111,6 +111,15 @@ Vector3& Vector3::operator-=(const Vector3& other)
 }
 
 
+Vector3& Vector3::operator*=(const Vector3& other)
+{
+	x = x * other.x;
+	y = y * other.y;
+	z = z * other.z;
+
+	return *this;
+}
+
 Vector3 Vector3::operator+(const Vector3& other)
 {
 	Vector3 result;
@@ -239,4 +248,14 @@ float Vector3::dot(const Vector3& a, const Vector3& b)
 	float d = glm::dot(a1, b1);
 
 	return d;
+}
+
+void Vector3::normalize()
+{
+	glm::vec3 aux(x, y, z);
+	aux = glm::normalize(aux);
+
+	x = aux.x;
+	y = aux.y;
+	z = aux.z;
 }

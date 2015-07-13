@@ -28,6 +28,7 @@ public:
 	bool operator<=(float value) const;
 	Vector3& operator+=(const Vector3& other);
 	Vector3& operator-=(const Vector3& other);
+	Vector3& operator*=(const Vector3& other);
 	Vector3 operator+(const Vector3& other);
 	Vector3 operator+(const Vector3& other) const;
 	Vector3 operator-(const Vector3& other);
@@ -49,6 +50,8 @@ public:
 	union{ float x, r, s;};
 	union{ float y, g, t; };
 	union{ float z, b, p; };
+
+	void normalize();
 
 	static Vector3 cross(const Vector3& a, const Vector3& b);
 	static float dot(const Vector3& a, const Vector3& b);

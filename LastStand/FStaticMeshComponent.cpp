@@ -1,6 +1,7 @@
 #include "FStaticMeshComponent.h"
 
 #include "FStaticMeshComponentProxy.h"
+#include "Matrix4.h"
 
 FStaticMeshComponent::FStaticMeshComponent(std::string name, FActor* actorParent)
 	:FPrimitiveComponent(name, actorParent),
@@ -15,7 +16,7 @@ FStaticMeshComponent::~FStaticMeshComponent()
 
 void FStaticMeshComponent::drawDynamicElements()
 {
-	_staticMesh.renderStaticMesh(_transformationMatrix);
+	_staticMesh.renderStaticMesh(_worldTransform.getTransformationMatrix());
 }
 
 void FStaticMeshComponent::setStaticMesh(std::string meshName)

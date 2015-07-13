@@ -1,0 +1,66 @@
+#include "FTransform.h"
+
+#include "Matrix4.h"
+#include "Math.h"
+
+FTransform::FTransform()
+	:_postion(0.0),
+	_scale(1.0),
+	_rotation(1.0, 0.0, 0.0, 0.0)
+{
+}
+
+
+FTransform::~FTransform()
+{
+}
+
+void FTransform::setPosition(const Vector3& pos)
+{
+	_postion = pos;
+}
+
+void FTransform::setRotation(const Quaternion& quat)
+{
+	_rotation = quat;
+}
+
+void FTransform::setScale(const Vector3& scale)
+{
+	_scale = scale;
+}
+
+void FTransform::translate(const Vector3& delta)
+{
+	_postion += delta;
+}
+
+void FTransform::rotate(const Quaternion& delta)
+{
+	_rotation = delta * _rotation;
+	_rotation.normalize();
+}
+
+void FTransform::scale(const Vector3& delta)
+{
+	_scale *= delta;
+}
+
+Matrix4 FTransform::getTransformationMatrix()
+{
+	Matrix4 toRet(1.0);
+
+	toRet.translate(_postion);
+	toRet = Math::getRotationMatrixFromQuaternion(_rotation) * toRet;
+	toRet.scale(_scale);
+
+	return toRet;
+}
+
+void FTransform::accumulate(const FTransform& other)
+{
+	_postion += other._postion;
+	_rotation = other._rotation * _rotation;
+	_rotation.normalize();
+	_scale *= other._scale;
+}

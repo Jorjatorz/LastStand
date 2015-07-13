@@ -12,13 +12,6 @@ Quaternion::Quaternion(float w, float x, float y, float z)
 {
 }
 
-Quaternion::Quaternion(const Vector3& eulerAngles)
-{
-
-	glm::vec3 eulerA(eulerAngles.x, eulerAngles.y, eulerAngles.z);
-	_GLMQuat = glm::quat(glm::radians(eulerA));
-}
-
 Quaternion::Quaternion(float degrees, const Vector3& normalizedAxis)
 {
 	glm::vec3 eulerA(normalizedAxis.x, normalizedAxis.y, normalizedAxis.z);
@@ -31,6 +24,13 @@ Quaternion::~Quaternion()
 }
 
 std::ostream& operator<<(std::ostream& out, Quaternion& quat)
+{
+	out << "W: " << quat.getW() << " X: " << quat.getX() << " Y: " << quat.getY() << " Z: " << quat.getZ();
+
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const Quaternion& quat)
 {
 	out << "W: " << quat.getW() << " X: " << quat.getX() << " Y: " << quat.getY() << " Z: " << quat.getZ();
 
@@ -120,5 +120,12 @@ Quaternion Quaternion::SLERP(const Quaternion& quat1, const Quaternion& quat2, f
 
 	toRet._GLMQuat = glm::mix(quat1._GLMQuat, quat2._GLMQuat, amount);
 
+	return toRet;
+}
+
+Quaternion Quaternion::conjugate(const Quaternion& quat)
+{
+	Quaternion toRet;
+	toRet._GLMQuat = glm::conjugate(quat._GLMQuat);
 	return toRet;
 }

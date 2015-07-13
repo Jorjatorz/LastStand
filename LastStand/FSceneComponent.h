@@ -3,11 +3,13 @@
 #include <unordered_map>
 
 #include "FComponent.h"
-#include "Vector3.h"
-#include "Quaternion.h"
-#include "Matrix4.h"
+#include "FTransform.h"
+
 
 class FActor;
+class Matrix4;
+class Vector3;
+class Quaternion;
 
 //Class that holds transformations. Can be attached to other FSceneComponents and also those can be attached to it.
 //There are no shared components, if one component is child of other, it's only child of that one.
@@ -28,42 +30,47 @@ public:
 	virtual void onRemovedFromComponent(); //Fired when the SceneComponent is removed from a component
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
-	void setLocalTransformation(const Vector3& deltaPos, const Quaternion& deltaRot, const Vector3& deltaScale);
+	virtual void translate(const Vector3& delta);
+	virtual void rotate_WorldSpace(const Quaternion& quat); //WorldSpace
+	virtual void rotate_WorldSpace(float degrees, const Vector3& axisVector); //WorldSpace
+	virtual void rotate_LocalSpace(float degrees, const Vector3& axisVector); //LocalSpace
+	virtual void pitch(float degrees); //World space
+	virtual void yaw(float degrees); //World space
+	virtual void roll(float degrees); //World space
+	virtual void scale(const Vector3& delta); //World space
+
 	//Sets the new local position of the component
 	void setLocalPosition(const Vector3& pos);
 	//Sets the new local orientation of the component
-	void setLocalOrientation(const Quaternion& quat);
+	void setLocalRotation(const Quaternion& quat);
 	//Sets the new local scale of the component
 	void setLocalScale(const Vector3& scale);
 
 	Vector3 getLocalPosition()
 	{
-		return _localPosition;
+		return _localTransform.getPosition();
 	}
 	Vector3 getWorldPosition()
 	{
-		return _worldPosition;
+		_worldTransform.getPosition();
 	}
-	Quaternion getLocalOrientation()
+	Quaternion getLocalRotation()
 	{
-		return _localRotationValue;
+		return _localTransform.getRotation();
 	}
-	Quaternion getWolrdOrientation()
+	Quaternion getWorldRotation()
 	{
-		return _worldRotationValue;
+		return _worldTransform.getRotation();
 	}
 	Vector3 getLocalScale()
 	{
-		return _localScaleValue;
+		return _localTransform.getScale();
 	}
 	Vector3 getWorldScale()
 	{
-		return _worldScaleValue;
+		return _worldTransform.getScale();
 	}
-	const Matrix4& getTransformationMatrix()
-	{
-		return _transformationMatrix;
-	}
+	const Matrix4& getTransformationMatrix();
 
 protected:
 	//Parent of the FTransformationObject. Null if no parent
@@ -72,15 +79,10 @@ protected:
 	std::unordered_map<std::string, FSceneComponent*> _childrenComponentsList;
 
 	void updateChildrensTransformationObjects(); //Updates all the childrens with the new transformations
-	void getWorldTransformationsFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
+	void getWorldTransformationFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
 
 	//Transformation attributes
-	Vector3 _localPosition; //It's own position
-	Vector3 _worldPosition; //Total position (localposition + parentposition)
-	Quaternion _localRotationValue;
-	Quaternion _worldRotationValue;
-	Vector3 _localScaleValue;
-	Vector3 _worldScaleValue;
-	Matrix4 _transformationMatrix; //Matrix that represents the world transformations
+	FTransform _localTransform;
+	FTransform _worldTransform;
 };
 
