@@ -19,5 +19,8 @@ public:
 
 	//Vectors function
 
+	//Others
+	static float fmod(float number, float divider);
+
 };
 

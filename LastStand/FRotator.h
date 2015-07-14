@@ -14,6 +14,8 @@ public:
 	FRotator(const Quaternion& quat); //To euler angles
 	~FRotator();
 
+	FRotator& operator +=(const FRotator& other);
+
 	//Return a quaternion representing the rotation
 	Quaternion toQuaternion();
 	//Return a direction vector facing in the rotator direction
@@ -23,6 +25,10 @@ public:
 
 	//Rotates a vector by this rotator
 	Vector3 rotateVector(const Vector3& vec);
+
+	void addPitch(float degrees);
+	void addYaw(float degrees);
+	void addRoll(float degrees);
 
 	float getPitch()
 	{
@@ -39,5 +45,7 @@ public:
 
 private:
 	float _pitch, _yaw, _roll;
+
+	void clamp();
 };
 

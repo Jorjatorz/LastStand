@@ -75,6 +75,13 @@ void FEngine::runEngine()
 
 		//Frames management
 		deltaTime = _timerManagerPtr->getTotalExecutionTime() - frameStartTime;
+		if (deltaTime < 1000 / 60.0f)
+		{
+			SDL_Delay(1000 / 60.0f - deltaTime);
+
+			deltaTime = 1000 / 60.0f;
+		}
+
 		elapsedTime += deltaTime;
 		frames++;
 

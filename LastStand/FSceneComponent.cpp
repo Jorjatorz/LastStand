@@ -7,7 +7,9 @@
 
 FSceneComponent::FSceneComponent(std::string name, FActor* parentActor)
 	:FComponent(name, parentActor),
-	_localTransform(),
+	_localPosition(0.0),
+	_localRotation(),
+	_localScale(1.0),
 	_worldTransform()
 {
 }
@@ -38,14 +40,14 @@ void FSceneComponent::getWorldTransformationFromParent()
 	if (_parentComponent)
 	{
 		FTransform aux;
-		aux.accumulate(_localTransform);
+		aux.accumulate(FTransform(_localPosition, _localRotation.toQuaternion(), _localScale));
 		aux.accumulate(_parentComponent->_worldTransform);
 
 		_worldTransform = aux;
 	}
 	else
 	{
-		_worldTransform = _localTransform;
+		_worldTransform = FTransform(_localPosition, _localRotation.toQuaternion(), _localScale);
 	}
 
 	updateChildrensTransformationObjects();
@@ -123,7 +125,7 @@ void FSceneComponent::onRemovedFromComponent()
 
 void FSceneComponent::setLocalPosition(const Vector3& pos)
 {
-	_localTransform.setPosition(pos);
+	_localPosition = pos;
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -131,7 +133,7 @@ void FSceneComponent::setLocalPosition(const Vector3& pos)
 
 void FSceneComponent::setLocalRotation(const Quaternion& quat)
 {
-	_localTransform.setRotation(quat);
+	_localRotation = FRotator(quat);
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -139,7 +141,7 @@ void FSceneComponent::setLocalRotation(const Quaternion& quat)
 
 void FSceneComponent::setLocalScale(const Vector3& scale)
 {
-	_localTransform.setScale(scale);
+	_localScale = scale;
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -152,36 +154,53 @@ const Matrix4& FSceneComponent::getTransformationMatrix()
 
 void FSceneComponent::translate(const Vector3& delta)
 {
-	_localTransform.translate(delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
+	_localPosition += delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f);
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
 }
 
-void FSceneComponent::rotate_WorldSpace(float degrees, const Vector3& axisVector)
+void FSceneComponent::rotate_WorldSpace(float degrees, const Vector3& axisVector_WorldSpace)
 {
-	_localTransform.rotate(Quaternion(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), axisVector));
+	Quaternion deltaQuat(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), axisVector_WorldSpace);
 
-	//Update _world transformations
-	getWorldTransformationFromParent();
+	if (deltaQuat != Quaternion(1.0, 0.0, 0.0, 0.0))
+	{
+		_localRotation = (deltaQuat * _localRotation.toQuaternion()).toRotator();
+
+		//Update _world transformations
+		getWorldTransformationFromParent();
+	}
 }
 
 void FSceneComponent::rotate_WorldSpace(const Quaternion& quat)
 {
-	_localTransform.rotate(quat);
+	if (quat != Quaternion(1.0, 0.0, 0.0, 0.0))
+	{
+		_localRotation = (quat * _localRotation.toQuaternion()).toRotator();
+
+		//Update _world transformations
+		getWorldTransformationFromParent();
+	}
+
 }
 
-void FSceneComponent::rotate_LocalSpace(float degrees, const Vector3& axisVector)
+void FSceneComponent::rotate_LocalSpace(float degrees, const Vector3& axisVector_WorldSpace)
 {
-	_localTransform.rotate(Quaternion(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), _worldTransform.getRotation() * axisVector));
+	Quaternion deltaQuat(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), _worldTransform.getRotationQuaternion() * axisVector_WorldSpace);
+	
+	if (deltaQuat != Quaternion(1.0, 0.0, 0.0, 0.0))
+	{
+		_localRotation = deltaQuat * _localRotation.toQuaternion();
 
-	//Update _world transformations
-	getWorldTransformationFromParent();
+		//Update _world transformations
+		getWorldTransformationFromParent();
+	}
 }
 
 void FSceneComponent::pitch(float degrees)
 {
-	_localTransform.rotate(Quaternion(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), _worldTransform.getRotation() * Vector3(1.0, 0.0, 0.0)));
+	_localRotation.addPitch(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -189,7 +208,7 @@ void FSceneComponent::pitch(float degrees)
 
 void FSceneComponent::yaw(float degrees)
 {
-	_localTransform.rotate(Quaternion(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), _worldTransform.getRotation() * Vector3(0.0, 1.0, 0.0)));
+	_localRotation.addYaw(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -197,7 +216,7 @@ void FSceneComponent::yaw(float degrees)
 
 void FSceneComponent::roll(float degrees)
 {
-	_localTransform.rotate(Quaternion(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f), _worldTransform.getRotation() * Vector3(0.0, 0.0, 1.0)));
+	_localRotation.addRoll(degrees * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -205,7 +224,7 @@ void FSceneComponent::roll(float degrees)
 
 void FSceneComponent::scale(const Vector3& delta)
 {
-	_localTransform.scale(delta); ///DElta time
+	_localScale += delta; ///DElta time
 
 	//Update _world transformations
 	getWorldTransformationFromParent();

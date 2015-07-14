@@ -10,6 +10,13 @@ FTransform::FTransform()
 {
 }
 
+FTransform::FTransform(const Vector3& position, const Quaternion& rotation, const Vector3& scale)
+	:_postion(position),
+	_scale(scale),
+	_rotation(rotation)
+{
+}
+
 
 FTransform::~FTransform()
 {

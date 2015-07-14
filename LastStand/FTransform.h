@@ -10,6 +10,7 @@ class FTransform
 {
 public:
 	FTransform();
+	FTransform(const Vector3& position, const Quaternion& rotation, const Vector3& scale);
 	~FTransform();
 
 	void translate(const Vector3& delta);
@@ -27,7 +28,7 @@ public:
 	{
 		return _postion;
 	}
-	Quaternion getRotation()
+	Quaternion getRotationQuaternion()
 	{
 		return _rotation;
 	}

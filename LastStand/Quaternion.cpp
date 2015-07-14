@@ -1,6 +1,7 @@
 #include "Quaternion.h"
 
 #include "Vector3.h"
+#include "FRotator.h"
 
 Quaternion::Quaternion()
 	:_GLMQuat()
@@ -20,7 +21,7 @@ Quaternion::Quaternion(float degrees, const Vector3& normalizedAxis)
 }
 
 Quaternion::Quaternion(const Vector3& eulerAngle)
-	:_GLMQuat(glm::vec3(eulerAngle.x, eulerAngle.y, eulerAngle.z))
+	:_GLMQuat(glm::radians(glm::vec3(eulerAngle.x, eulerAngle.y, eulerAngle.z)))
 {
 }
 
@@ -120,7 +121,7 @@ Quaternion Quaternion::getNormalizedQuaternion()
 	return toRet;
 }
 
-Vector3 Quaternion::getEulerAnglesVector() const
+Vector3 Quaternion::toEuler() const
 {
 	glm::vec3 eulerA = glm::eulerAngles(_GLMQuat);
 
@@ -146,4 +147,9 @@ Quaternion Quaternion::conjugate(const Quaternion& quat)
 float Quaternion::dot(const Quaternion& quat1, const Quaternion& quat2)
 {
 	return glm::dot(quat1._GLMQuat, quat2._GLMQuat);
+}
+
+FRotator Quaternion::toRotator()
+{
+	return FRotator(*this);
 }

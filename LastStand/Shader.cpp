@@ -19,7 +19,8 @@ Shader::Shader(std::string name)
 
 Shader::~Shader(void)
 {
-	//delete the program
+	//Stop using this program (in case we are using it) and delete it
+	glUseProgram(0);
 	glDeleteProgram(_program);
 }
 
@@ -111,25 +112,24 @@ bool Shader::loadFromDisk(std::string filePath)
 
 
 	// Link the vertex and fragment shader into a shader program--------------------
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
+	_program = glCreateProgram();
+	glAttachShader(_program, vertexShader);
+	glAttachShader(_program, fragmentShader);
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Fragment shader outputs
-	glBindFragDataLocation(program, 0, "outColor"); //color to the buffer number 0
-	glBindFragDataLocation(program, 1, "outPosition"); //vertex position to the buffer number 1
-	glBindFragDataLocation(program, 2, "outNormals"); //normal to the buffer number 2
+	glBindFragDataLocation(_program, 0, "outColor"); //color to the buffer number 0
+	glBindFragDataLocation(_program, 1, "outPosition"); //vertex position to the buffer number 1
+	glBindFragDataLocation(_program, 2, "outNormals"); //normal to the buffer number 2
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	glLinkProgram(program);
+	glLinkProgram(_program);
 
-	//we finished the link so we can delete the shader
+	//We have already linked the shaders so we can delete them now. To delete them efficently they must be detached before deleting it (https://www.opengl.org/sdk/docs/man/html/glDeleteShader.xhtml)
+	glDetachShader(_program, vertexShader);
+	glDetachShader(_program, fragmentShader);
 	glDeleteShader(fragmentShader);
 	glDeleteShader(vertexShader);
-
-	//save the program
-	_program = program;
 
 	return true;
 }

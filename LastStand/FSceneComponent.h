@@ -4,6 +4,7 @@
 
 #include "FComponent.h"
 #include "FTransform.h"
+#include "FRotator.h"
 
 
 class FActor;
@@ -31,9 +32,9 @@ public:
 
 	//Modify the local transformation of the object. Updates the world transformation and notify to children.
 	virtual void translate(const Vector3& delta);
-	virtual void rotate_WorldSpace(const Quaternion& quat); //WorldSpace
-	virtual void rotate_WorldSpace(float degrees, const Vector3& axisVector); //WorldSpace
-	virtual void rotate_LocalSpace(float degrees, const Vector3& axisVector); //LocalSpace
+	virtual void rotate_WorldSpace(const Quaternion& quat); //Rotates the component in world coordinates
+	virtual void rotate_WorldSpace(float degrees, const Vector3& axisVector_WorldSpace); //Rotates the component given an angle and an axisVector in global space
+	virtual void rotate_LocalSpace(float degrees, const Vector3& axisVector_WorldSpace); //Rotates the component given an angle and an axisVector given in global space. Then this axis vector in translated into a local space axis.
 	virtual void pitch(float degrees); //World space
 	virtual void yaw(float degrees); //World space
 	virtual void roll(float degrees); //World space
@@ -48,23 +49,31 @@ public:
 
 	Vector3 getLocalPosition()
 	{
-		return _localTransform.getPosition();
+		return _localPosition;
 	}
 	Vector3 getWorldPosition()
 	{
 		_worldTransform.getPosition();
 	}
-	Quaternion getLocalRotation()
+	Quaternion getLocalRotationQuaternion()
 	{
-		return _localTransform.getRotation();
+		return _localRotation.toQuaternion();
 	}
-	Quaternion getWorldRotation()
+	FRotator getLocalRotation()
 	{
-		return _worldTransform.getRotation();
+		return _localRotation;
+	}
+	Quaternion getWorldRotationQuaternion()
+	{
+		return _worldTransform.getRotationQuaternion();
+	}
+	FRotator getWorldRotation()
+	{
+		return _worldTransform.getRotationQuaternion().toRotator();
 	}
 	Vector3 getLocalScale()
 	{
-		return _localTransform.getScale();
+		return _localScale;
 	}
 	Vector3 getWorldScale()
 	{
@@ -82,7 +91,10 @@ protected:
 	void getWorldTransformationFromParent(); //Get the world transformation from the parent. If no parent then worldTrans = localTrans
 
 	//Transformation attributes
-	FTransform _localTransform;
-	FTransform _worldTransform;
+	Vector3 _localPosition;
+	FRotator _localRotation;
+	Vector3 _localScale;
+
+	FTransform _worldTransform; //Represents the component world transform
 };
 

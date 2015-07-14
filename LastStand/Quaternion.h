@@ -7,6 +7,7 @@
 
 //Forward declaration
 class Vector3;
+class FRotator;
 
 class Quaternion
 {
@@ -44,6 +45,12 @@ public:
 	//Return a quaternion that is this one normalized
 	Quaternion getNormalizedQuaternion();
 
+	//Return a FRotator representing the quaternion rotation
+	FRotator toRotator();
+
+	//Return an euler angle vector from the quaternion
+	Vector3 toEuler() const;
+
 	//Return a quaternion that is the conjugate of the parameter
 	static Quaternion conjugate(const Quaternion& quat);
 
@@ -63,8 +70,6 @@ public:
 	{
 		return _GLMQuat.w;
 	}
-
-	Vector3 getEulerAnglesVector() const;
 
 	//Dot product between quaternions
 	static float dot(const Quaternion& quat1, const Quaternion& quat2);

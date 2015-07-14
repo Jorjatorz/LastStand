@@ -35,7 +35,7 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	projM = &_projectionCameraMatrix;
 
 	//Get the rotation matrix of the conjugate of the rotation quaternion and translate it by the negative position
-	_viewCameraMatrix = Math::getRotationMatrixFromQuaternion(Quaternion::conjugate(_worldTransform.getRotation()));
+	_viewCameraMatrix = Math::getRotationMatrixFromQuaternion(Quaternion::conjugate(_worldTransform.getRotationQuaternion()));
 	_viewCameraMatrix.translate(-_worldTransform.getPosition());
 	
 	viewM = &_viewCameraMatrix;
