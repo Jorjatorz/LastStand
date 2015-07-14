@@ -259,3 +259,11 @@ void Vector3::normalize()
 	y = aux.y;
 	z = aux.z;
 }
+
+Vector3 Vector3::getNormalizedVector()
+{
+	glm::vec3 aux(x, y, z);
+	aux = glm::normalize(aux);
+
+	return Vector3(aux.x, aux.y, aux.z);
+}

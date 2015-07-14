@@ -17,6 +17,8 @@ public:
 	Quaternion(float w, float x, float y, float z);
 	//Builds a quaternion from an angle and a NORMALIZED axis
 	Quaternion(float degrees, const Vector3& normalizedAxis);
+	//Builds a quaternion from euler angles
+	Quaternion(const Vector3& eulerAngle);
 	~Quaternion();
 
 
@@ -39,6 +41,9 @@ public:
 
 	//Normalize the quaternion
 	void normalize();
+	//Return a quaternion that is this one normalized
+	Quaternion getNormalizedQuaternion();
+
 	//Return a quaternion that is the conjugate of the parameter
 	static Quaternion conjugate(const Quaternion& quat);
 
@@ -59,8 +64,10 @@ public:
 		return _GLMQuat.w;
 	}
 
-	Vector3 getEulerAnglesVector();
+	Vector3 getEulerAnglesVector() const;
 
+	//Dot product between quaternions
+	static float dot(const Quaternion& quat1, const Quaternion& quat2);
 	//Do a linear interpolation between quaternions
 	static Quaternion SLERP(const Quaternion& quat1, const Quaternion& quat2, float amount);
 

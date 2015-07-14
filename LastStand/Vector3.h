@@ -51,7 +51,10 @@ public:
 	union{ float y, g, t; };
 	union{ float z, b, p; };
 
+	//Normalize the vector
 	void normalize();
+	//Return a vector which is this one normalized
+	Vector3 getNormalizedVector();
 
 	static Vector3 cross(const Vector3& a, const Vector3& b);
 	static float dot(const Vector3& a, const Vector3& b);

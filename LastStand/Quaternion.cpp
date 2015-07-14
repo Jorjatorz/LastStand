@@ -19,6 +19,11 @@ Quaternion::Quaternion(float degrees, const Vector3& normalizedAxis)
 	_GLMQuat = glm::angleAxis(degrees, eulerA);
 }
 
+Quaternion::Quaternion(const Vector3& eulerAngle)
+	:_GLMQuat(glm::vec3(eulerAngle.x, eulerAngle.y, eulerAngle.z))
+{
+}
+
 Quaternion::~Quaternion()
 {
 }
@@ -107,7 +112,15 @@ void Quaternion::normalize()
 	_GLMQuat = glm::normalize(_GLMQuat);
 }
 
-Vector3 Quaternion::getEulerAnglesVector()
+Quaternion Quaternion::getNormalizedQuaternion()
+{
+	Quaternion toRet;
+	toRet._GLMQuat = glm::normalize(_GLMQuat);
+
+	return toRet;
+}
+
+Vector3 Quaternion::getEulerAnglesVector() const
 {
 	glm::vec3 eulerA = glm::eulerAngles(_GLMQuat);
 
@@ -128,4 +141,9 @@ Quaternion Quaternion::conjugate(const Quaternion& quat)
 	Quaternion toRet;
 	toRet._GLMQuat = glm::conjugate(quat._GLMQuat);
 	return toRet;
+}
+
+float Quaternion::dot(const Quaternion& quat1, const Quaternion& quat2)
+{
+	return glm::dot(quat1._GLMQuat, quat2._GLMQuat);
 }
