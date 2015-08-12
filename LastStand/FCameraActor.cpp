@@ -4,6 +4,7 @@
 #include "Quaternion.h"
 #include "Vector3.h"
 #include "FEngine.h"
+#include "Math.h"
 
 FCameraActor::FCameraActor(std::string actorName)
 	:FActor(actorName)
@@ -24,6 +25,11 @@ void FCameraActor::translate(const Vector3& delta)
 
 void FCameraActor::pitch(float degrees)
 {
-	//rotate_LocalSpace(degrees, Vector3(1.0, 0.0, 0.0));
-	_rootComponent.pitch(degrees);
+	_rootComponent.rotate_LocalSpace(degrees, Vector3(1.0, 0.0, 0.0));
 }
+
+void FCameraActor::yaw(float degrees)
+{
+	_rootComponent.rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
+}
+

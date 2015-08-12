@@ -98,7 +98,7 @@ void Matrix4::translate(const Vector3& transVec)
 
 void Matrix4::rotate(float angle, const Vector3& axisVector)
 {
-	_GLMMatrix = glm::rotate(_GLMMatrix, angle, glm::vec3(axisVector.x, axisVector.y, axisVector.z));
+	_GLMMatrix = glm::rotate(_GLMMatrix, glm::radians(angle), glm::vec3(axisVector.x, axisVector.y, axisVector.z));
 }
 
 void Matrix4::scale(const Vector3& scaleVec)
@@ -116,11 +116,11 @@ Matrix4 Matrix4::createPerspectiveMatrix(float fov, float aspectRatio, float zNe
 	Matrix4 perspectiveM;
 	if (zFar > 0.0)
 	{
-		perspectiveM._GLMMatrix = glm::perspective(fov, aspectRatio, zNear, zFar);
+		perspectiveM._GLMMatrix = glm::perspective(glm::radians(fov), aspectRatio, zNear, zFar);
 	}
 	else
 	{
-		perspectiveM._GLMMatrix = glm::infinitePerspective(fov, aspectRatio, zNear);
+		perspectiveM._GLMMatrix = glm::infinitePerspective(glm::radians(fov), aspectRatio, zNear);
 	}
 
 	return perspectiveM;

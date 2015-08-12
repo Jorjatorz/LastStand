@@ -10,7 +10,8 @@ class FInputManager;
 class RenderWindow;
 class TimerManager;
 class FWorld;
-class FCameraManager;
+class FPlayerController;
+
 
 
 /*
@@ -38,7 +39,7 @@ public:
 	unsigned short int getRenderingWindow_Height();
 
 	//Retun a pointer to the timer manager
-	TimerManager* const getTimerManagePtr()
+	TimerManager* const getTimerManagePtr() const
 	{
 		return _timerManagerPtr;
 	}
@@ -46,15 +47,14 @@ public:
 	int getDeltaTime();
 
 	//Return a pointer to the current world
-	FWorld* const getFWorldPtr()
+	FWorld* const getFWorldPtr() const
 	{
 		return _FWorldPtr;
 	}
-	//Return a pointer to the camera manager
-	FCameraManager* const getCameraManagerPtr()
-	{
-		return _FCameraManagerPtr;
-	}
+
+	//Return a pointer to the player controller
+	FPlayerController* const getPlayerController() const;
+
 private:
 	bool _engineRunning;
 
@@ -64,6 +64,5 @@ private:
 	TimerManager* _timerManagerPtr;
 	FResourceManager* _FResourceManagerPtr;
 	FWorld* _FWorldPtr;
-	FCameraManager* _FCameraManagerPtr;
 };
 

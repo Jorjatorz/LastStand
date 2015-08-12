@@ -32,4 +32,9 @@ float Math::fmod(float number, float divider)
 	return std::fmod(number, divider);
 }
 
+float Math::clamp(float num, float min, float max)
+{
+	return glm::clamp(num, min, max);
+}
+
 

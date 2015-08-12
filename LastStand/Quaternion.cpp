@@ -3,6 +3,8 @@
 #include "Vector3.h"
 #include "FRotator.h"
 
+#include <glm/gtx/fast_trigonometry.hpp>
+
 Quaternion::Quaternion()
 	:_GLMQuat()
 {
@@ -15,9 +17,9 @@ Quaternion::Quaternion(float w, float x, float y, float z)
 
 Quaternion::Quaternion(float degrees, const Vector3& normalizedAxis)
 {
-	glm::vec3 eulerA(normalizedAxis.x, normalizedAxis.y, normalizedAxis.z);
+	glm::vec3 axis(normalizedAxis.x, normalizedAxis.y, normalizedAxis.z);
 
-	_GLMQuat = glm::angleAxis(degrees, eulerA);
+	_GLMQuat = glm::angleAxis(glm::radians(degrees), axis);
 }
 
 Quaternion::Quaternion(const Vector3& eulerAngle)
@@ -113,7 +115,7 @@ void Quaternion::normalize()
 	_GLMQuat = glm::normalize(_GLMQuat);
 }
 
-Quaternion Quaternion::getNormalizedQuaternion()
+Quaternion Quaternion::getNormalizedQuaternion() const
 {
 	Quaternion toRet;
 	toRet._GLMQuat = glm::normalize(_GLMQuat);
@@ -121,10 +123,63 @@ Quaternion Quaternion::getNormalizedQuaternion()
 	return toRet;
 }
 
+Quaternion Quaternion::inverse() const
+{
+	///In here we should normalize the quaternion or check if its normalized
+	Quaternion toRet;
+	toRet._GLMQuat = glm::inverse(_GLMQuat);
+
+	return toRet;
+}
+
+Quaternion Quaternion::conjugate() const
+{
+	Quaternion toRet;
+	toRet._GLMQuat = glm::conjugate(_GLMQuat);
+	return toRet;
+}
+
 Vector3 Quaternion::toEuler() const
 {
-	glm::vec3 eulerA = glm::eulerAngles(_GLMQuat);
+	//CODE FROM UNREAL ENGINE 4 toEuler Code
+	/*
+	const float SingularityTest = _GLMQuat.z * _GLMQuat.x - _GLMQuat.w * _GLMQuat.y;
+	const float YawY = 2.f*(_GLMQuat.w * _GLMQuat.z + _GLMQuat.x*_GLMQuat.y);
+	const float YawX = (1.f - 2.f*(glm::pow(_GLMQuat.y, 2) + glm::pow(_GLMQuat.z, 2)));
 
+	// reference 
+	// http://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+	// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/
+
+	// this value was found from experience, the above websites recommend different values
+	// but that isn't the case for us, so I went through different testing, and finally found the case 
+	// where both of world lives happily. 
+	const float SINGULARITY_THRESHOLD = 0.4999995f;
+
+	FRotator RotatorFromQuat;
+
+	if (SingularityTest < -SINGULARITY_THRESHOLD)
+	{
+		RotatorFromQuat.setYaw(270.f);
+		RotatorFromQuat.setRoll(glm::degrees(glm::atan(YawY, YawX)));
+		RotatorFromQuat.setPitch(glm::degrees(-RotatorFromQuat.getYaw() - (2.f * glm::atan(_GLMQuat.x, _GLMQuat.w))));
+	}
+	else if (SingularityTest > SINGULARITY_THRESHOLD)
+	{
+		RotatorFromQuat.setYaw(90.f);
+		RotatorFromQuat.setRoll(glm::degrees(glm::atan(YawY, YawX)));
+		RotatorFromQuat.setPitch(glm::degrees(RotatorFromQuat.getYaw() - (2.f * glm::atan(_GLMQuat.x, _GLMQuat.w))));
+	}
+	else
+	{
+		RotatorFromQuat.setYaw(glm::degrees(glm::fastAsin(2.f*(SingularityTest))));
+		RotatorFromQuat.setRoll(glm::degrees(glm::atan(YawY, YawX)));
+		RotatorFromQuat.setPitch(glm::degrees(glm::atan(-2.f*(_GLMQuat.w*_GLMQuat.x + _GLMQuat.y*_GLMQuat.z), (1.f - 2.f*(glm::pow(_GLMQuat.x, 2) + glm::pow(_GLMQuat.y, 2))))));
+	}
+
+	RotatorFromQuat.normalize();*/
+
+	glm::vec3 eulerA = glm::degrees(glm::eulerAngles(_GLMQuat));
 	return Vector3(eulerA.x, eulerA.y, eulerA.z);
 }
 
@@ -137,10 +192,12 @@ Quaternion Quaternion::SLERP(const Quaternion& quat1, const Quaternion& quat2, f
 	return toRet;
 }
 
-Quaternion Quaternion::conjugate(const Quaternion& quat)
+Quaternion Quaternion::LERP(const Quaternion& quat1, const Quaternion& quat2, float amount)
 {
 	Quaternion toRet;
-	toRet._GLMQuat = glm::conjugate(quat._GLMQuat);
+
+	toRet._GLMQuat = glm::lerp(quat1._GLMQuat, quat2._GLMQuat, amount);
+
 	return toRet;
 }
 
@@ -149,7 +206,7 @@ float Quaternion::dot(const Quaternion& quat1, const Quaternion& quat2)
 	return glm::dot(quat1._GLMQuat, quat2._GLMQuat);
 }
 
-FRotator Quaternion::toRotator()
+FRotator Quaternion::toRotator() const
 {
 	return FRotator(*this);
 }

@@ -106,15 +106,15 @@ void FActor::disableInput()
 
 void FActor::pitch(float degrees)
 {
-	rotate_WorldSpace(degrees, Vector3(1.0, 0.0, 0.0));
+	_rootComponent.rotate_WorldSpace(degrees, Vector3(1.0, 0.0, 0.0));
 }
 
 void FActor::yaw(float degrees)
 {
-	rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
+	_rootComponent.rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
 }
 
 void FActor::roll(float degrees)
 {
-	rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
+	_rootComponent.rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
 }

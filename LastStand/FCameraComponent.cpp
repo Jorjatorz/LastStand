@@ -3,6 +3,7 @@
 #include "FEngine.h"
 #include "FCameraManager.h"
 #include "Math.h"
+#include "FPlayerController.h"
 
 FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	:FSceneComponent(name, actor),
@@ -15,14 +16,14 @@ FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	//Set the projection matrix
 	_projectionCameraMatrix = Matrix4::createPerspectiveMatrix(_FOV, _aspectRatio, 0.1);
 	//Register to the camera manager
-	FEngine::getInstance()->getCameraManagerPtr()->registerCameraComponent(this);
+	FEngine::getInstance()->getPlayerController()->getCameraManagerPtr()->registerCameraComponent(this);
 }
 
 
 FCameraComponent::~FCameraComponent()
 {
 	//Unregister to the camera manager
-	FEngine::getInstance()->getCameraManagerPtr()->unregisterCameraComponent(this);
+	FEngine::getInstance()->getPlayerController()->getCameraManagerPtr()->unregisterCameraComponent(this);
 }
 
 void FCameraComponent::addRenderingTarget(Texture* texture2DTarget)
@@ -35,7 +36,7 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	projM = &_projectionCameraMatrix;
 
 	//Get the rotation matrix of the conjugate of the rotation quaternion and translate it by the negative position
-	_viewCameraMatrix = Math::getRotationMatrixFromQuaternion(Quaternion::conjugate(_worldTransform.getRotationQuaternion()));
+	_viewCameraMatrix = Math::getRotationMatrixFromQuaternion(_worldTransform.getRotationQuaternion().conjugate());
 	_viewCameraMatrix.translate(-_worldTransform.getPosition());
 	
 	viewM = &_viewCameraMatrix;
@@ -43,5 +44,5 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 
 void FCameraComponent::setAsViewportCamera()
 {
-	FEngine::getInstance()->getCameraManagerPtr()->setViewportCamera(this);
+	FEngine::getInstance()->getPlayerController()->getCameraManagerPtr()->setViewportCamera(this);
 }

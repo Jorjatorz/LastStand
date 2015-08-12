@@ -28,7 +28,7 @@ public:
 	{
 		return _postion;
 	}
-	Quaternion getRotationQuaternion()
+	Quaternion getRotationQuaternion() const
 	{
 		return _rotation;
 	}

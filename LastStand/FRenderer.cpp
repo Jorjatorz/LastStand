@@ -49,7 +49,7 @@ FRenderer::~FRenderer()
 
 void FRenderer::renderObjectsInTheWorld()
 {
-	FCameraManager* cameraManagerPtr = FEngine::getInstance()->getCameraManagerPtr();
+	FCameraManager* cameraManagerPtr = FEngine::getInstance()->getPlayerController()->getCameraManagerPtr();
 	for (auto &it : cameraManagerPtr->getCameraComponentsList())
 	{
 		if (it != cameraManagerPtr->getViewportCamera())

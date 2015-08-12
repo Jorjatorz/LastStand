@@ -1,9 +1,12 @@
 #include "FPlayerController.h"
 
 #include "FInputComponent.h"
+#include "FCameraManager.h"
 
 FPlayerController::FPlayerController()
 {
+	//Create the camera manager
+	_FCameraManagerPtr = new FCameraManager();
 }
 
 
@@ -31,14 +34,16 @@ void FPlayerController::unregisterInputComponent(FInputComponent* comp)
 
 void FPlayerController::tick(int deltaTime)
 {
+	//Each tick check for axis mapping
 	//Start from the end
 	auto it = _inputComponentsList.crbegin();
-
 	while ((it != _inputComponentsList.crend()))
 	{
 		(*it)->checkAxisMappingsValues();
 		it++;
 	}
+
+	//Update camera each frame from the camera controller
 }
 
 void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTriggered)

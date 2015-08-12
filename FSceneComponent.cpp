@@ -213,10 +213,9 @@ void FSceneComponent::translate(const Vector3& delta)
 void FSceneComponent::rotate_WorldSpace(float degrees, const Vector3& axisVector_WorldSpace)
 {
 	Quaternion deltaQuat(degrees,  axisVector_WorldSpace);
-	deltaQuat.normalize();
 	if (deltaQuat != Quaternion(1.0, 0.0, 0.0, 0.0))
 	{
-		rotateComponent(_localTransform.getRotationQuaternion() * getWorldRotationQuaternion().inverse() * deltaQuat * getWorldRotationQuaternion());
+		rotateComponent(deltaQuat * _worldTransform.getRotationQuaternion());
 	}
 }
 
@@ -224,7 +223,7 @@ void FSceneComponent::rotate_WorldSpace(const Quaternion& quat)
 {
 	if (quat != Quaternion(1.0, 0.0, 0.0, 0.0))
 	{
-		rotateComponent(_localTransform.getRotationQuaternion() * getWorldRotationQuaternion().inverse() * quat * getWorldRotationQuaternion());
+		rotateComponent(quat * _worldTransform.getRotationQuaternion());
 	}
 
 }
@@ -232,7 +231,7 @@ void FSceneComponent::rotate_WorldSpace(const Quaternion& quat)
 void FSceneComponent::rotate_LocalSpace(float degrees, const Vector3& axisVector_WorldSpace)
 {
 	Quaternion deltaQuat(degrees, axisVector_WorldSpace);
-	deltaQuat.normalize();	
+	
 	if (deltaQuat != Quaternion(1.0, 0.0, 0.0, 0.0))
 	{
 		rotateComponent(_localTransform.getRotationQuaternion() * deltaQuat);
@@ -241,9 +240,10 @@ void FSceneComponent::rotate_LocalSpace(float degrees, const Vector3& axisVector
 
 void FSceneComponent::rotateComponent(const Quaternion& newRot)
 {
-	if (newRot != _worldTransform.getRotationQuaternion())
+	Quaternion toSetQuat = newRot.getNormalizedQuaternion();
+	if (toSetQuat != _worldTransform.getRotationQuaternion())
 	{
-		_localTransform.setRotation(newRot);
+		_localTransform.setRotation(toSetQuat);
 	}
 
 	//Update _world transformations

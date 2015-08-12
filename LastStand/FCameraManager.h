@@ -37,7 +37,8 @@ private:
 	//List with all the cameras
 	std::list<FCameraComponent*> _camerasList;
 
-	//Viewport camera. The main camera grom which the scene is captured, it will be displayed in the viewport.
+	//Viewport camera. The main camera from which the scene is captured, it will be displayed in the viewport.
+	//This is the camera which is modified directly from the Player controler
 	FCameraComponent* _viewportCamera;
 };
 

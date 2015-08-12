@@ -10,8 +10,10 @@ public:
 	~FCameraActor();
 
 	virtual void translate(const Vector3& delta) override;
-	//Using camera ptich must be done in lcoal space
-	virtual void pitch(float degrees) override;
+
+	virtual void pitch(float degrees);
+
+	virtual void yaw(float degrees);
 
 
 };

@@ -6,6 +6,7 @@
 
 class FInputComponent;
 class FActionMappingEvent;
+class FCameraManager;
 
 //Controller that represents the human player
 //This controller resides in the Fworld.
@@ -30,10 +31,19 @@ public:
 	//It also cheacks if this input event is also an Axis Mapping 
 	void inputEventProduced(const FActionMappingEvent& eventTriggered);
 
+	//Return a pointer to the camera manager
+	FCameraManager* const getCameraManagerPtr() const
+	{
+		return _FCameraManagerPtr;
+	}
+
 private:
 	//List containing all the inputComponents of the actors that can recive input
 	//It is treated as a stack
 	std::list<FInputComponent*> _inputComponentsList;
+
+	//Pointer to the camera Manager
+	FCameraManager* _FCameraManagerPtr;
 
 };
 

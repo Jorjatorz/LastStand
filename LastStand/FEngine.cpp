@@ -6,7 +6,7 @@
 #include "TimerManager.h"
 #include "FLog.h"
 #include "FWorld.h"
-#include "FCameraManager.h"
+#include "FPlayerController.h"
 
 FEngine::FEngine()
 	:_engineRunning(true),
@@ -20,7 +20,6 @@ FEngine::FEngine()
 
 FEngine::~FEngine()
 {
-	delete _FCameraManagerPtr;
 	delete _inputManagerPtr;
 	delete _mainRenderWindowPtr;
 	delete _FWorldPtr;
@@ -42,9 +41,6 @@ void FEngine::initializeEngine(std::string windowName, unsigned short int width,
 	_mainRenderWindowPtr = new RenderWindow(windowName, width, height);
 	//Create the Input Manager Singleton
 	_inputManagerPtr = new FInputManager();
-
-	//Create the camera manager
-	_FCameraManagerPtr = new FCameraManager();
 
 	FLog(FLog::INFO, "Engine components initialized");
 }
@@ -113,4 +109,9 @@ unsigned short int FEngine::getRenderingWindow_Height()
 int FEngine::getDeltaTime()
 {
 	return _timerManagerPtr->getDeltaTime();
+}
+
+FPlayerController* const FEngine::getPlayerController() const
+{
+		return _FWorldPtr->getPlayerController();
 }

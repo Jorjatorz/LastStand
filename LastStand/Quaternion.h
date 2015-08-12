@@ -43,16 +43,18 @@ public:
 	//Normalize the quaternion
 	void normalize();
 	//Return a quaternion that is this one normalized
-	Quaternion getNormalizedQuaternion();
+	Quaternion getNormalizedQuaternion() const;
+
+	//Return the inverse of this quaternion
+	Quaternion inverse() const;
+	//Return a quaternion that is the conjugate of the parameter
+	Quaternion conjugate() const;
 
 	//Return a FRotator representing the quaternion rotation
-	FRotator toRotator();
+	FRotator toRotator() const ;
 
 	//Return an euler angle vector from the quaternion
 	Vector3 toEuler() const;
-
-	//Return a quaternion that is the conjugate of the parameter
-	static Quaternion conjugate(const Quaternion& quat);
 
 	float getX() const
 	{
@@ -73,8 +75,10 @@ public:
 
 	//Dot product between quaternions
 	static float dot(const Quaternion& quat1, const Quaternion& quat2);
-	//Do a linear interpolation between quaternions
+	//Do a Spherical linear interpolation between quaternions
 	static Quaternion SLERP(const Quaternion& quat1, const Quaternion& quat2, float amount);
+	//Linear interpolation
+	static Quaternion LERP(const Quaternion& quat1, const Quaternion& quat2, float amount);
 
 private:
 	//GLM quaternion, incharge of all the operations.

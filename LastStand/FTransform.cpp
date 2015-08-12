@@ -58,7 +58,7 @@ Matrix4 FTransform::getTransformationMatrix()
 	Matrix4 toRet(1.0);
 
 	toRet.translate(_postion);
-	toRet = Math::getRotationMatrixFromQuaternion(_rotation) * toRet;
+	toRet = toRet * Math::getRotationMatrixFromQuaternion(_rotation);
 	toRet.scale(_scale);
 
 	return toRet;
@@ -67,7 +67,7 @@ Matrix4 FTransform::getTransformationMatrix()
 void FTransform::accumulate(const FTransform& other)
 {
 	_postion += other._postion;
-	_rotation = other._rotation * _rotation;
+	_rotation = _rotation * other._rotation;
 	_rotation.normalize();
 	_scale *= other._scale;
 }

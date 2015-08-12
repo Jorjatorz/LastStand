@@ -16,7 +16,6 @@ FRotator::FRotator(float pitch, float yaw, float roll)
 	_yaw(yaw),
 	_roll(roll)
 {
-	clamp();
 }
 
 FRotator::FRotator(const Vector3& yawPitchRollVector)
@@ -24,7 +23,6 @@ FRotator::FRotator(const Vector3& yawPitchRollVector)
 	_yaw(yawPitchRollVector.y),
 	_roll(yawPitchRollVector.z)
 {
-	clamp();
 }
 
 FRotator::FRotator(const Quaternion& quat)
@@ -35,7 +33,7 @@ FRotator::FRotator(const Quaternion& quat)
 	_yaw = euler.y;
 	_roll = euler.z;
 
-	clamp();
+	normalize();
 }
 
 
@@ -43,17 +41,17 @@ FRotator::~FRotator()
 {
 }
 
-Quaternion FRotator::toQuaternion()
+Quaternion FRotator::toQuaternion() const
 {
 	return Quaternion(toEuler());
 }
 
-Vector3 FRotator::toVector3()
+Vector3 FRotator::toVector3() const
 {	
 	return toEuler().getNormalizedVector();
 }
 
-Vector3 FRotator::toEuler()
+Vector3 FRotator::toEuler() const
 {
 	return Vector3(_pitch, _yaw, _roll);
 }
@@ -68,22 +66,16 @@ Vector3 FRotator::rotateVector(const Vector3& vec)
 void FRotator::addPitch(float degrees)
 {
 	_pitch += degrees;
-
-	clamp();
 }
 
 void FRotator::addYaw(float degrees)
 {
 	_yaw += degrees;
-
-	clamp();
 }
 
 void FRotator::addRoll(float degrees)
 {
 	_roll += degrees;
-
-	clamp();
 }
 
 FRotator& FRotator::operator+=(const FRotator& other)
@@ -92,14 +84,74 @@ FRotator& FRotator::operator+=(const FRotator& other)
 	_yaw += other._yaw;
 	_roll += other._roll;
 
-	clamp();
-
 	return *this;
 }
 
-void FRotator::clamp()
+FRotator FRotator::clamp()
 {
-	_pitch = Math::fmod(_pitch, 360.0f);
-	_yaw = Math::fmod(_yaw, 360.0f);
-	_roll = Math::fmod(_roll, 360.0f);
+	return FRotator(clampAxis(_pitch), clampAxis(_yaw), clampAxis(_roll));
+}
+
+void FRotator::setPitch(float degrees)
+{
+	_pitch = degrees;
+}
+
+void FRotator::setYaw(float degrees)
+{
+	_yaw = degrees;
+}
+
+void FRotator::setRoll(float degrees)
+{
+	_roll = degrees;
+}
+
+float FRotator::clampAxis(float degrees)
+{
+	//Get the angle in a range of (-360, 360)
+	float angle = Math::fmod(degrees, 360.0f);
+
+	if (angle < 0.0f)
+	{
+		//Shift angle to [0,360) range
+		angle += 360.0f;
+	}
+
+	return angle;
+}
+
+float FRotator::normalizeAxis(float degrees)
+{
+	//Get the angle in [0, 360]
+	float angle = clampAxis(degrees);
+
+	if (angle > 180.0f)
+	{
+		//Shift angle to (-180,180]
+		angle -= 360.f;
+	}
+
+	return angle;
+}
+
+void FRotator::normalize()
+{
+	_pitch = normalizeAxis(_pitch);
+	_yaw = normalizeAxis(_yaw);
+	_roll = normalizeAxis(_roll);
+}
+
+std::ostream& operator<<(std::ostream& out, FRotator& rotator)
+{
+	out << "Pitch: " << rotator.getPitch() << " Yaw: " << rotator.getYaw() << " Roll: " << rotator.getRoll();
+
+	return out;
+}
+
+std::ostream& operator<<(std::ostream& out, const FRotator& rotator)
+{
+	out << "Pitch: " << rotator.getPitch() << " Yaw: " << rotator.getYaw() << " Roll: " << rotator.getRoll();
+
+	return out;
 }

@@ -48,7 +48,8 @@ bool FInputComponent::onActionMappingEventTriggered(const FActionMappingEvent& e
 void FInputComponent::checkAxisMappingsValues()
 {
 	FInputManager* manager = FInputManager::getInstance();
-	//loop throug all the register axis mappings
+	//Loop through all the registered axis mappings in this component and if the axisValue is different from 0 execute the action
+	///In here we could check if after the loop any axis has been triggered and if so then return _terminateEvent
 	for (const auto& mAxisRegistered : _axisMappingzRegistered)
 	{
 		float aValue = manager->getAxisValue(mAxisRegistered.first);
