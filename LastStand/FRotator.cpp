@@ -32,8 +32,6 @@ FRotator::FRotator(const Quaternion& quat)
 	_pitch = euler.x;
 	_yaw = euler.y;
 	_roll = euler.z;
-
-	normalize();
 }
 
 

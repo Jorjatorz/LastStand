@@ -180,6 +180,29 @@ Vector3 Quaternion::toEuler() const
 	RotatorFromQuat.normalize();*/
 
 	glm::vec3 eulerA = glm::degrees(glm::eulerAngles(_GLMQuat));
+
+	//Translate roll, yaw, pitch into a range of 0 - 360
+	if (eulerA.x < 0.0f)
+	{
+		eulerA.x += 360.0f;
+	}
+	if (eulerA.z < 0.0f)
+	{
+		eulerA.z += 360.0f;
+	}
+	//For yaw we have three different possibilities
+	if (eulerA.y > 0.0f && (eulerA.x >= 180.0f)) //Second quadrant
+	{
+		eulerA.y = 90 - eulerA.y + 90;
+	}
+	else if (eulerA.y < 0.0f && (eulerA.x >= 180.0f)) //Third quadrant
+	{
+		eulerA.y = -eulerA.y + 180.0f;
+	}
+	else if (eulerA.y < 0.0f && (eulerA.x < 180.0f)) //Forth quadrant
+	{
+		eulerA.y = 90 + eulerA.y + 270;
+	}
 	return Vector3(eulerA.x, eulerA.y, eulerA.z);
 }
 

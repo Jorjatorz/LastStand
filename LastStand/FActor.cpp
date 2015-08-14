@@ -87,12 +87,14 @@ void FActor::removeOwnedComponent(FComponent* ownedComp)
 	}
 }
 
-void FActor::enableInput()
+FInputComponent* FActor::enableInput()
 {
 	if (!_inputComponent)
 	{
 		_inputComponent = new FInputComponent("DefaultInputComponent", this);
 	}
+
+	return _inputComponent;
 }
 
 void FActor::disableInput()

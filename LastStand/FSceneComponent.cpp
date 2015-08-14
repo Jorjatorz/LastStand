@@ -1,6 +1,5 @@
 #include "FSceneComponent.h"
 
-#include "FEngine.h"
 #include "FLog.h"
 #include "FActor.h"
 #include "Matrix4.h"
@@ -32,8 +31,11 @@ void FSceneComponent::getWorldTransformationFromParent()
 	if (_parentComponent)
 	{
 		FTransform aux;
-		aux.accumulate(_localTransform);
-		aux.accumulate(_parentComponent->_worldTransform);
+		aux.setRotation(_parentComponent->getWorldRotationQuaternion() * _localTransform.getRotationQuaternion());
+		aux.setScale(_localTransform.getScale() * _parentComponent->getWorldScale());
+		//Change position based on parent orientation and scale
+		aux.setPosition(_parentComponent->getWorldRotationQuaternion() * (_parentComponent->getWorldScale() * _localTransform.getPosition()));
+		aux.setPosition(aux.getPosition() + _parentComponent->getWorldPosition());
 
 		_worldTransform = aux;
 	}
@@ -204,7 +206,7 @@ const Matrix4& FSceneComponent::getTransformationMatrix()
 
 void FSceneComponent::translate(const Vector3& delta)
 {
-	_localTransform.translate(delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
+	_localTransform.translate(delta);
 
 	//Update _world transformations
 	getWorldTransformationFromParent();
@@ -252,7 +254,7 @@ void FSceneComponent::rotateComponent(const Quaternion& newRot)
 
 void FSceneComponent::scale(const Vector3& delta)
 {
-	_localTransform.scale(delta); ///DElta time
+	_localTransform.scale(delta);
 
 	//Update _world transformations
 	getWorldTransformationFromParent();

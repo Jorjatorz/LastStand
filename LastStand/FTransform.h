@@ -21,9 +21,6 @@ public:
 	void setRotation(const Quaternion& quat);
 	void setScale(const Vector3& scale);
 
-	//Accumulate another transform with this one.
-	void accumulate(const FTransform& other);
-
 	Vector3 getPosition()
 	{
 		return _postion;

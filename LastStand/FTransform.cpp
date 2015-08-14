@@ -63,11 +63,3 @@ Matrix4 FTransform::getTransformationMatrix()
 
 	return toRet;
 }
-
-void FTransform::accumulate(const FTransform& other)
-{
-	_postion += other._postion;
-	_rotation = _rotation * other._rotation;
-	_rotation.normalize();
-	_scale *= other._scale;
-}

@@ -73,7 +73,7 @@ public:
 	void removeOwnedComponent(FComponent* ownedComp);
 
 	//Allocates a new input component (if it doesnt already exists)
-	void enableInput();
+	FInputComponent* enableInput();
 	//Deallocates the input component (if it does exists)
 	void disableInput();
 	//True if the input is enable
