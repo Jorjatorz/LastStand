@@ -26,10 +26,10 @@ public:
 		_axisMappingzRegistered[actionName] = std::bind(function, functionClass, std::placeholders::_1);
 	}
 
-	//Checks if the component accepts the event. Returns true if (after accepting and executing the event) it consumes it or not.
+	//Checks if the component accepts the event. Returns true if (after accepting and executing the event) it consumes the event or not.
 	bool onActionMappingEventTriggered(const FActionMappingEvent& eventTriggered);
-	//Looks for the values in the axis mappings. Called every frame
-	void checkAxisMappingsValues();
+	//Looks for the values in the axis mappings. Called every frame. Returns true if (after accepting and executing the event) it consumes the event or not.
+	bool checkAxisMappingsValues();
 
 private:
 	std::unordered_map<std::string, std::pair<std::function<void(void)>, FActionMappingEvent::inputEventTypeEnum>> _actionMappingsRegistered;

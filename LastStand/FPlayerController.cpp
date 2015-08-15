@@ -12,6 +12,8 @@ FPlayerController::FPlayerController()
 
 FPlayerController::~FPlayerController()
 {
+	//Delete the camera manager
+	delete _FCameraManagerPtr;
 }
 
 void FPlayerController::registerInputComponent(FInputComponent* comp)
@@ -35,22 +37,20 @@ void FPlayerController::unregisterInputComponent(FInputComponent* comp)
 void FPlayerController::tick(int deltaTime)
 {
 	//Each tick check for axis mapping
-	//Start from the end
+	//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
 	auto it = _inputComponentsList.crbegin();
-	while ((it != _inputComponentsList.crend()))
+	while ((it != _inputComponentsList.crend()) && (!(*it)->checkAxisMappingsValues()))
 	{
-		(*it)->checkAxisMappingsValues();
 		it++;
 	}
 
-	//Update camera each frame from the camera controller
+	///Update camera target position and rotation so smooth interpolation is achived
 }
 
 void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTriggered)
 {
-	//Start from the end
+	//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
 	auto it = _inputComponentsList.crbegin();
-
 	while ((it != _inputComponentsList.crend()) && (!(*it)->onActionMappingEventTriggered(eventTriggered)))
 	{
 		it++;
