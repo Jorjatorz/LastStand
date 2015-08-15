@@ -4,6 +4,8 @@
 
 #include "SingleInstance.h"
 
+#include "FRotator.h"
+
 class FCameraComponent;
 
 //Class incharge of keeping track of all the camera components and pass them to the Renderer
@@ -33,6 +35,8 @@ public:
 		return _viewportCamera;
 	}
 
+	void addRotationToViewportCamera(FRotator deltaRot);
+
 private:
 	//List with all the cameras
 	std::list<FCameraComponent*> _camerasList;
@@ -40,5 +44,15 @@ private:
 	//Viewport camera. The main camera from which the scene is captured, it will be displayed in the viewport.
 	//This is the camera which is modified directly from the Player controler
 	FCameraComponent* _viewportCamera;
+	//ViewportCamera current rotation (independent from component transform so limits to rotation can be appliyed)
+	FRotator _viewportCameraRotation;
+	//Limits for rotation
+	float _pitchRotationLimitMax;
+	float _pitchRotationLimitMin;
+	float _yawRotationLimitMax;
+	float _yawRotationLimitMin;
+	float _rollRotationLimitMax;
+	float _rollRotationLimitMin;
+	
 };
 

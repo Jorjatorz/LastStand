@@ -37,6 +37,11 @@ public:
 		return _FCameraManagerPtr;
 	}
 
+	//Adds a yaw input to the viewport camera
+	void addYawInput(float degrees);
+	//Adds a pitch inout to the viewport camera
+	void addPitchInput(float degrees);
+
 private:
 	//List containing all the inputComponents of the actors that can recive input
 	//It is treated as a stack

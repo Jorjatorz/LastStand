@@ -56,3 +56,13 @@ void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTrigg
 		it++;
 	}
 }
+
+void FPlayerController::addYawInput(float degrees)
+{
+	_FCameraManagerPtr->addRotationToViewportCamera(FRotator(0.0, degrees, 0.0));
+}
+
+void FPlayerController::addPitchInput(float degrees)
+{
+	_FCameraManagerPtr->addRotationToViewportCamera(FRotator(degrees, 0.0, 0.0));
+}
