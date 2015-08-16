@@ -95,6 +95,11 @@ void RenderWindow::swapBuffers()
 	{
 		_viewportDisplayed->updateViewport();
 	}
+	else
+	{
+		FLog(FLog::ERROR, "No viewport available. You must create a viewport first");
+		assert(0);
+	}
 
 	_rendererPtr->renderObjectsInTheWorld();
 

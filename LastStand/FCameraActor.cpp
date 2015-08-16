@@ -17,8 +17,3 @@ FCameraActor::FCameraActor(std::string actorName)
 FCameraActor::~FCameraActor()
 {
 }
-
-void FCameraActor::translate(const Vector3& delta)
-{
-	_rootComponent.translate(_rootComponent.getLocalRotationQuaternion() * Vector3(delta.x, delta.y, -delta.z));
-}

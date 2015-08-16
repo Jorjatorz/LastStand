@@ -9,7 +9,7 @@
 #include "TimerManager.h"
 
 FMaterial::FMaterial()
-	:_baseColor(0.5), //Gray base color by default
+	:_baseColor(0.75), //Gray base color by default
 	_metallic(0.0),
 	_roughness(0.0),
 	_emissiveColor(0.0),

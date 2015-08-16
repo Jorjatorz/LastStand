@@ -53,6 +53,11 @@ void FCameraManager::setViewportCamera(FCameraComponent* comp)
 	}
 }
 
+void FCameraManager::addMovementToViewportCamera(const Vector3 &delta)
+{
+	_viewportCamera->translate(_viewportCamera->getWorldRotationQuaternion() * Vector3(delta.x, delta.y, -delta.z));
+}
+
 void FCameraManager::addRotationToViewportCamera(FRotator deltaRot)
 {
 	_viewportCameraRotation += deltaRot;
@@ -68,8 +73,6 @@ void FCameraManager::addRotationToViewportCamera(FRotator deltaRot)
 	}
 
 	_viewportCameraRotation = FRotator(aux);
-
-	std::cout << _viewportCameraRotation << std::endl;
 
 	_viewportCamera->setLocalRotation(_viewportCameraRotation.toQuaternion());
 }

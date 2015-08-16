@@ -85,7 +85,7 @@ void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
 	_gBuffer->bindForLightPass();
 
 	//Combine passes
-	//Bind shader
+	//Bind combination shader
 	_deferredShader_combinationPass->bind();
 
 	///TODO -- Set here the combination texture

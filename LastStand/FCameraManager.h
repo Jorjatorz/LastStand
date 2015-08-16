@@ -35,6 +35,7 @@ public:
 		return _viewportCamera;
 	}
 
+	void addMovementToViewportCamera(const Vector3 &delta);
 	void addRotationToViewportCamera(FRotator deltaRot);
 
 private:

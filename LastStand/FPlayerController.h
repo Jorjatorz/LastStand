@@ -7,6 +7,7 @@
 class FInputComponent;
 class FActionMappingEvent;
 class FCameraManager;
+class Vector3;
 
 //Controller that represents the human player
 //This controller resides in the Fworld.
@@ -37,6 +38,8 @@ public:
 		return _FCameraManagerPtr;
 	}
 
+	//Adds a movement inout to the camera
+	void addMovementInput(const Vector3& delta);
 	//Adds a yaw input to the viewport camera
 	void addYawInput(float degrees);
 	//Adds a pitch inout to the viewport camera
