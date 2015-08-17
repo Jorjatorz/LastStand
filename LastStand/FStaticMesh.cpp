@@ -43,3 +43,16 @@ void FStaticMesh::setNewMesh(std::string meshName)
 		_meshPtr = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk(meshName);
 	}
 }
+
+std::vector<FMaterial*> FStaticMesh::getMeshMaterialList()
+{
+	if (_meshPtr)
+	{
+		return _meshPtr->getMaterialList();
+	}
+	else
+	{
+		//Empty vector
+		return std::vector<FMaterial*>();
+	}
+}

@@ -10,7 +10,7 @@ class Shader;
 class Texture;
 ///TODO -- Add materials as resources
 
-//Class that manage all external resources that are added to the game.
+//Class that manage all external resources that are loaded and STORED into the game.
 class FResourceManager : public Singleton<FResourceManager>
 {
 public:

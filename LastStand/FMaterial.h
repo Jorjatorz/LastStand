@@ -7,8 +7,8 @@
 class Texture;
 class Shader;
 
-//Class that represents a static material ingame (with static it means it's properties cannot be changed once it has been "compiled")
-//"Compiled" means that the shader information has been send
+//Class that represents a material ingame
+//"Compiled" means that the shader information has been send to the shader
 //A material sends the basic data to the material shader (for example, constant color (or color obtained by simple mathematical operations), const rougness, etc). Complex operations (that uses textures, for example), mathematical functions, etc. should be done in the shader.
 //By default
 class FMaterial

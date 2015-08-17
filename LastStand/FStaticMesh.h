@@ -17,6 +17,7 @@ public:
 	void renderStaticMesh(const Matrix4& worldTransformationM);
 
 	void setNewMesh(std::string meshName);
+	std::vector<FMaterial*> getMeshMaterialList();
 
 private:
 	Mesh* _meshPtr;

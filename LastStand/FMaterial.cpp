@@ -18,7 +18,6 @@ FMaterial::FMaterial()
 {
 	//Load the default material shader
 	_shaderMaterialPtr = FResourceManager::getInstance()->getShaderInMemory("defaultMaterialShader");
-
 	if (!_shaderMaterialPtr)
 	{
 		_shaderMaterialPtr = FResourceManager::getInstance()->loadShaderIntoMemoryFromDisk("defaultMaterialShader");
@@ -33,6 +32,7 @@ FMaterial::~FMaterial()
 void FMaterial::setNewMaterialShader(std::string shaderName)
 {
 	_shaderMaterialPtr = FResourceManager::getInstance()->getShaderInMemory(shaderName);
+	_compiled = false;
 }
 
 Shader* const FMaterial::getMaterialShader()
@@ -43,6 +43,7 @@ Shader* const FMaterial::getMaterialShader()
 void FMaterial::setBaseColor(const Vector3& bColor)
 {
 	_baseColor = bColor;
+	_compiled = false;
 }
 
 Vector3 FMaterial::getBaseColor()
@@ -53,6 +54,7 @@ Vector3 FMaterial::getBaseColor()
 void FMaterial::setMetallicFactor(float factor)
 {
 	_metallic = factor;
+	_compiled = false;
 }
 
 float FMaterial::getMetallicFactor()
@@ -63,6 +65,7 @@ float FMaterial::getMetallicFactor()
 void FMaterial::setRoughnessFactor(float roughness)
 {
 	_roughness = roughness;
+	_compiled = false;
 }
 
 float FMaterial::getRoughnessFactor()
@@ -73,6 +76,7 @@ float FMaterial::getRoughnessFactor()
 void FMaterial::setEmissiveColor(const Vector3& eColor)
 {
 	_emissiveColor = eColor;
+	_compiled = false;
 }
 
 Vector3 FMaterial::getEmissiveColor()
@@ -83,6 +87,7 @@ Vector3 FMaterial::getEmissiveColor()
 void FMaterial::setOpacity(float opacity)
 {
 	_opacity = opacity;
+	_compiled = false;
 }
 
 float FMaterial::getOpacity()

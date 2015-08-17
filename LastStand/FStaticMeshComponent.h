@@ -15,6 +15,8 @@ public:
 	virtual void drawDynamicElements();
 
 	void setStaticMesh(std::string meshName);
+	//Return a vector with all the elements of the mesh
+	std::vector<FMaterial*> getMeshMaterialsList();
 
 protected:
 	virtual void createProxyOfMySelf();
