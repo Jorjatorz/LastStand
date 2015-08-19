@@ -26,7 +26,7 @@ Mesh::~Mesh()
 bool Mesh::loadMesh(std::string meshPath)
 {
 	Assimp::Importer mImporter;
-	const aiScene *mAiScene = mImporter.ReadFile(meshPath.c_str(), aiProcessPreset_TargetRealtime_Fast);
+	const aiScene *mAiScene = mImporter.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenUVCoords);
 
 	if (!mAiScene)
 	{

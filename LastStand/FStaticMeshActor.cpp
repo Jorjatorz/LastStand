@@ -32,3 +32,23 @@ void FStaticMeshActor::setStaticMesh(std::string meshName)
 	FStaticMeshComponent* meshComp = addComponent<FStaticMeshComponent>("DefaultStaticMeshComponent_" + _name);
 	meshComp->setStaticMesh(meshName);
 }
+
+std::vector<FMaterial*> FStaticMeshActor::getMaterialsVector()
+{
+	//Search for the staticMeshComponent
+	auto it = _ownedComponents.cbegin();
+	while (it != _ownedComponents.cend())
+	{
+		FStaticMeshComponent* meshComp = dynamic_cast<FStaticMeshComponent*>(*it);
+
+		//If we are at the static mesh component
+		if (meshComp)
+		{
+			return meshComp->getMeshMaterialsList();
+		}
+
+		it++;
+	}
+
+	return std::vector<FMaterial*>();
+}

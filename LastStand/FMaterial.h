@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <unordered_map>
+#include <queue>
 
 #include "Vector3.h"
 class Texture;
@@ -24,49 +25,22 @@ public:
 	void setNewMaterialShader(std::string shaderName);
 	Shader* const getMaterialShader();
 
-	void setBaseColor(const Vector3& bColor);
-	Vector3 getBaseColor();
-
-	void setMetallicFactor(float factor);
-	float getMetallicFactor();
-
-	void setRoughnessFactor(float roughness);
-	float getRoughnessFactor();
-
-	void setEmissiveColor(const Vector3& eColor);
-	Vector3 getEmissiveColor();
-
-	void setOpacity(float opacity);
-	float getOpacity();
-
-	void setTextureForTheMaterial(std::string uniformSamplerName, Texture* texture);
-
-	///TODO add the ability to send additional data, like deltaTime, etc
+	//Adds a texture sampler to send to the shader. It will be loaded (if not alrady) when the material is compiled
+	void setTextureForTheMaterial(std::string uniformSamplerName, std::string texturePath);
+	//Sends float uniforms to the shader when the material is compiled. If the uniform alrady exists it updates the value.
+	void addUniform_float(std::string uniformName, float value);
+	//Sends vector uniforms to the shader when the material is compiled. If the uniform alrady exists it updates the value.
+	void addUniform_vector3(std::string uniformName, Vector3 value);
+	
 
 private:
-	//All materials properties
-	//Base Color
-	Vector3 _baseColor;
-	//Metallic
-	float _metallic;
-	//Specular
-	//Roughness
-	float _roughness;
-	//Emissive Color
-	Vector3 _emissiveColor;
-	//Opacity
-	float _opacity;
-	//Opacity Mask
-	//Normal
-	//WorldPosition Offset
-	//WorldDisplacement
-	//Tessellation multiplayer
-	//Subsurface color
-	//Ambient occlusion
-	//Refraction
-
+	//All materials uniforms to send
+	std::unordered_map<std::string, float> _floatUniformsMap;
+	std::unordered_map<std::string, Vector3> _vectorUniformsMap;
+	//Queue holding the texture that will be loaded/get when the material is compiled
+	std::queue<std::pair<std::string, std::string>> _texturesToCompile;
 	//List containing all the textures that will be send to the shader. The pair is made of the Texture and its sampler name in the shader
-	std::vector<std::pair<std::string, Texture*>> _texturesInMaterialList;
+	std::unordered_map<std::string, Texture*> _texturesInMaterialMap;
 
 	//Material shader pointer
 	Shader* _shaderMaterialPtr;
@@ -74,6 +48,9 @@ private:
 	bool _compiled;
 	//Sends the uniform data to the shader
 	void compileMaterial();
+	void sendTexturesToShader();
+	void sendFloatsToShader();
+	void sendVectorsToShader();
 	//Sends all the global data (data that change per frame) to the shader
 	void sendGlobalUniforms();
 };

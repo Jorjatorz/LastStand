@@ -52,7 +52,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 			else if (std::string(childs.name()) == "Texture")
 			{
 				std::string samplerName, texturePath;
-				samplerName = childs.attribute("samplerName").as_string();
+				samplerName = childs.attribute("uniformName").as_string();
 				texturePath = childs.attribute("path").as_string();
 
 				//If the information of the texture is incomplete don't add it
@@ -63,6 +63,45 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 				else
 				{
 					toRetMaterial.setTextureForTheMaterial(samplerName, texturePath);
+				}
+			}
+			else if (std::string(childs.name()) == "Float")
+			{
+				std::string uniformName;
+				float value = 0.0; //Default value
+
+				uniformName = childs.attribute("uniformName").as_string();
+				value = childs.attribute("value").as_float();
+
+				//If no uniform name dont add it
+				if (uniformName.empty())
+				{
+					FLog(FLog::ERROR, "Need uniform name for Float in Material XML: %s", XMLfilePath.c_str());
+				}
+				else
+				{
+					toRetMaterial.addUniform_float(uniformName, value);
+				}
+			}
+			else if (std::string(childs.name()) == "Vector3")
+			{
+				std::string uniformName;
+				Vector3 value(0.0); //Default value
+
+				uniformName = childs.attribute("uniformName").as_string();
+				//Get the values of the vector. If the value is not specified in the XML file it takes the default value (0.0)
+				value.x = childs.attribute("x").as_float();
+				value.y = childs.attribute("y").as_float();
+				value.z = childs.attribute("z").as_float();
+
+				//If no uniform name dont add it
+				if (uniformName.empty())
+				{
+					FLog(FLog::ERROR, "Need uniform name for Vector3 in Material XML: %s", XMLfilePath.c_str());
+				}
+				else
+				{
+					toRetMaterial.addUniform_vector3(uniformName, value);
 				}
 			}
 

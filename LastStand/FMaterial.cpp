@@ -9,12 +9,7 @@
 #include "TimerManager.h"
 
 FMaterial::FMaterial()
-	:_baseColor(0.75), //Gray base color by default
-	_metallic(0.0),
-	_roughness(0.0),
-	_emissiveColor(0.0),
-	_opacity(1.0),
-	_compiled(false)
+	:_compiled(false)
 {
 	//Load the default material shader
 	_shaderMaterialPtr = FResourceManager::getInstance()->getShaderInMemory("defaultMaterialShader");
@@ -32,67 +27,16 @@ FMaterial::~FMaterial()
 void FMaterial::setNewMaterialShader(std::string shaderName)
 {
 	_shaderMaterialPtr = FResourceManager::getInstance()->getShaderInMemory(shaderName);
+	if (!_shaderMaterialPtr)
+	{
+		_shaderMaterialPtr = FResourceManager::getInstance()->loadShaderIntoMemoryFromDisk(shaderName);
+	}
 	_compiled = false;
 }
 
 Shader* const FMaterial::getMaterialShader()
 {
 	return _shaderMaterialPtr;
-}
-
-void FMaterial::setBaseColor(const Vector3& bColor)
-{
-	_baseColor = bColor;
-	_compiled = false;
-}
-
-Vector3 FMaterial::getBaseColor()
-{
-	return _baseColor;
-}
-
-void FMaterial::setMetallicFactor(float factor)
-{
-	_metallic = factor;
-	_compiled = false;
-}
-
-float FMaterial::getMetallicFactor()
-{
-	return _metallic;
-}
-
-void FMaterial::setRoughnessFactor(float roughness)
-{
-	_roughness = roughness;
-	_compiled = false;
-}
-
-float FMaterial::getRoughnessFactor()
-{
-	return _roughness;
-}
-
-void FMaterial::setEmissiveColor(const Vector3& eColor)
-{
-	_emissiveColor = eColor;
-	_compiled = false;
-}
-
-Vector3 FMaterial::getEmissiveColor()
-{
-	return _emissiveColor;
-}
-
-void FMaterial::setOpacity(float opacity)
-{
-	_opacity = opacity;
-	_compiled = false;
-}
-
-float FMaterial::getOpacity()
-{
-	return _opacity;
 }
 
 void FMaterial::applyMaterialToStaticMesh()
@@ -109,19 +53,9 @@ void FMaterial::applyMaterialToStaticMesh()
 void FMaterial::compileMaterial()
 {
 	//Send uniforms
-	_shaderMaterialPtr->uniform("Material_BaseColor", _baseColor);
-	_shaderMaterialPtr->uniform("Material_Metallic", _metallic);
-	_shaderMaterialPtr->uniform("Material_Roughness", _roughness);
-	_shaderMaterialPtr->uniform("Material_EmissiveColor", _emissiveColor);
-	///TODO -- Send opacity and handle it
-	//Send all textures
-	int i = 0; //Set a valid active texture slot
-	for (auto const &it : _texturesInMaterialList)
-	{
-		it.second->bindTexture(i);
-		_shaderMaterialPtr->uniformTexture(it.first, i);
-		i++;
-	}
+	sendFloatsToShader();
+	sendVectorsToShader();
+	sendTexturesToShader();
 
 	_compiled = true;
 
@@ -131,11 +65,65 @@ void FMaterial::sendGlobalUniforms()
 {
 	_shaderMaterialPtr->uniformMatrix("Renderer_ProjectionMatrix", FRenderer::getInstance()->getCurrentFrameProjectionMatrix());
 	_shaderMaterialPtr->uniformMatrix("Renderer_ViewMatrix", FRenderer::getInstance()->getCurrentFrameViewMatrix());
-	_shaderMaterialPtr->uniform("Engine_totalTime", (float)TimerManager::getTotalExecutionTime());
+	_shaderMaterialPtr->uniform("Engine_totalTime", TimerManager::getTotalExecutionTime() / 1000.0f);
 }
 
-void FMaterial::setTextureForTheMaterial(std::string uniformSamplerName, Texture* texture)
+void FMaterial::sendFloatsToShader()
+{
+	for (const auto& it : _floatUniformsMap)
+	{
+		_shaderMaterialPtr->uniform(it.first, it.second);
+	}
+}
+
+void FMaterial::sendVectorsToShader()
+{
+	for (const auto& it : _vectorUniformsMap)
+	{
+		_shaderMaterialPtr->uniform(it.first, it.second);
+	}
+}
+
+void FMaterial::sendTexturesToShader()
+{
+	//Load/Get the textures
+	while (!_texturesToCompile.empty())
+	{
+		Texture* tex = FResourceManager::getInstance()->getTextureInMemory(_texturesToCompile.front().second);
+		if (!tex)
+		{
+			tex = FResourceManager::getInstance()->loadTextureIntoMemoryFromDisk(_texturesToCompile.front().second);
+		}
+
+		_texturesInMaterialMap.insert(std::make_pair(_texturesToCompile.front().first, tex));
+
+		_texturesToCompile.pop();
+	}
+	//Send all textures
+	int i = 0; //Set a valid active texture slot
+	for (auto const &it : _texturesInMaterialMap)
+	{
+		it.second->bindTexture(i);
+		_shaderMaterialPtr->uniformTexture(it.first, i);
+		i++;
+	}
+
+}
+
+void FMaterial::setTextureForTheMaterial(std::string uniformSamplerName, std::string texturePath)
 {
 	//If two textures has the same sampler name the shader will take the last added one
-	_texturesInMaterialList.push_back(std::pair<std::string, Texture*>(uniformSamplerName, texture));
+	_texturesToCompile.push(std::pair<std::string, std::string>(uniformSamplerName, texturePath));
+
+	_compiled = false;
+}
+
+void FMaterial::addUniform_float(std::string uniformName, float value)
+{
+	_floatUniformsMap[uniformName] = value;
+}
+
+void FMaterial::addUniform_vector3(std::string uniformName, Vector3 value)
+{
+	_vectorUniformsMap[uniformName] = value;
 }
