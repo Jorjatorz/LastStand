@@ -1,69 +1,111 @@
 #include "FActor.h"
 
 #include "FInputComponent.h"
+#include "FLog.h"
 
 FActor::FActor(std::string name)
 	:FObject(name),
-	_rootComponent("DefaultRootSceneComponent", this),
+	_rootComponent(NULL),
 	_inputComponent(NULL)
 {
-	addOwnedComponent(&_rootComponent);
 }
 
 
 FActor::~FActor()
-{ //Root element deleted automatically here
+{
+	if (_rootComponent)
+	{
+		_rootComponent->onRemovedFromComponent();
+		delete _rootComponent;
+	}
+
 	disableInput();
 }
 
 void FActor::addComponent(FSceneComponent* component)
 {
-	_rootComponent.addChildrenComponent(component);
+	if (_rootComponent)
+		_rootComponent->addChildrenComponent(component);
+	else
+	{
+		_rootComponent = component;
+		_rootComponent->onAttachedToComponent();
+	}
 }
 
 void FActor::removeComponent(std::string name)
 {
-	_rootComponent.removeChildrenComponent(name);
+	if (_rootComponent)
+		_rootComponent->removeChildrenComponent(name);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't remove %s from it", name.c_str());
 }
 
 void FActor::setPosition(const Vector3& pos)
 {
-	_rootComponent.setLocalPosition(pos);
+	if (_rootComponent)
+		_rootComponent->setLocalPosition(pos);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set position to it");
+
 }
 
 void FActor::translate(const Vector3& delta)
 {
-	_rootComponent.translate(delta);
+	if (_rootComponent)
+		_rootComponent->translate(delta);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't translate it");
 }
 
 void FActor::setOrientation(const Quaternion& quat)
 {
-	_rootComponent.setLocalRotation(quat);
+	if (_rootComponent)
+		_rootComponent->setLocalRotation(quat);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
 }
 
 void FActor::rotate_WorldSpace(const Quaternion& delta)
 {
-	_rootComponent.rotate_WorldSpace(delta);
+	if (_rootComponent)
+		_rootComponent->rotate_WorldSpace(delta);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }
 
 void FActor::rotate_WorldSpace(float degrees, const Vector3& axisVector)
 {
-	_rootComponent.rotate_WorldSpace(degrees, axisVector);
+	if (_rootComponent)
+		_rootComponent->rotate_WorldSpace(degrees, axisVector);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }
 
 void FActor::rotate_LocalSpace(float degrees, const Vector3& axisVector)
 {
-	_rootComponent.rotate_LocalSpace(degrees, axisVector);
+	if (_rootComponent)
+		_rootComponent->rotate_LocalSpace(degrees, axisVector);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }
 
 void FActor::setScale(const Vector3& scale)
 {
-	_rootComponent.setLocalScale(scale);
+
+	if (_rootComponent)
+		_rootComponent->setLocalScale(scale);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set scale to it");
 }
 
 void FActor::scale(const Vector3& delta)
 {
-	_rootComponent.scale(delta);
+
+	if (_rootComponent)
+		_rootComponent->scale(delta);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
 }
 
 void FActor::addOwnedComponent(FComponent* ownedComp)
@@ -108,15 +150,26 @@ void FActor::disableInput()
 
 void FActor::pitch(float degrees)
 {
-	_rootComponent.rotate_WorldSpace(degrees, Vector3(1.0, 0.0, 0.0));
+	if (_rootComponent)
+		_rootComponent->rotate_WorldSpace(degrees, Vector3(1.0, 0.0, 0.0));
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }
 
 void FActor::yaw(float degrees)
 {
-	_rootComponent.rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
+
+	if (_rootComponent)
+		_rootComponent->rotate_WorldSpace(degrees, Vector3(0.0, 1.0, 0.0));
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }
 
 void FActor::roll(float degrees)
 {
-	_rootComponent.rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
+
+	if (_rootComponent)
+		_rootComponent->rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
 }

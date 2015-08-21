@@ -9,8 +9,8 @@
 FCameraActor::FCameraActor(std::string actorName)
 	:FActor(actorName)
 {
-	//We create a new camera and insert it
-	addComponent<FCameraComponent>(actorName + "_Camera");
+	//We create a new camera and insert it. It is set as root component
+	_cameraComponentPtr = addComponent<FCameraComponent>(actorName + "_DefaultCameraComponent");;
 }
 
 

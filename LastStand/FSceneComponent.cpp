@@ -19,6 +19,7 @@ FSceneComponent::~FSceneComponent()
 	//Each component is in charge of deleting its childrens
 	for (auto &it : _childrenComponentsList)
 	{
+		it.second->onRemovedFromComponent();
 		delete it.second;
 	}
 	_childrenComponentsList.clear();
@@ -62,7 +63,7 @@ void FSceneComponent::setParent(FActor* newParent)
 		FLog(FLog::ERROR, "Can't set a new parent to a root component: %s", _name.c_str());
 		assert(0);
 	}
-
+	//If we have a parent component remove this component from it as we are hanging of actor.
 	if (_parentComponent)
 	{
 		_parentComponent->removeChildrenComponent(_name);
@@ -121,9 +122,6 @@ void FSceneComponent::onAttachedToComponent()
 void FSceneComponent::onRemovedFromComponent()
 {
 }
-
-
-
 
 void FSceneComponent::setLocalPosition(const Vector3& pos)
 {

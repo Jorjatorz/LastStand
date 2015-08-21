@@ -3,6 +3,7 @@
 #include "FActor.h"
 
 class FMaterial;
+class FStaticMeshComponent;
 
 //Class that represents an object with a 3D mesh and a material
 class FStaticMeshActor : public FActor
@@ -16,5 +17,9 @@ public:
 
 	///Facil para debugear. Borrar 
 	std::vector<FMaterial*> getMaterialsVector();
+
+private:
+	///In UE4 this is public... For now I will keep it private or my university teachers will get mad :O
+	FStaticMeshComponent* _staticMeshComponentPtr;
 };
 

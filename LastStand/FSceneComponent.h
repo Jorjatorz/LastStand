@@ -6,8 +6,6 @@
 #include "FTransform.h"
 #include "FRotator.h"
 
-
-class FActor;
 class Matrix4;
 class Vector3;
 class Quaternion;

@@ -15,9 +15,9 @@ public:
 	//Warning!! should be called from the Proxy from the render
 	virtual void drawDynamicElements() = 0;
 
-	virtual void onAttachedToComponent();
+	virtual void onAttachedToComponent() override;
 
-	virtual void onRemovedFromComponent();
+	virtual void onRemovedFromComponent() override;
 
 protected:
 	FPrimitiveComponentProxy* _proxyOfComponent;

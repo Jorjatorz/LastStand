@@ -18,7 +18,7 @@ public:
 	//Transformation staff
 	FSceneComponent* const getRootComponentPtr()
 	{
-		return &_rootComponent;
+		return _rootComponent ? _rootComponent : NULL;
 	}
 	void setPosition(const Vector3& pos);
 	virtual void translate(const Vector3& delta);
@@ -43,7 +43,14 @@ public:
 	{
 		//Create the component (it will automatically register into the actor)
 		T* newComponent = new T(name, this);
-		if (!_rootComponent.addChildrenComponent(newComponent))
+		if (!_rootComponent)
+		{
+			_rootComponent = newComponent;
+			//We are attached to the actor (attached to null component) so call it
+			_rootComponent->onAttachedToComponent();
+		}
+		//Add it to the root compone tif doesn't exists
+		else if (!_rootComponent->addChildrenComponent(newComponent))
 		{
 			delete newComponent;
 			return NULL; ///Change this to return the component with that name
@@ -83,8 +90,8 @@ public:
 	}
 
 protected:
-	//Root component. Always a tranformationComponent
-	FSceneComponent _rootComponent;
+	//Root component. It will be created automatically when the first component is added. (Of that type)
+	FSceneComponent* _rootComponent;
 	//Input component. Its dynamically allocated when method enableInput is called;
 	//By default its NULL at the beginning (input deactivated)
 	FInputComponent* _inputComponent;

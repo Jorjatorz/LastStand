@@ -65,6 +65,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 					toRetMaterial.setTextureForTheMaterial(samplerName, texturePath);
 				}
 			}
+			//Float information
 			else if (std::string(childs.name()) == "Float")
 			{
 				std::string uniformName;
@@ -83,6 +84,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 					toRetMaterial.addUniform_float(uniformName, value);
 				}
 			}
+			//Vector3 information
 			else if (std::string(childs.name()) == "Vector3")
 			{
 				std::string uniformName;

@@ -14,7 +14,7 @@ FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	_viewCameraMatrix(1.0)
 {
 	//Set the projection matrix
-	_projectionCameraMatrix = Matrix4::createPerspectiveMatrix(_FOV, _aspectRatio, 0.1);
+	_projectionCameraMatrix = Matrix4::createPerspectiveMatrix(_FOV, _aspectRatio, 0.001);
 	//Register to the camera manager
 	FEngine::getInstance()->getPlayerController()->getCameraManagerPtr()->registerCameraComponent(this);
 }

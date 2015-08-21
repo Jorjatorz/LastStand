@@ -121,9 +121,13 @@ void FMaterial::setTextureForTheMaterial(std::string uniformSamplerName, std::st
 void FMaterial::addUniform_float(std::string uniformName, float value)
 {
 	_floatUniformsMap[uniformName] = value;
+
+	_compiled = false;
 }
 
 void FMaterial::addUniform_vector3(std::string uniformName, Vector3 value)
 {
 	_vectorUniformsMap[uniformName] = value;
+
+	_compiled = false;
 }
