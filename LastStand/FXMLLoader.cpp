@@ -18,7 +18,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 {
 	//Load the XML file
 	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file(XMLfilePath.c_str());
+	pugi::xml_parse_result result = doc.load_file(("Data\\Materials\\" + XMLfilePath).c_str());
 	//In case of error
 	if (!result)
 	{
