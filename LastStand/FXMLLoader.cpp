@@ -3,7 +3,7 @@
 #include "FMaterial.h"
 #include "FLog.h"
 
-#include <C:\SDK\PUGIXML\src\pugixml.hpp>
+#include <pugixml.hpp>
 
 FXMLLoader::FXMLLoader()
 {
