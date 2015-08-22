@@ -26,7 +26,7 @@ void FCameraManager::registerCameraComponent(FCameraComponent* comp)
 	//Set the first camera to be the default camera by default.
 	if (_camerasList.empty())
 	{
-		_viewportCamera = comp;
+		setViewportCamera(comp);
 	}
 
 	_camerasList.push_back(comp);
@@ -50,6 +50,7 @@ void FCameraManager::setViewportCamera(FCameraComponent* comp)
 	if (comp != NULL)
 	{
 		_viewportCamera = comp;
+		_viewportCameraRotation = _viewportCamera->getWorldRotation();
 	}
 }
 

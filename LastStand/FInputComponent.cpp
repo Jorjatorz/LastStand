@@ -48,18 +48,33 @@ bool FInputComponent::onActionMappingEventTriggered(const FActionMappingEvent& e
 bool FInputComponent::checkAxisMappingsValues()
 {
 	FInputManager* manager = FInputManager::getInstance();
-	//Loop through all the registered axis mappings in this component and if the axisValue is different from 0 execute the action. Then we return _terminateEvent.
+
+	bool eventConsumed = false;
+	//Loop through all the registered axis mappings in this component and if the axisValue is different from 0 execute the action.
 	for (const auto& mAxisRegistered : _axisMappingzRegistered)
 	{
 		float aValue = manager->getAxisValue(mAxisRegistered.first);
 		if (aValue != 0.0)
 		{
 			mAxisRegistered.second(aValue);
-			//The value is not 0, return _terminateEvent;
-			return _terminateEvent;
+
+			eventConsumed = true;
 		}
 	}
 
-	//No axis input was triggered, so we dont terminate the event (return false)
-	return false;
+	//If any axisMapping is consumed we return _terminateEvent.
+	if (eventConsumed)
+	{
+		return _terminateEvent;
+	}
+	else
+	{
+		//No axis input was triggered, so we dont terminate the event (return false)
+		return false;
+	}
+}
+
+void FInputComponent::setPropagateEvent(bool propagate)
+{
+	_terminateEvent = !propagate;
 }

@@ -31,6 +31,9 @@ public:
 	//Looks for the values in the axis mappings. Called every frame. Returns true if (after accepting and executing the event) it consumes the event or not.
 	bool checkAxisMappingsValues();
 
+	//Sets the value of _terminateEvent (oposite of argument value propagate). If false the event will be consumed and it will not be propagated to the next inputComponents
+	void setPropagateEvent(bool propagate);
+
 private:
 	std::unordered_map<std::string, std::pair<std::function<void(void)>, FActionMappingEvent::inputEventTypeEnum>> _actionMappingsRegistered;
 	std::unordered_map<std::string, std::function<void(float)>> _axisMappingzRegistered;
