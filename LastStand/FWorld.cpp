@@ -1,6 +1,7 @@
 #include "FWorld.h"
 
 #include "FLog.h"
+#include "FActor.h"
 
 FWorld::FWorld()
 {

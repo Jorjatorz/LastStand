@@ -4,6 +4,7 @@
 
 class FController;
 
+///REvisar esto. De momento esta abandonado así que es como si no existiese esta clase
 //A Pawn is a normal actor but it can be possessed by a controller (human or AI)
 class FPawn : public FActor
 {

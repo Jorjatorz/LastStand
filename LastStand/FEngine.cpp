@@ -20,9 +20,18 @@ FEngine::FEngine()
 
 FEngine::~FEngine()
 {
+	/*
+	Reverse order of creation
 	delete _inputManagerPtr;
 	delete _mainRenderWindowPtr;
 	delete _FWorldPtr;
+	delete _timerManagerPtr;
+	delete _FResourceManagerPtr;*/
+
+	//Custom order
+	delete _FWorldPtr;
+	delete _inputManagerPtr;
+	delete _mainRenderWindowPtr;
 	delete _timerManagerPtr;
 	delete _FResourceManagerPtr;
 }
