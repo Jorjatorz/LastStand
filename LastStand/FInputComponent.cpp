@@ -3,7 +3,6 @@
 #include "FEngine.h"
 #include "FWorld.h"
 #include "FPlayerController.h"
-#include "FInputManager.h"
 
 FInputComponent::FInputComponent(std::string componentName, FActor* actor)
 	:FComponent(componentName, actor),
@@ -45,18 +44,15 @@ bool FInputComponent::onActionMappingEventTriggered(const FActionMappingEvent& e
 	return false;
 }
 
-bool FInputComponent::checkAxisMappingsValues()
+bool FInputComponent::checkAxisMappingsValues(std::string axisEventName, float value)
 {
-	FInputManager* manager = FInputManager::getInstance();
-
 	bool eventConsumed = false;
 	//Loop through all the registered axis mappings in this component and if the axisValue is different from 0 execute the action.
-	for (const auto& mAxisRegistered : _axisMappingzRegistered)
+	for (const auto& mAxisRegistered : _axisMappingsRegistered)
 	{
-		float aValue = manager->getAxisValue(mAxisRegistered.first);
-		if (aValue != 0.0)
+		if ((mAxisRegistered.first == axisEventName) && value != 0.0)
 		{
-			mAxisRegistered.second(aValue);
+			mAxisRegistered.second(value);
 
 			eventConsumed = true;
 		}

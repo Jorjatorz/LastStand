@@ -1,5 +1,6 @@
 #include "FPlayerController.h"
 
+#include "FInputManager.h"
 #include "FInputComponent.h"
 #include "FCameraManager.h"
 #include "FEngine.h"
@@ -38,12 +39,21 @@ void FPlayerController::unregisterInputComponent(FInputComponent* comp)
 
 void FPlayerController::tick(int deltaTime)
 {
-	//Each tick check for axis mapping
-	//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
-	auto it = _inputComponentsList.crbegin();
-	while ((it != _inputComponentsList.crend()) && (!(*it)->checkAxisMappingsValues()))
+	//Each tick check for axis mapping events.
+
+	std::unordered_map<std::string, float> axisValuesMap = FInputManager::getInstance()->getAxisValuesMap();
+	for (const auto& axisIterator : axisValuesMap)
 	{
-		it++;
+		//If the value is not 0 then communicate to all the input components
+		if (axisIterator.second != 0.0f)
+		{
+			//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
+			auto inputCompIterator = _inputComponentsList.crbegin();
+			while ((inputCompIterator != _inputComponentsList.crend()) && (!(*inputCompIterator)->checkAxisMappingsValues(axisIterator.first, axisIterator.second)))
+			{
+				inputCompIterator++;
+			}
+		}
 	}
 
 	///Update camera target position and rotation so smooth interpolation is achived

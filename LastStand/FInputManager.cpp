@@ -90,17 +90,23 @@ void FInputManager::addActionMapping(std::string actionName, keyTypeEnum keyCode
 void FInputManager::addAxisMapping(std::string axisName, keyTypeEnum keyCode, float scale)
 {
 	auto it = _axisMappingMap.find(keyCode);
-
+	//If it doesnt exists
 	if (it == _axisMappingMap.end())
 	{
 		std::set<std::string> stringsSet;
 		stringsSet.insert(axisName);
 
 		_axisMappingMap.insert(std::make_pair(keyCode, std::make_pair(stringsSet, scale)));
+
+		//Insert it also in the currentAxisValue map (Note that as different keys can be attached to the same axisName we have to check before if it doesnt already exist (so we dont remove the current axis value))
+		if (_axisMappingCurrentScaleValueMap.find(axisName) == _axisMappingCurrentScaleValueMap.end())
+		{
+			_axisMappingCurrentScaleValueMap.insert(std::make_pair(axisName, 0.0));
+		}
 	}
 	else
 	{
-
+		//Update with new value if it exists
 		std::set<std::string> stringsSet = it->second.first;
 		stringsSet.insert(axisName);
 
@@ -111,7 +117,6 @@ void FInputManager::addAxisMapping(std::string axisName, keyTypeEnum keyCode, fl
 float FInputManager::getAxisValue(std::string axisName)
 {
 	auto it = _axisMappingCurrentScaleValueMap.find(axisName);
-
 	if (it != _axisMappingCurrentScaleValueMap.end())
 	{
 		return it->second;

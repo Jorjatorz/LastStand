@@ -23,20 +23,20 @@ public:
 	template <class T, class U>
 	void bindAxisMapping(std::string actionName, T&& functionClass, U&& function)
 	{
-		_axisMappingzRegistered[actionName] = std::bind(function, functionClass, std::placeholders::_1);
+		_axisMappingsRegistered[actionName] = std::bind(function, functionClass, std::placeholders::_1);
 	}
 
 	//Checks if the component accepts the event. Returns true if (after accepting and executing the event) it consumes the event or not.
 	bool onActionMappingEventTriggered(const FActionMappingEvent& eventTriggered);
 	//Looks for the values in the axis mappings. Called every frame. Returns true if (after accepting and executing the event) it consumes the event or not.
-	bool checkAxisMappingsValues();
+	bool checkAxisMappingsValues(std::string axisEventName, float value);
 
 	//Sets the value of _terminateEvent (oposite of argument value propagate). If false the event will be consumed and it will not be propagated to the next inputComponents
 	void setPropagateEvent(bool propagate);
 
 private:
 	std::unordered_map<std::string, std::pair<std::function<void(void)>, FActionMappingEvent::inputEventTypeEnum>> _actionMappingsRegistered;
-	std::unordered_map<std::string, std::function<void(float)>> _axisMappingzRegistered;
+	std::unordered_map<std::string, std::function<void(float)>> _axisMappingsRegistered;
 
 	//If true the component will consume the event (so it will not be passed to the next inputcompnent)
 	bool _terminateEvent;

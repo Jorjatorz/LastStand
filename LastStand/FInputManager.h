@@ -80,8 +80,14 @@ public:
 	void addActionMapping(std::string actionName, keyTypeEnum keyCode);
 	//Adds new Axis Mapping string to a key
 	void addAxisMapping(std::string axisName, keyTypeEnum keyCode, float scale);
+
 	//Returns the scale of the mapping
 	float getAxisValue(std::string axisName);
+	//Return a constant reference to a map with the current axis values
+	const std::unordered_map<std::string, float>& getAxisValuesMap()
+	{
+		return _axisMappingCurrentScaleValueMap;
+	}
 
 	//Return the position of the mouse
 	Vector3 getMousePosition();
@@ -95,6 +101,7 @@ private:
 	std::unordered_map<int, std::set<std::string>> _actionMappingMap;
 	//Axis mapping map. (key, <bindingName, scale>)
 	std::unordered_map<int, std::pair<std::set<std::string>, float>> _axisMappingMap;
+	//Map containing the actual value of each axis mapping
 	std::unordered_map<std::string, float> _axisMappingCurrentScaleValueMap;
 
 	//Calculate and sends the input event information to the playerController (from the action and axis mapping)
