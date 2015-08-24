@@ -4,18 +4,18 @@
 
 FComponent::FComponent(std::string name, FActor* actorP)
 	:FObject(name),
-	_parentActor(actorP)
+	_ownerActor(actorP)
 {
-	_parentActor->addOwnedComponent(this);
+	_ownerActor->addOwnedComponent(this);
 }
 
 
 FComponent::~FComponent()
 {
-	_parentActor->removeOwnedComponent(this);
+	_ownerActor->removeOwnedComponent(this);
 }
 
-void FComponent::setParent(FActor* newParent)
+void FComponent::setOwner(FActor* newOwner)
 {
-	_parentActor = newParent;
+	_ownerActor = newOwner;
 }

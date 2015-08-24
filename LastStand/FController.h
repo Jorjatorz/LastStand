@@ -18,6 +18,7 @@ public:
 	virtual void tick(int deltaTime) = 0;
 
 protected:
+	//Pawn being controlled by the controller
 	FPawn* _pawnPossessed;
 };
 

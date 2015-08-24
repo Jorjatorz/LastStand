@@ -9,7 +9,6 @@ class FActionMappingEvent;
 class FCameraManager;
 class Vector3;
 
-///Hacer que si no hay pawn los inputs se hagan a la camara (como esta ahora) pero que si hay pawn estos se hagan al pawn
 //Controller that represents the human player
 //This controller resides in the Fworld.
 class FPlayerController: public FController

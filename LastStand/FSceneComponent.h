@@ -20,7 +20,7 @@ public:
 	~FSceneComponent();
 
 	//Overloaded setParent. Sets the nwe parent and register itself to the rootComponent of the new actor parent
-	virtual void setParent(FActor* newParent) override;
+	virtual void setOwner(FActor* newParent) override;
 	bool addChildrenComponent(FSceneComponent* children); //Adds childrens components to itself. Returns false if it already exists
 	void removeChildrenComponent(std::string name); //Deletes a child.
 

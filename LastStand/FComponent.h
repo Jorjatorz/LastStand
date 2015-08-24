@@ -18,12 +18,17 @@ public:
 	virtual void tick(float deltaTime)
 	{}
 
-	//Sets the new parent. But this method does not register the component inside the parent (This is done by the overloaded setParent at FTransformationComponent or manually)
-	virtual void setParent(FActor* newParent);
+	//Sets the new owner actor. But this method does not register the component inside the parent (This is done by the overloaded setParent at FSceneComponent or manually)
+	virtual void setOwner(FActor* newOwner);
+	//Return the owner actor
+	FActor* getOwner()
+	{
+		return _ownerActor;
+	}
 
 protected:
 	//Actor that the component is attached to
-	FActor* _parentActor;
+	FActor* _ownerActor;
 
 };
 

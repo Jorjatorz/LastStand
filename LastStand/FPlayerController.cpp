@@ -71,15 +71,24 @@ void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTrigg
 
 void FPlayerController::addYawInput(float degrees)
 {
-	_FCameraManagerPtr->addRotationToViewportCamera(FRotator(0.0, degrees, 0.0));
+	if (!_pawnPossessed)
+	{
+		_FCameraManagerPtr->addRotationToViewportCamera(FRotator(0.0, degrees, 0.0));
+	}
 }
 
 void FPlayerController::addPitchInput(float degrees)
 {
-	_FCameraManagerPtr->addRotationToViewportCamera(FRotator(degrees, 0.0, 0.0));
+	if (!_pawnPossessed)
+	{
+		_FCameraManagerPtr->addRotationToViewportCamera(FRotator(degrees, 0.0, 0.0));
+	}
 }
 
 void FPlayerController::addMovementInput(const Vector3& delta)
 {
-	_FCameraManagerPtr->addMovementToViewportCamera(delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
+	if (!_pawnPossessed)
+	{
+		_FCameraManagerPtr->addMovementToViewportCamera(delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
+	}
 }

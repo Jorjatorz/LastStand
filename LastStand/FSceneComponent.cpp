@@ -56,9 +56,9 @@ void FSceneComponent::updateChildrensTransformationObjects()
 	}
 }
 
-void FSceneComponent::setParent(FActor* newParent)
+void FSceneComponent::setOwner(FActor* newParent)
 {
-	if (_parentActor->getRootComponentPtr() == this)
+	if (_ownerActor->getRootComponentPtr() == this)
 	{
 		FLog(FLog::ERROR, "Can't set a new parent to a root component: %s", _name.c_str());
 		assert(0);
@@ -70,7 +70,7 @@ void FSceneComponent::setParent(FActor* newParent)
 	}
 	//Register in the FActor
 	newParent->addComponent(this);
-	FComponent::setParent(newParent); //Update our parent reference.
+	FComponent::setOwner(newParent); //Update our parent reference.
 }
 
 bool FSceneComponent::addChildrenComponent(FSceneComponent* children)
