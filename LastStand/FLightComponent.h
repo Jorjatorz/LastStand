@@ -29,6 +29,19 @@ public:
 	{
 		return _lightColor;
 	}
+	//Return the direction the light is facing. (useless for Pointlights sources)
+	Vector3 getLightDirection()
+	{
+		return _worldTransform.getRotationQuaternion() * Vector3::UNIT_FORWARD;
+	}
+
+	enum lightTypeEnum
+	{
+		DIRECTIONALLIGHT,
+		POINTLIGHT,
+		SPOTLIGHT
+	};
+	virtual lightTypeEnum getLightType() = 0;
 
 protected:
 	//Intensity of the light source

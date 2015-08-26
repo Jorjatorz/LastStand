@@ -12,6 +12,9 @@ public:
 	Vector3(const float& x, const float& y, const float& z);
 	~Vector3();
 
+	//Vector which is the unit forward vector used by default
+	const static Vector3 UNIT_FORWARD;
+
 	//Operator overloading
 	friend std::ostream& operator<<(std::ostream& out, const Vector3& vec);
 

@@ -1,5 +1,7 @@
 #include "Vector3.h"
 
+const Vector3 Vector3::UNIT_FORWARD = Vector3(0.0, 0.0, -1.0);
+
 Vector3::Vector3()
 	:x(0.0),
 	y(0.0),

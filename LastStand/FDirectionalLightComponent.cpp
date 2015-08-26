@@ -33,3 +33,8 @@ void FDirectionalLightComponent::onRemovedFromComponent()
 
 	FRenderer::getInstance()->getCurrentFScene()->removeLightComponentProxy(_name);
 }
+
+FLightComponent::lightTypeEnum FDirectionalLightComponent::getLightType()
+{
+	return FLightComponent::DIRECTIONALLIGHT;
+}

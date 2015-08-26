@@ -14,5 +14,7 @@ public:
 	virtual void onAttachedToComponent();
 	virtual void onRemovedFromComponent();
 
+	virtual lightTypeEnum getLightType();
+
 };
 
