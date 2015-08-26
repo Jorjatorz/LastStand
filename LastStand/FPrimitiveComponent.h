@@ -20,6 +20,7 @@ public:
 	virtual void onRemovedFromComponent() override;
 
 protected:
+	//Light proxy - Created and deleted bu the component when de/attached
 	FPrimitiveComponentProxy* _proxyOfComponent;
 	//Creates the proxy
 	virtual void createProxyOfMySelf() = 0;

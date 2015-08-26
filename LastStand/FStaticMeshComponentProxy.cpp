@@ -14,5 +14,5 @@ FStaticMeshComponentProxy::~FStaticMeshComponentProxy()
 
 void FStaticMeshComponentProxy::drawDynamicElements()
 {
-	_primitiveComponentPtr->drawDynamicElements();
+	static_cast<FPrimitiveComponent*>(_componentTarget)->drawDynamicElements();
 }

@@ -18,12 +18,12 @@ void FPrimitiveComponent::onAttachedToComponent()
 {
 	createProxyOfMySelf();
 	//Register in the FScene
-	FRenderer::getInstance()->getCurrentFScene()->addProxy(_proxyOfComponent);
+	FRenderer::getInstance()->getCurrentFScene()->addPrimitiveComponentProxy(_proxyOfComponent);
 }
 
 void FPrimitiveComponent::onRemovedFromComponent()
 {
 	delete _proxyOfComponent;
 	//Remove from FScene
-	FRenderer::getInstance()->getCurrentFScene()->removeProxy(_name);
+	FRenderer::getInstance()->getCurrentFScene()->removePrimitiveComponentProxy(_name);
 }
