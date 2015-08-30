@@ -79,7 +79,7 @@ void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Fill Pass
-	_sceneToRender->drawAllElements();
+	_sceneToRender->drawAllStaticComponents();
 
 	//Light Pass
 	_gBuffer->bindForLightPass();

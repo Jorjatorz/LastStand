@@ -4,7 +4,6 @@
 
 #include "FLog.h"
 #include "Shader.h"
-#include "Matrix4.h"
 
 Mesh::Mesh()
 {
@@ -153,11 +152,7 @@ void Mesh::renderAllSubMeshes(const Matrix4& worldTransformationM)
 	for(auto &it : _subMeshComponentsList)
 	{
 		//Apply the material
-		it._subMeshMaterial.applyMaterialToStaticMesh();
-
-		//Send the mesh matrices
-		it._subMeshMaterial.getMaterialShader()->uniformMatrix("Renderer_ModelMatrix", worldTransformationM);
-		it._subMeshMaterial.getMaterialShader()->uniformMatrix("Renderer_NormalMatrix", worldTransformationM.getInverseTransposeMatrix());
+		it._subMeshMaterial.sendMaterialInformationToGPU(worldTransformationM);
 
 		glBindVertexArray(it.vertexArrayObject);
 

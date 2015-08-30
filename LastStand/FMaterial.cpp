@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Matrix4.h"
 #include "FResourceManager.h"
 #include "FRenderer.h"
 #include "FEngine.h"
@@ -39,10 +40,10 @@ Shader* const FMaterial::getMaterialShader()
 	return _shaderMaterialPtr;
 }
 
-void FMaterial::applyMaterialToStaticMesh()
+void FMaterial::sendMaterialInformationToGPU(const Matrix4& staticMesh_ModelMatrix)
 {
 	_shaderMaterialPtr->bind();
-	sendGlobalUniforms();
+	sendPerFrameUniforms(staticMesh_ModelMatrix);
 
 	if (!_compiled)
 	{
@@ -61,10 +62,15 @@ void FMaterial::compileMaterial()
 
 }
 
-void FMaterial::sendGlobalUniforms()
+void FMaterial::sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix)
 {
 	_shaderMaterialPtr->uniformMatrix("Renderer_ProjectionMatrix", FRenderer::getInstance()->getCurrentFrameProjectionMatrix());
 	_shaderMaterialPtr->uniformMatrix("Renderer_ViewMatrix", FRenderer::getInstance()->getCurrentFrameViewMatrix());
+	_shaderMaterialPtr->uniformMatrix("Renderer_ModelViewProjectionMatrix", FRenderer::getInstance()->getCurrentFrameProjectionMatrix() * FRenderer::getInstance()->getCurrentFrameViewMatrix() * staticMesh_ModelMatrix);
+
+	_shaderMaterialPtr->uniformMatrix("Renderer_ModelMatrix", staticMesh_ModelMatrix);
+	_shaderMaterialPtr->uniformMatrix("Renderer_NormalMatrix", staticMesh_ModelMatrix.getInverseTransposeMatrix());
+
 	_shaderMaterialPtr->uniform("Engine_totalTime", TimerManager::getTotalExecutionTime() / 1000.0f);
 }
 

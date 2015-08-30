@@ -7,6 +7,7 @@
 #include "Vector3.h"
 class Texture;
 class Shader;
+class Matrix4;
 
 //Class that represents a material ingame
 //"Compiled" means that the shader information has been send to the shader
@@ -18,10 +19,10 @@ public:
 	FMaterial();
 	~FMaterial();
 
-	//Compiles and binds the shader
-	void applyMaterialToStaticMesh();
+	//Compiles and binds the shader. It sends material information uniforms and also per-frame uniforms like mesh matrices (model, normals), view matrix, projection matrix, etc.
+	void sendMaterialInformationToGPU(const Matrix4& staticMesh_ModelMatrix);
 
-	//Sets a new shader
+	//Sets a new shader to the material. If the shader is not loaded yet it will be loaded.
 	void setNewMaterialShader(std::string shaderName);
 	Shader* const getMaterialShader();
 
@@ -51,7 +52,7 @@ private:
 	void sendTexturesToShader();
 	void sendFloatsToShader();
 	void sendVectorsToShader();
-	//Sends all the global data (data that change per frame) to the shader
-	void sendGlobalUniforms();
+	//Sends all the per frame to the shader
+	void sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix);
 };
 
