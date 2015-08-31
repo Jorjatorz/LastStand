@@ -7,9 +7,9 @@
 
 class FWorld;
 class Matrix4;
-class Shader;
 class FScene;
 class FCameraComponent;
+class Mesh;
 
 //Class incharge of rendering all the FObjects in the world.
 class FRenderer : public Singleton<FRenderer>
@@ -28,13 +28,14 @@ public:
 private:
 	//Deferred framebuffer
 	FDeferredFrameBuffer* _gBuffer;
-	Shader* _deferredShader_combinationPass;
 
 	//Do a normal deferred pass and fills the buffers and the rendering targets of the camera
 	void doDeferredPass(FCameraComponent* currentCamera);
+	void geometryPass();
+	void lightPass();
 	//Rendenders a Quad (with desired dimensions) and writes there the result of the deferred pass
-	void drawToScreenQuad(float startX, float startY, float endX, float endY);
-	GLuint screenQuadVAO, screenQuadVBO; //ScreenQuad variables
+	void drawToScreenQuad();
+	Mesh* _screenQuadMesh;
 
 	//Current frame matrix (updates per frame)
 	Matrix4* _currentFrameProjectionM;
