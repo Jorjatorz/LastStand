@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Mesh.h"
+#include "FMaterial.h"
 
 #include <string>
+#include <vector>
 
 class Matrix4;
 
@@ -21,5 +23,7 @@ public:
 
 private:
 	Mesh* _meshPtr;
+	//List with all the materials the mesh posses
+	std::vector<FMaterial> _materialsList;
 };
 

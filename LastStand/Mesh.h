@@ -27,10 +27,13 @@ public:
 	bool loadMesh(std::string meshPath);
 
 	//Renders all the submeshes into the buffer
-	void renderAllSubMeshes(const Matrix4& worldTransformationM);
+	void renderAllSubMeshes(const Matrix4& worldTransformationM, std::vector<FMaterial>& meshMaterials);
 
-	//Return a vector with all the materials in the mesh
-	std::vector<FMaterial*> getMaterialList();
+	//Return the numbers of materials that the mesh can have
+	unsigned short int getNumberOfMaterialsSlots()
+	{
+		return _subMeshComponentsList.size();
+	}
 
 private:
 	//Struct with all the information need for openGL to render it.
@@ -42,9 +45,6 @@ private:
 		std::vector<GLfloat> _normalsVector;
 		std::vector<GLfloat> _texCoordsVector;
 		std::vector<GLuint> _indexVector;
-
-		//Mesh materials
-		FMaterial _subMeshMaterial;
 
 		//openGL buffers
 		GLuint vertexBuffer, normalBuffer, texCoordsBuffer, indexBuffer, vertexArrayObject;

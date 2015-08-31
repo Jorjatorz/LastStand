@@ -3,7 +3,8 @@
 #include "FResourceManager.h"
 
 FStaticMesh::FStaticMesh()
-	:_meshPtr(NULL)
+	:_meshPtr(NULL),
+	_materialsList()
 {
 
 }
@@ -17,12 +18,7 @@ FStaticMesh::FStaticMesh(std::string meshName)
 		assert(0);
 	}
 
-	_meshPtr = FResourceManager::getInstance()->getMeshInMemory(meshName);
-
-	if (!_meshPtr)
-	{
-		_meshPtr = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk(meshName);
-	}
+	setNewMesh(meshName);
 }
 
 FStaticMesh::~FStaticMesh()
@@ -31,7 +27,7 @@ FStaticMesh::~FStaticMesh()
 
 void FStaticMesh::renderStaticMesh(const Matrix4& worldTransformationM)
 {
-	_meshPtr->renderAllSubMeshes(worldTransformationM);
+	_meshPtr->renderAllSubMeshes(worldTransformationM, _materialsList);
 }
 
 void FStaticMesh::setNewMesh(std::string meshName)
@@ -42,17 +38,18 @@ void FStaticMesh::setNewMesh(std::string meshName)
 	{
 		_meshPtr = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk(meshName);
 	}
+
+	_materialsList.resize(_meshPtr->getNumberOfMaterialsSlots());
 }
 
 std::vector<FMaterial*> FStaticMesh::getMeshMaterialList()
 {
-	if (_meshPtr)
+	std::vector<FMaterial*> materialsToRet;
+	materialsToRet.reserve(_materialsList.size());
+	for (auto& mat : _materialsList)
 	{
-		return _meshPtr->getMaterialList();
+		materialsToRet.push_back(&mat);
 	}
-	else
-	{
-		//Empty vector
-		return std::vector<FMaterial*>();
-	}
+
+	return materialsToRet;
 }

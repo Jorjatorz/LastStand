@@ -146,13 +146,14 @@ void Mesh::generateMeshComponentsBuffers(tMeshComponentsStruct& mMeshComp)
 	glGenBuffers(1, &mMeshComp.indexBuffer);
 }
 
-void Mesh::renderAllSubMeshes(const Matrix4& worldTransformationM)
+void Mesh::renderAllSubMeshes(const Matrix4& worldTransformationM, std::vector<FMaterial>& meshMaterials)
 {
 	//For each submesh renders its vertex array to the buffer
-	for(auto &it : _subMeshComponentsList)
+	unsigned short int i = 0;
+	for(const auto &it : _subMeshComponentsList)
 	{
 		//Apply the material
-		it._subMeshMaterial.sendMaterialInformationToGPU(worldTransformationM);
+		meshMaterials.at(i).sendMaterialInformationToGPU(worldTransformationM);
 
 		glBindVertexArray(it.vertexArrayObject);
 
@@ -162,6 +163,8 @@ void Mesh::renderAllSubMeshes(const Matrix4& worldTransformationM)
 
 		//Shader of the amterial must be detached
 		Shader::unBind();
+
+		i++;
 	}
 }
 
@@ -183,15 +186,4 @@ void Mesh::clearSubMeshesVectors()
 		_subMeshComponentsList.clear();
 		_subMeshComponentsList.reserve(0);
 	}
-}
-
-std::vector<FMaterial*> Mesh::getMaterialList()
-{
-	std::vector<FMaterial*> toRetVector;
-	for (auto &it : _subMeshComponentsList)
-	{
-		toRetVector.push_back(&(it._subMeshMaterial));
-	}
-
-	return toRetVector;
 }
