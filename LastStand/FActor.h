@@ -21,19 +21,19 @@ public:
 		return _rootComponent ? _rootComponent : NULL;
 	}
 	void setPosition(const Vector3& pos);
-	virtual void translate(const Vector3& delta);
+	void translate(const Vector3& delta);
 
 	void setOrientation(const Quaternion& quat);
-	virtual	void rotate_WorldSpace(const Quaternion& delta);
-	virtual void rotate_WorldSpace(float degrees, const Vector3& axisVector);
-	virtual void rotate_LocalSpace(float degrees, const Vector3& axisVector);
-	virtual void pitch(float degrees); //World space
-	virtual void yaw(float degrees); //World space
-	virtual void roll(float degrees); //World space
+	void rotate_WorldSpace(const Quaternion& delta);
+	void rotate_WorldSpace(float degrees, const Vector3& axisVector);
+	void rotate_LocalSpace(float degrees, const Vector3& axisVector);
+	void pitch(float degrees); //World space
+	void yaw(float degrees); //World space
+	void roll(float degrees); //World space
 	
 
 	void setScale(const Vector3& scale);
-	virtual void scale(const Vector3& delta);
+	void scale(const Vector3& delta);
 	
 	//Add an already created scenecomponent to the rootComponent.
 	void addComponent(FSceneComponent* component);
