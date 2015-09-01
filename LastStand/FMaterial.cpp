@@ -49,6 +49,16 @@ void FMaterial::sendMaterialInformationToGPU(const Matrix4& staticMesh_ModelMatr
 	{
 		compileMaterial();
 	}
+	else
+	{
+		//If already compiled only bind the textures again (dont resend the samplers to the shader)
+		int i = 0; //Set a valid active texture slot
+		for (auto const &it : _texturesInMaterialMap)
+		{
+			it.second->bindTexture(i);
+			i++;
+		}
+	}
 }
 
 void FMaterial::compileMaterial()

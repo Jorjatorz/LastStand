@@ -11,7 +11,6 @@
 #include "FCameraManager.h"
 #include "FCameraComponent.h"
 #include "FMaterial.h"
-#include "Mesh.h"
 
 FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	:_currentFrameProjectionM(NULL),
@@ -20,15 +19,15 @@ FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	//Create the FScene
 	_sceneToRender = new FScene();
 
-	_screenQuadMesh = FResourceManager::getInstance()->getMeshInMemory("UnitQuad.obj");
-	if (!_screenQuadMesh)
-		_screenQuadMesh = FResourceManager::getInstance()->loadMeshIntoMemoryFromDisk("UnitQuad.obj");
-	_screenQuadMesh->getMaterialList().at(0)->setNewMaterialShader("DeferredShading_Combination");
-	_screenQuadMesh->getMaterialList().at(0)->setTextureForTheMaterial("colorTex", "DeferredFrameBufferText_Color");
-	_screenQuadMesh->getMaterialList().at(0)->setTextureForTheMaterial("normalsTex", "DeferredFrameBufferText_Normals");
-	_screenQuadMesh->getMaterialList().at(0)->setTextureForTheMaterial("lightTex", "DeferredFrameBufferText_Light");
-
+	//Create the GBuffer
 	_gBuffer = new FDeferredFrameBuffer("FGBuffer", width, height);
+
+	//Create the screenQuad and sets its material
+	_screenQuadMesh.setNewMesh("UnitQuad.obj");
+	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("colorTex", "DeferredFrameBufferText_Color");
+	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("normalsTex", "DeferredFrameBufferText_Normals");
+	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("lightTex", "DeferredFrameBufferText_Light");
+	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("finalTex", "DeferredFrameBufferText_Final");
 }
 
 
@@ -56,7 +55,6 @@ void FRenderer::renderObjectsInTheWorld()
 	//DO the deferred pass only with the viewport camera and draw the output to the ScreenQuad
 	FCameraComponent* viewCamera = cameraManagerPtr->getViewportCamera();
 	doDeferredPass(viewCamera);
-	//Combine passes
 	drawToScreenQuad();
 }
 
@@ -72,23 +70,11 @@ void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
 	lightPass();
 
 	//Combine pass
-	///TODO -- Set here the combination texture
+	finalPass();
 	if (currentCamera->hasRenderingTarget())
 	{
-		Texture::copyTextureRawData(_gBuffer->getFrameBufferTexture("DeferredFrameBufferText_Color"), currentCamera->getRendeingTargetPtr());
+		Texture::copyTextureRawData(_gBuffer->getFrameBufferTexture("DeferredFrameBufferText_Final"), currentCamera->getRendeingTargetPtr());
 	}
-}
-
-void FRenderer::drawToScreenQuad()
-{
-	//Unbind any active framebuffer
-	_gBuffer->unBindFrameBuffer();
-
-	glDisable(GL_DEPTH_TEST);
-	
-	_screenQuadMesh->renderAllSubMeshes(Matrix4(1.0));
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 FScene* const FRenderer::getCurrentFScene()
@@ -137,4 +123,32 @@ void FRenderer::lightPass()
 
 	glDisable(GL_BLEND);
 	glDepthFunc(GL_LEQUAL);
+}
+
+void FRenderer::finalPass()
+{
+	//Unbind any active framebuffer
+	_gBuffer->bindForFinalPass();
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glDisable(GL_DEPTH_TEST);
+
+	_screenQuadMesh.getMeshMaterialList().at(0)->setNewMaterialShader("DeferredShading_FinalToBuffer");
+	_screenQuadMesh.renderStaticMesh(Matrix4(1.0));
+
+	glEnable(GL_DEPTH_TEST);
+
+	_gBuffer->unBindFrameBuffer();
+}
+
+void FRenderer::drawToScreenQuad()
+{
+	_gBuffer->unBindFrameBuffer();
+
+	glDisable(GL_DEPTH_TEST);
+
+	_screenQuadMesh.getMeshMaterialList().at(0)->setNewMaterialShader("DeferredShading_FinalToScreen");
+	_screenQuadMesh.renderStaticMesh(Matrix4(1.0));
+
+	glEnable(GL_DEPTH_TEST);
 }

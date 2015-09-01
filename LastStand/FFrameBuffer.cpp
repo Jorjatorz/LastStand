@@ -53,8 +53,7 @@ void FFrameBuffer::bindTextures(int idStart)
 	int i = 0;
 	for(auto& it : _texturePointersMap)
 	{
-		glActiveTexture(GL_TEXTURE0 + i + idStart);
-		glBindTexture(GL_TEXTURE_2D, it.second->getTextureId());
+		it.second->bindTexture(i);
 		i++;
 	}
 }

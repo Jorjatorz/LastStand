@@ -16,6 +16,8 @@ public:
 	void bindForGeometryPass();
 	//Binds the textures that need to be modified in the light pass
 	void bindForLightPass();
+	//Binds the final texture.
+	void bindForFinalPass();
 
 
 private:

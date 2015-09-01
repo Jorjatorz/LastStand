@@ -42,7 +42,7 @@ Shader* FResourceManager::loadShaderIntoMemoryFromDisk(std::string shaderName)
 	auto it = _shaderMap.find(shaderName);
 	if (it != _shaderMap.end())
 	{
-		FLog(FLog::ERROR, "Can't load the shader into memory, it already exist: " + shaderName);
+		FLog(FLog::WARNING, "Can't load the shader into memory, it already exist: " + shaderName);
 		assert(0);
 	}
 
@@ -68,7 +68,7 @@ void FResourceManager::deleteShaderFromMemory(std::string shaderName)
 	auto it = _shaderMap.find(shaderName);
 	if (it == _shaderMap.end())
 	{
-		FLog(FLog::ERROR, "Can't delete the shader from memory, it doesnt exist: " + shaderName);
+		FLog(FLog::WARNING, "Can't delete the shader from memory, it doesnt exist: " + shaderName);
 		assert(0);
 	}
 
@@ -80,7 +80,7 @@ Shader* FResourceManager::getShaderInMemory(std::string shaderName)
 	auto it = _shaderMap.find(shaderName);
 	if (it == _shaderMap.end())
 	{
-		FLog(FLog::ERROR, "Can't return the shader in memory, it doesnt exist: " + shaderName);
+		FLog(FLog::WARNING, "Can't return the shader in memory, it doesnt exist: " + shaderName);
 		return NULL;
 	}
 
@@ -103,7 +103,7 @@ Texture* FResourceManager::loadTextureIntoMemoryFromDisk(std::string textureName
 	auto it = _textureMap.find(textureName);
 	if (it != _textureMap.end())
 	{
-		FLog(FLog::ERROR, "Can't load the texture into memory, it already exists: " + textureName);
+		FLog(FLog::WARNING, "Can't load the texture into memory, it already exists: " + textureName);
 		assert(0);
 	}
 
@@ -127,7 +127,7 @@ Texture* FResourceManager::createNewTextureInMemory(std::string textureName, uns
 	auto it = _textureMap.find(textureName);
 	if (it != _textureMap.end())
 	{
-		FLog(FLog::ERROR, "Can't create the texture into memory, it already exists: " + textureName);
+		FLog(FLog::WARNING, "Can't create the texture into memory, it already exists: " + textureName);
 		assert(0);
 	}
 
@@ -147,7 +147,7 @@ void FResourceManager::deleteTextureFromMemory(std::string textureName)
 	auto it = _textureMap.find(textureName);
 	if (it == _textureMap.end())
 	{
-		FLog(FLog::ERROR, "Can't delete the texture from memory, it doesnt exist: " + textureName);
+		FLog(FLog::WARNING, "Can't delete the texture from memory, it doesnt exist: " + textureName);
 		assert(0);
 	}
 
@@ -160,7 +160,7 @@ Texture* FResourceManager::getTextureInMemory(std::string textureName)
 	auto it = _textureMap.find(textureName);
 	if (it == _textureMap.end())
 	{
-		FLog(FLog::ERROR, "Can't return the texture into memory, it doesnt exist: " + textureName);
+		FLog(FLog::WARNING, "Can't return the texture into memory, it doesnt exist: " + textureName);
 		return NULL;
 	}
 
@@ -175,7 +175,7 @@ Mesh* FResourceManager::loadMeshIntoMemoryFromDisk(std::string meshName)
 	auto it = _meshMap.find(meshName);
 	if (it != _meshMap.end())
 	{
-		FLog(FLog::ERROR, "Mesh already into memory, can't load it " + meshName);
+		FLog(FLog::WARNING, "Mesh already into memory, can't load it " + meshName);
 		assert(0);
 	}
 
@@ -200,7 +200,7 @@ void FResourceManager::deleteMeshFromMemory(std::string meshName)
 	auto it = _meshMap.find(meshName);
 	if (it == _meshMap.end())
 	{
-		FLog(FLog::ERROR, "Can't delete the mesh from memory, it doesnt exist: " + meshName);
+		FLog(FLog::WARNING, "Can't delete the mesh from memory, it doesnt exist: " + meshName);
 		assert(0);
 	}
 
@@ -213,7 +213,7 @@ Mesh* FResourceManager::getMeshInMemory(std::string meshName)
 	auto it = _meshMap.find(meshName);
 	if (it == _meshMap.end())
 	{
-		FLog(FLog::ERROR, "Can't return the mesh in memory, it doesnt exist: " + meshName);
+		FLog(FLog::WARNING, "Can't return the mesh in memory, it doesnt exist: " + meshName);
 		return NULL;
 	}
 

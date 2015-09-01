@@ -2,6 +2,7 @@
 
 #include "Singleton.h"
 #include "FDeferredFrameBuffer.h"
+#include "FStaticMesh.h"
 
 #include <gl/glew.h>
 
@@ -9,7 +10,6 @@ class FWorld;
 class Matrix4;
 class FScene;
 class FCameraComponent;
-class Mesh;
 
 //Class incharge of rendering all the FObjects in the world.
 class FRenderer : public Singleton<FRenderer>
@@ -33,9 +33,10 @@ private:
 	void doDeferredPass(FCameraComponent* currentCamera);
 	void geometryPass();
 	void lightPass();
+	void finalPass();
 	//Rendenders a Quad (with desired dimensions) and writes there the result of the deferred pass
 	void drawToScreenQuad();
-	Mesh* _screenQuadMesh;
+	FStaticMesh _screenQuadMesh;
 
 	//Current frame matrix (updates per frame)
 	Matrix4* _currentFrameProjectionM;
