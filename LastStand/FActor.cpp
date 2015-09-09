@@ -58,10 +58,34 @@ void FActor::translate(const Vector3& delta)
 		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't translate it");
 }
 
-void FActor::setOrientation(const Quaternion& quat)
+void FActor::setRotation(const Quaternion& quat)
 {
 	if (_rootComponent)
 		_rootComponent->setLocalRotation(quat);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
+}
+
+void FActor::setRotation(const FRotator& rotator)
+{
+	if (_rootComponent)
+		_rootComponent->setLocalRotation(rotator);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
+}
+
+void FActor::setRotation(const Vector3& euler)
+{
+	if (_rootComponent)
+		_rootComponent->setLocalRotation(euler);
+	else
+		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
+}
+
+void FActor::setOrientation(const Vector3& direction)
+{
+	if (_rootComponent)
+		_rootComponent->setLocalOrientation(direction);
 	else
 		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't set orientation to it");
 }

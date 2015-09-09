@@ -37,4 +37,9 @@ float Math::clamp(float num, float min, float max)
 	return glm::clamp(num, min, max);
 }
 
+float Math::arcCos(float num)
+{
+	return glm::degrees(glm::acos(num));
+}
+
 

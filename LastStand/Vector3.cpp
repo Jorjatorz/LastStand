@@ -269,3 +269,8 @@ Vector3 Vector3::getNormalizedVector()
 
 	return Vector3(aux.x, aux.y, aux.z);
 }
+
+float Vector3::length(const Vector3& a)
+{
+	return glm::length(glm::vec3(a.x, a.y, a.z));
+}

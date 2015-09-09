@@ -22,6 +22,8 @@ public:
 	//Others
 	static float fmod(float number, float divider);
 	static float clamp(float num, float min, float max);
+	//Retuns the arcCosine of a number. Returns in degrees.
+	static float arcCos(float num);
 
 };
 

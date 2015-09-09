@@ -43,6 +43,8 @@ public:
 	void setLocalRotation(const FRotator& rotator);
 	//Sets the new local orientation of the component from an Euler angles Vector
 	void setLocalRotation(const Vector3& euler);
+	//Set Local Orientation - Makes the object face in a given direction (unit vector), similar to a LookAt
+	void setLocalOrientation(const Vector3& newDirection);
 	//Sets new axis value
 	void setPitchAngle(float degrees);
 	void setYawAngle(float degrees);
@@ -99,6 +101,6 @@ protected:
 	FTransform _worldTransform; //Represents the component world transform
 
 	//Override for custom
-	virtual void rotateComponent(const Quaternion& newRot);
+	virtual void setComponentRotation(const Quaternion& newRot);
 };
 

@@ -23,7 +23,13 @@ public:
 	void setPosition(const Vector3& pos);
 	void translate(const Vector3& delta);
 
-	void setOrientation(const Quaternion& quat);
+	//Sets the Local rotation of the root component
+	void setRotation(const Quaternion& quat);
+	void setRotation(const FRotator& rotator);
+	void setRotation(const Vector3& euler);
+	//Sets the local direction of the root component. The direction must be normalized (Sets the corresponding rotation to face that direction) - like lookAt
+	void setOrientation(const Vector3& direction);
+
 	void rotate_WorldSpace(const Quaternion& delta);
 	void rotate_WorldSpace(float degrees, const Vector3& axisVector);
 	void rotate_LocalSpace(float degrees, const Vector3& axisVector);

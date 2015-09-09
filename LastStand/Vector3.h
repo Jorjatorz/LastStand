@@ -61,6 +61,7 @@ public:
 
 	static Vector3 cross(const Vector3& a, const Vector3& b);
 	static float dot(const Vector3& a, const Vector3& b);
+	static float length(const Vector3& a);
 
 
 

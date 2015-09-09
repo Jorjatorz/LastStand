@@ -8,15 +8,16 @@ FDeferredFrameBuffer::FDeferredFrameBuffer(std::string name, int width, int heig
 {
 	//Create the textures
 	//Color Texture. Attachment 0
-	addTexture("DeferredFrameBufferText_Color", GL_RGBA8);
+	addTexture("DeferredFrameBufferText_Color", GL_RGBA); //8 bits per component
 	//Normal Texture. Attachment 1
-	addTexture("DeferredFrameBufferText_Normals", GL_RGBA8);
+	///TODO - Make this more efficient enconding -- http://aras-p.info/texts/CompactNormalStorage.html
+	addTexture("DeferredFrameBufferText_Normals", GL_RGBA16F); //High precision for normals and position. 16 bits per component
 	//Normal Texture. Attachment 2
-	addTexture("DeferredFrameBufferText_Position", GL_RGBA8);
+	addTexture("DeferredFrameBufferText_Position", GL_RGBA16F);
 	//Light Texture. Attachment 3
-	addTexture("DeferredFrameBufferText_Light", GL_RGBA8);
+	addTexture("DeferredFrameBufferText_Light", GL_RGBA);
 	//Final Texture. Attachment 4
-	addTexture("DeferredFrameBufferText_Final", GL_RGBA8);
+	addTexture("DeferredFrameBufferText_Final", GL_RGBA);
 
 	//Create the Depth texture
 	glGenTextures(1, &depthTextureId);
