@@ -158,6 +158,7 @@ void FSceneComponent::setLocalRotation(const Vector3& euler)
 
 void FSceneComponent::setLocalOrientation(const Vector3& newDirection)
 {
+	/*///TODO - Corregir lo de detectar si son iguales, no funciona.
 	//The default orientation is (0, 0, -1) which is represented by the Identity Quaternion
 	Vector3 currentDirection = (getWorldRotationQuaternion() * Vector3::UNIT_FORWARD).getNormalizedVector();
 	Vector3 newDirectionNormalized = newDirection.getNormalizedVector();
@@ -182,6 +183,31 @@ void FSceneComponent::setLocalOrientation(const Vector3& newDirection)
 		else
 		{
 			rotationAxis = Vector3::cross(currentDirection, newDirectionNormalized);
+		}
+
+		setComponentRotation(Quaternion(angle, rotationAxis.getNormalizedVector()));
+	}*/
+
+	Vector3 normalizedNewDirection = newDirection.getNormalizedVector();
+	if (normalizedNewDirection != Vector3::UNIT_FORWARD)
+	{
+		//Angle between the directions
+		float angle = Math::arcCos(Vector3::dot(Vector3::UNIT_FORWARD, normalizedNewDirection));
+		//Get the rotation axis, which will be a vector perpendicular to both directions
+		Vector3 rotationAxis;
+		if (angle > 179.00009f)
+		{
+			//Special case in which the rotation is of 180, infinite posibilities so we choose one.
+			rotationAxis = Vector3::cross(Vector3(0.0, 0.0, 1.0), normalizedNewDirection);
+			//We choose bad axis to do the cross, try with another
+			if (rotationAxis == Vector3(0.0, 0.0, 0.0))
+			{
+				rotationAxis = Vector3::cross(Vector3(1.0, 0.0, 0.0), normalizedNewDirection);
+			}
+		}
+		else
+		{
+			rotationAxis = Vector3::cross(Vector3::UNIT_FORWARD, normalizedNewDirection);
 		}
 
 		setComponentRotation(Quaternion(angle, rotationAxis.getNormalizedVector()));
