@@ -1,6 +1,6 @@
 #include "Vector3.h"
 
-const Vector3 Vector3::UNIT_FORWARD = Vector3(0.0, 0.0, -1.0);
+const Vector3 Vector3::UNIT_FORWARD = Vector3(0.0, 0.0, 1.0);
 
 Vector3::Vector3()
 	:x(0.0),
@@ -262,7 +262,7 @@ void Vector3::normalize()
 	z = aux.z;
 }
 
-Vector3 Vector3::getNormalizedVector()
+Vector3 Vector3::getNormalizedVector() const
 {
 	glm::vec3 aux(x, y, z);
 	aux = glm::normalize(aux);

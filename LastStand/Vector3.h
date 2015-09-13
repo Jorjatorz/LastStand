@@ -57,7 +57,7 @@ public:
 	//Normalize the vector
 	void normalize();
 	//Return a vector which is this one normalized
-	Vector3 getNormalizedVector();
+	Vector3 getNormalizedVector() const;
 
 	static Vector3 cross(const Vector3& a, const Vector3& b);
 	static float dot(const Vector3& a, const Vector3& b);

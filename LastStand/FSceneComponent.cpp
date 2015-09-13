@@ -160,28 +160,31 @@ void FSceneComponent::setLocalOrientation(const Vector3& newDirection)
 {
 	//The default orientation is (0, 0, -1) which is represented by the Identity Quaternion
 	Vector3 currentDirection = (getWorldRotationQuaternion() * Vector3::UNIT_FORWARD).getNormalizedVector();
+	Vector3 newDirectionNormalized = newDirection.getNormalizedVector();
 	//Check if the curernt orientation and new direction are the same.
 	//If they are not, rotate.
-	if ((Vector3::length(currentDirection - newDirection) > 0.000009f))
+	if ((Vector3::length(currentDirection - newDirectionNormalized) > 0.000009f))
 	{
 		//Angle between the directions
-		float angle = Math::arcCos(Vector3::dot(currentDirection, newDirection));
-		//Perpendicular vector to both
+		float angle = Math::arcCos(Vector3::dot(currentDirection, newDirectionNormalized));
+		//Get the rotation axis, which will be a vector perpendicular to both directions
 		Vector3 rotationAxis;
 		if (angle > 179.00009f)
 		{
-			rotationAxis = Vector3::cross(Vector3(0.0, 0.0, 1.0), newDirection);
+			//Special case in which the rotation is of 180, infinite posibilities so we choose one.
+			rotationAxis = Vector3::cross(Vector3(0.0, 0.0, 1.0), newDirectionNormalized);
+			//We choose bad axis to do the cross, try with another
 			if (rotationAxis == Vector3(0.0, 0.0, 0.0))
 			{
-				rotationAxis = Vector3::cross(Vector3(1.0, 0.0, 0.0), newDirection);
+				rotationAxis = Vector3::cross(Vector3(1.0, 0.0, 0.0), newDirectionNormalized);
 			}
 		}
 		else
 		{
-			rotationAxis = Vector3::cross(currentDirection, newDirection);
+			rotationAxis = Vector3::cross(currentDirection, newDirectionNormalized);
 		}
 
-		setComponentRotation(Quaternion(angle, rotationAxis));
+		setComponentRotation(Quaternion(angle, rotationAxis.getNormalizedVector()));
 	}
 }
 

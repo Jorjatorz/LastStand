@@ -32,7 +32,7 @@ public:
 	//Return the direction the light is facing. (useless for Pointlights sources)
 	Vector3 getLightDirection()
 	{
-		return _worldTransform.getRotationQuaternion() * Vector3::UNIT_FORWARD;
+		return (_worldTransform.getRotationQuaternion() * Vector3::UNIT_FORWARD).getNormalizedVector();
 	}
 
 	enum lightTypeEnum
