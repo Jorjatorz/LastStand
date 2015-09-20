@@ -212,6 +212,11 @@ void FSceneComponent::setLocalOrientation(const Vector3& newDirection)
 
 		setComponentRotation(Quaternion(angle, rotationAxis.getNormalizedVector()));
 	}
+	else
+	{
+		//Identity quaternion
+		setComponentRotation(Quaternion());
+	}
 }
 
 void FSceneComponent::setLocalScale(const Vector3& scale)

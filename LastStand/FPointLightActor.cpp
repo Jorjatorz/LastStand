@@ -12,3 +12,13 @@ FPointLightActor::FPointLightActor(std::string actorName)
 FPointLightActor::~FPointLightActor()
 {
 }
+
+void FPointLightActor::setAttenuationRadius(float rad)
+{
+	static_cast<FPointLightComponent*>(_lightComponentPtr)->setAttenuationRadius(rad);
+}
+
+float FPointLightActor::getAttenuationRadius()
+{
+	return static_cast<FPointLightComponent*>(_lightComponentPtr)->getAttenuationRadius();
+}

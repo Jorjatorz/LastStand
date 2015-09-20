@@ -9,11 +9,6 @@ public:
 	FDirectionalLightComponent(std::string name, FActor* actor);
 	~FDirectionalLightComponent();
 
-	virtual void createProxyOfMySelf();
-
-	virtual void onAttachedToComponent();
-	virtual void onRemovedFromComponent();
-
 	virtual lightTypeEnum getLightType();
 
 };

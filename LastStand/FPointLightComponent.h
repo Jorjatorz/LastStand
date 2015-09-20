@@ -10,5 +10,15 @@ public:
 
 	virtual lightTypeEnum getLightType();
 
+	void setAttenuationRadius(float radius);
+	float getAttenuationRadius() const
+	{
+		return _attenuationRadius;
+	}
+
+private:
+	//Defines the radius that defines the light volume. (Bigger radius more expensive the light is)
+	float _attenuationRadius;
+
 };
 

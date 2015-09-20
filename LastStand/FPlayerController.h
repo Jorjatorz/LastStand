@@ -45,6 +45,9 @@ public:
 	//Adds a pitch inout to the viewport camera
 	void addPitchInput(float degrees);
 
+	//Returns the player world position
+	Vector3 getPlayerWorldPosition();
+
 private:
 	//List containing all the inputComponents of the actors that can recive input
 	//It is treated as a stack

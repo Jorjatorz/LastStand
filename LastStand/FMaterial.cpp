@@ -8,6 +8,7 @@
 #include "FRenderer.h"
 #include "FEngine.h"
 #include "TimerManager.h"
+#include "FPlayerController.h"
 
 FMaterial::FMaterial()
 	:_compiled(false)
@@ -80,6 +81,8 @@ void FMaterial::sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix)
 
 	_shaderMaterialPtr->uniformMatrix("Renderer_ModelMatrix", staticMesh_ModelMatrix);
 	_shaderMaterialPtr->uniformMatrix("Renderer_NormalMatrix", staticMesh_ModelMatrix.getInverseTransposeMatrix());
+
+	_shaderMaterialPtr->uniform("Player_WorldPosition", FEngine::getInstance()->getPlayerController()->getPlayerWorldPosition());
 
 	_shaderMaterialPtr->uniform("Engine_totalTime", TimerManager::getTotalExecutionTime() / 1000.0f);
 }

@@ -97,13 +97,10 @@ void FRenderer::geometryPass()
 	//Bind GBuffer for geometry pass
 	_gBuffer->bindForGeometryPass();
 
-	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
 	_sceneToRender->drawAllStaticComponents();
-
-	glDepthMask(GL_FALSE);
 }
 
 void FRenderer::lightPass()
@@ -113,6 +110,8 @@ void FRenderer::lightPass()
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_ONE, GL_ONE);
 
+	glDisable(GL_DEPTH_TEST);
+
 	//Bind GBuffer for light pass
 	_gBuffer->bindForLightPass();
 
@@ -121,8 +120,9 @@ void FRenderer::lightPass()
 
 	_sceneToRender->drawAllLightComponents();
 
-	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	glDisable(GL_BLEND);
 }
 
 void FRenderer::finalPass()

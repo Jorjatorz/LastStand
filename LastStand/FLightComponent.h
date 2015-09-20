@@ -51,7 +51,11 @@ protected:
 
 	//Light proxy - Created and deleted bu the component when de/attached
 	FLightComponentProxy* _proxyOfComponent;
-	//Creates the proxy
-	virtual void createProxyOfMySelf() = 0;
+	//Creates the proxy of the light component
+	void createProxyOfMySelf();
+
+	void onAttachedToComponent();
+	void onRemovedFromComponent();
+
 };
 

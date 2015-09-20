@@ -5,6 +5,7 @@
 #include "FCameraManager.h"
 #include "FEngine.h"
 #include "Vector3.h"
+#include "FCameraComponent.h"
 
 FPlayerController::FPlayerController()
 {
@@ -90,5 +91,13 @@ void FPlayerController::addMovementInput(const Vector3& delta)
 	if (!_pawnPossessed)
 	{
 		_FCameraManagerPtr->addMovementToViewportCamera(delta * (FEngine::getInstance()->getDeltaTime() / 1000.0f));
+	}
+}
+
+Vector3 FPlayerController::getPlayerWorldPosition()
+{
+	if (!_pawnPossessed)
+	{
+		return _FCameraManagerPtr->getViewportCamera()->getWorldPosition();
 	}
 }

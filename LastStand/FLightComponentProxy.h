@@ -17,6 +17,8 @@ public:
 	Vector3 getLightDirection();
 	Vector3 getLightPosition();
 	unsigned short int getLightType();
+	//Only for pointLights
+	float getAttenuationRadius();
 	
 
 };

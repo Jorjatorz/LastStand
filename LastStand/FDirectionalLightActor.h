@@ -2,8 +2,6 @@
 
 #include "FLightActor.h"
 
-class FDirectionalLightComponent;
-
 class FDirectionalLightActor: public FLightActor
 {
 public:
