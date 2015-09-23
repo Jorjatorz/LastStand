@@ -24,8 +24,7 @@ FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 
 	//Create the screenQuad and sets its material
 	_screenQuadMesh.setNewMesh("UnitQuad.obj");
-	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("colorTex", "DeferredFrameBufferText_Color");
-	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("normalsTex", "DeferredFrameBufferText_Normals");
+	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("emissiveTex", "DeferredFrameBufferText_Emissive");
 	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("lightTex", "DeferredFrameBufferText_Light");
 	_screenQuadMesh.getMeshMaterialList().at(0)->setTextureForTheMaterial("finalTex", "DeferredFrameBufferText_Final");
 }

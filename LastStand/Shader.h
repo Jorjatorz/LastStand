@@ -17,9 +17,10 @@ public:
 	//shader locations
 	enum shaderVertexLocations
 	{
-		VERTEXPOSITION,
-		VERTEXNORMALS,
-		VERTEXTEXCOORD
+		VERTEX_POSITION,
+		VERTEX_NORMALS,
+		VERTEX_TEXCOORDS,
+		VERTEX_TANGENTS
 	};
 
 	//Load the shader, false if an error ocurred

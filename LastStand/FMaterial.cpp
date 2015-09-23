@@ -75,15 +75,17 @@ void FMaterial::compileMaterial()
 
 void FMaterial::sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix)
 {
+	//Matrices
 	_shaderMaterialPtr->uniformMatrix("Renderer_ProjectionMatrix", FRenderer::getInstance()->getCurrentFrameProjectionMatrix());
 	_shaderMaterialPtr->uniformMatrix("Renderer_ViewMatrix", FRenderer::getInstance()->getCurrentFrameViewMatrix());
 	_shaderMaterialPtr->uniformMatrix("Renderer_ModelViewProjectionMatrix", FRenderer::getInstance()->getCurrentFrameProjectionMatrix() * FRenderer::getInstance()->getCurrentFrameViewMatrix() * staticMesh_ModelMatrix);
-
 	_shaderMaterialPtr->uniformMatrix("Renderer_ModelMatrix", staticMesh_ModelMatrix);
 	_shaderMaterialPtr->uniformMatrix("Renderer_NormalMatrix", staticMesh_ModelMatrix.getInverseTransposeMatrix());
 
+	//Player uniforms
 	_shaderMaterialPtr->uniform("Player_WorldPosition", FEngine::getInstance()->getPlayerController()->getPlayerWorldPosition());
 
+	//Engime uniforms
 	_shaderMaterialPtr->uniform("Engine_totalTime", TimerManager::getTotalExecutionTime() / 1000.0f);
 }
 

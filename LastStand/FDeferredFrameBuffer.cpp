@@ -9,14 +9,16 @@ FDeferredFrameBuffer::FDeferredFrameBuffer(std::string name, int width, int heig
 	//Create the textures
 	//Color Texture. Attachment 0
 	addTexture("DeferredFrameBufferText_Color", GL_RGBA); //8 bits per component
-	//Normal Texture. Attachment 1
+	//Color Texture. Attachment 1
+	addTexture("DeferredFrameBufferText_Emissive", GL_RGBA); //8 bits per component
+	//Normal Texture. Attachment 2
 	///TODO - Make this more efficient enconding -- http://aras-p.info/texts/CompactNormalStorage.html
 	addTexture("DeferredFrameBufferText_Normals", GL_RGBA16F); //High precision for normals and position. 16 bits per component
-	//Normal Texture. Attachment 2
+	//Normal Texture. Attachment 3
 	addTexture("DeferredFrameBufferText_Position", GL_RGBA16F);
-	//Light Texture. Attachment 3
+	//Light Texture. Attachment 4
 	addTexture("DeferredFrameBufferText_Light", GL_RGBA);
-	//Final Texture. Attachment 4
+	//Final Texture. Attachment 5
 	addTexture("DeferredFrameBufferText_Final", GL_RGBA);
 
 	//Create the Depth texture
@@ -45,16 +47,16 @@ void FDeferredFrameBuffer::bindForGeometryPass()
 {
 	bindFrameBuffer();
 
-	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2}; //Bind color and normals texture
+	GLuint geometryAttachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3}; //Bind color and normals texture
 	//Draw to buffers
-	glDrawBuffers(3, geometryAttachments);
+	glDrawBuffers(4, geometryAttachments);
 }
 
 void FDeferredFrameBuffer::bindForLightPass()
 {
 	bindFrameBuffer();
 
-	GLuint lightAttachments[] = {GL_COLOR_ATTACHMENT3}; //Bind light texture
+	GLuint lightAttachments[] = {GL_COLOR_ATTACHMENT4}; //Bind light texture
 	//Draw to buffer
 	glDrawBuffers(1, lightAttachments);
 }
@@ -63,7 +65,7 @@ void FDeferredFrameBuffer::bindForFinalPass()
 {
 	bindFrameBuffer();
 
-	GLuint finalAttachment[] = { GL_COLOR_ATTACHMENT4}; //Bind light texture
+	GLuint finalAttachment[] = { GL_COLOR_ATTACHMENT5}; //Bind light texture
 	//Draw to buffer
 	glDrawBuffers(1, finalAttachment);
 }

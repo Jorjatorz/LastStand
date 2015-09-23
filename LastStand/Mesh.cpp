@@ -17,6 +17,7 @@ Mesh::~Mesh()
 		glDeleteBuffers(1, &subMeshComp.vertexBuffer);
 		glDeleteBuffers(1, &subMeshComp.normalBuffer);
 		glDeleteBuffers(1, &subMeshComp.texCoordsBuffer);
+		glDeleteBuffers(1, &subMeshComp.tangentBuffer);
 		glDeleteBuffers(1, &subMeshComp.indexBuffer);
 		glDeleteVertexArrays(1, &subMeshComp.vertexArrayObject);
 	}
@@ -25,7 +26,7 @@ Mesh::~Mesh()
 bool Mesh::loadMesh(std::string meshPath)
 {
 	Assimp::Importer mImporter;
-	const aiScene *mAiScene = mImporter.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenUVCoords);
+	const aiScene *mAiScene = mImporter.ReadFile(meshPath.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenUVCoords | aiProcess_CalcTangentSpace);
 
 	if (!mAiScene)
 	{
@@ -51,16 +52,14 @@ bool Mesh::loadMesh(std::string meshPath)
 		newSubMesh._vertexVector.reserve(loadedMesh->mNumVertices); numberOfVertices += loadedMesh->mNumVertices;
 		newSubMesh._normalsVector.reserve(loadedMesh->mNumVertices);
 		newSubMesh._texCoordsVector.reserve(loadedMesh->mNumVertices);
+		newSubMesh._tangentsVector.reserve(loadedMesh->mNumVertices);
 		newSubMesh._indexVector.reserve(loadedMesh->mNumFaces); numberOfFaces += loadedMesh->mNumFaces;
 		for (unsigned int j = 0; j < loadedMesh->mNumVertices; ++j)
 		{
-			//create vertex array
-			const aiVector3D* vertex = &loadedMesh->mVertices[j]; //copy the vertices
-			const aiVector3D* normal = &loadedMesh->mNormals[j]; //copy the vertices
-			const aiVector3D* texCoord = &loadedMesh->mTextureCoords[0][j];
-
 			if (loadedMesh->HasPositions())
 			{
+				const aiVector3D* vertex = &loadedMesh->mVertices[j];
+
 				newSubMesh._vertexVector.push_back(vertex->x);
 				newSubMesh._vertexVector.push_back(vertex->y);
 				newSubMesh._vertexVector.push_back(vertex->z);
@@ -68,6 +67,8 @@ bool Mesh::loadMesh(std::string meshPath)
 
 			if (loadedMesh->HasNormals())
 			{
+				const aiVector3D* normal = &loadedMesh->mNormals[j];
+
 				newSubMesh._normalsVector.push_back(normal->x);
 				newSubMesh._normalsVector.push_back(normal->y);
 				newSubMesh._normalsVector.push_back(normal->z);
@@ -75,8 +76,19 @@ bool Mesh::loadMesh(std::string meshPath)
 
 			if (loadedMesh->HasTextureCoords(0))
 			{
+				const aiVector3D* texCoord = &loadedMesh->mTextureCoords[0][j];
+
 				newSubMesh._texCoordsVector.push_back(texCoord->x);
 				newSubMesh._texCoordsVector.push_back(texCoord->y);
+			}
+
+			if (loadedMesh->HasTangentsAndBitangents())
+			{
+				const aiVector3D* tangent = &loadedMesh->mTangents[j];
+
+				newSubMesh._tangentsVector.push_back(tangent->x);
+				newSubMesh._tangentsVector.push_back(tangent->y);
+				newSubMesh._tangentsVector.push_back(tangent->z);
 			}
 		}
 
@@ -100,24 +112,32 @@ bool Mesh::loadMesh(std::string meshPath)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, newSubMesh.vertexBuffer);
 			glBufferData(GL_ARRAY_BUFFER, newSubMesh._vertexVector.size() * sizeof(GLfloat), &newSubMesh._vertexVector[0], GL_STATIC_DRAW);
-			glVertexAttribPointer(Shader::VERTEXPOSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); //write vertices position to the shader
-			glEnableVertexAttribArray(Shader::VERTEXPOSITION);
+			glVertexAttribPointer(Shader::VERTEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL); //write vertices position to the shader
+			glEnableVertexAttribArray(Shader::VERTEX_POSITION);
 		}
-		//normals
+		//Tormals
 		if (loadedMesh->HasNormals())
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, newSubMesh.normalBuffer);
 			glBufferData(GL_ARRAY_BUFFER, newSubMesh._normalsVector.size() * sizeof(GLfloat), &newSubMesh._normalsVector[0], GL_STATIC_DRAW);
-			glVertexAttribPointer(Shader::VERTEXNORMALS, 3, GL_FLOAT, GL_FALSE, 0, NULL); //write normals position to the shader
-			glEnableVertexAttribArray(Shader::VERTEXNORMALS);
+			glVertexAttribPointer(Shader::VERTEX_NORMALS, 3, GL_FLOAT, GL_FALSE, 0, NULL); //write normals position to the shader
+			glEnableVertexAttribArray(Shader::VERTEX_NORMALS);
 		}
 		//UV coords
 		if (loadedMesh->HasTextureCoords(0))
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, newSubMesh.texCoordsBuffer);
 			glBufferData(GL_ARRAY_BUFFER, newSubMesh._texCoordsVector.size() * sizeof(GLfloat), &newSubMesh._texCoordsVector[0], GL_STATIC_DRAW);
-			glVertexAttribPointer(Shader::VERTEXTEXCOORD, 2, GL_FLOAT, GL_FALSE, 0, NULL); //write normals position to the shader
-			glEnableVertexAttribArray(Shader::VERTEXTEXCOORD);
+			glVertexAttribPointer(Shader::VERTEX_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, 0, NULL); //write normals position to the shader
+			glEnableVertexAttribArray(Shader::VERTEX_TEXCOORDS);
+		}
+		//Tangents
+		if (loadedMesh->HasTangentsAndBitangents())
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, newSubMesh.tangentBuffer);
+			glBufferData(GL_ARRAY_BUFFER, newSubMesh._tangentsVector.size() * sizeof(GLfloat), &newSubMesh._tangentsVector[0], GL_STATIC_DRAW);
+			glVertexAttribPointer(Shader::VERTEX_TANGENTS, 3, GL_FLOAT, GL_FALSE, 0, NULL); //write normals position to the shader
+			glEnableVertexAttribArray(Shader::VERTEX_TANGENTS);
 		}
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newSubMesh.indexBuffer);
@@ -143,6 +163,7 @@ void Mesh::generateMeshComponentsBuffers(tMeshComponentsStruct& mMeshComp)
 	glGenBuffers(1, &mMeshComp.vertexBuffer);
 	glGenBuffers(1, &mMeshComp.normalBuffer);
 	glGenBuffers(1, &mMeshComp.texCoordsBuffer);
+	glGenBuffers(1, &mMeshComp.tangentBuffer);
 	glGenBuffers(1, &mMeshComp.indexBuffer);
 }
 

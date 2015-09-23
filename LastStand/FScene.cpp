@@ -157,7 +157,8 @@ void FScene::sendLightInformation(FLightComponentProxy* light, FMaterial* materi
 	material->addUniform_vector3("Light_Direction", light->getLightDirection());
 	material->addUniform_float("Light_AttenuationRadius", light->getAttenuationRadius());
 
-	material->setTextureForTheMaterial("Scene_Color", "DeferredFrameBufferText_Color");
+	material->setTextureForTheMaterial("Scene_BaseColor", "DeferredFrameBufferText_Color");
+	material->setTextureForTheMaterial("Scene_EmissiveColor", "DeferredFrameBufferText_Emissive");
 	material->setTextureForTheMaterial("Scene_Normals", "DeferredFrameBufferText_Normals");
 	material->setTextureForTheMaterial("Scene_WorldPosition", "DeferredFrameBufferText_Position");
 }

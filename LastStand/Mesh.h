@@ -44,10 +44,11 @@ private:
 		std::vector<GLfloat> _vertexVector;
 		std::vector<GLfloat> _normalsVector;
 		std::vector<GLfloat> _texCoordsVector;
+		std::vector<GLfloat> _tangentsVector;
 		std::vector<GLuint> _indexVector;
 
 		//openGL buffers
-		GLuint vertexBuffer, normalBuffer, texCoordsBuffer, indexBuffer, vertexArrayObject;
+		GLuint vertexBuffer, normalBuffer, texCoordsBuffer, tangentBuffer, indexBuffer, vertexArrayObject;
 	} tMeshComponentsStruct;
 	//List containing all the submeshes components structs
 	std::vector<tMeshComponentsStruct> _subMeshComponentsList;
