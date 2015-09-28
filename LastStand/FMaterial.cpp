@@ -86,7 +86,7 @@ void FMaterial::sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix)
 	_shaderMaterialPtr->uniform("Player_WorldPosition", FEngine::getInstance()->getPlayerController()->getPlayerWorldPosition());
 
 	//Engime uniforms
-	_shaderMaterialPtr->uniform("Engine_totalTime", TimerManager::getTotalExecutionTime() / 1000.0f);
+	_shaderMaterialPtr->uniform("Engine_totalTime_Seconds", TimerManager::getTotalExecutionTime() / 1000.0f);
 }
 
 void FMaterial::sendFloatsToShader()

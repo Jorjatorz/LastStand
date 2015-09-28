@@ -20,4 +20,5 @@ FLightComponent::lightTypeEnum FPointLightComponent::getLightType()
 void FPointLightComponent::setAttenuationRadius(float radius)
 {
 	_attenuationRadius = radius;
+	_hasChanged = true;
 }

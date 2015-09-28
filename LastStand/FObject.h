@@ -16,5 +16,8 @@ public:
 
 protected:
 	std::string _name;
+
+	//Function that may be called each frame. DeltaTime given in miliseconds
+	virtual void tickObject(float deltaTime){};
 };
 

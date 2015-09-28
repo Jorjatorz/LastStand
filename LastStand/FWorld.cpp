@@ -33,5 +33,14 @@ void FWorld::removeActortFromWorld(std::string name)
 
 void FWorld::tick(int deltaTime)
 {
+	//Tick player controller
 	_playerWorldController.tick(deltaTime);
+	//Tick all the actors in world
+	for (auto const &actor : _actorsInWorldList)
+	{
+		if (actor.second->canTick())
+		{
+			actor.second->tickActor(deltaTime);
+		}
+	}
 }

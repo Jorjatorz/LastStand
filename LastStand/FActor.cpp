@@ -6,7 +6,8 @@
 FActor::FActor(std::string name)
 	:FObject(name),
 	_rootComponent(NULL),
-	_inputComponent(NULL)
+	_inputComponent(NULL),
+	_actorCanTick(false)
 {
 }
 
@@ -196,4 +197,24 @@ void FActor::roll(float degrees)
 		_rootComponent->rotate_WorldSpace(degrees, Vector3(0.0, 0.0, 1.0));
 	else
 		FLog(FLog::WARNING, "Root Component doesn't exists in " + _name + ", can't rotate it");
+}
+
+void FActor::tickActor(float deltaTime)
+{
+	//Call the virtual function. For custom behaviour override it.
+	FObject::tickObject(deltaTime);
+
+	//Call tick and all its components
+	for (auto const &component : _ownedComponents)
+	{
+		if (component->canComponentTick())
+		{
+			component->tickComponent(deltaTime);
+		}
+	}
+}
+
+void FActor::setActorCanTick(bool canTick)
+{
+	_actorCanTick = canTick;
 }

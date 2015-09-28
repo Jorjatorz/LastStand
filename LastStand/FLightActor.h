@@ -13,8 +13,10 @@ public:
 	~FLightActor();
 
 	void setLightColor(const Vector3& color);
+	void setIntensity(float intensity);
 
 	Vector3 getLightColor();
+	float getIntensity();
 
 protected:
 	FLightComponent* _lightComponentPtr;

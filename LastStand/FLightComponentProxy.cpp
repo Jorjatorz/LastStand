@@ -44,3 +44,13 @@ float FLightComponentProxy::getAttenuationRadius()
 	///In here it should return 0 if the light is not  a point light. For now is faster to just leave it like that.
 	return static_cast<FPointLightComponent*>(_componentTarget)->getAttenuationRadius();
 }
+
+bool FLightComponentProxy::hasChanged()
+{
+	return static_cast<FLightComponent*>(_componentTarget)->hasChanged();
+}
+
+void FLightComponentProxy::lightDataProcessed()
+{
+	static_cast<FLightComponent*>(_componentTarget)->lightDataProcessed();
+}

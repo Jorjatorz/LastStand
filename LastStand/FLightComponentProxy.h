@@ -12,6 +12,9 @@ public:
 	FLightComponentProxy(FLightComponent* target);
 	~FLightComponentProxy();
 
+	bool hasChanged();
+	void lightDataProcessed();
+
 	float getIntensity();
 	Vector3 getLightColor();
 	Vector3 getLightDirection();

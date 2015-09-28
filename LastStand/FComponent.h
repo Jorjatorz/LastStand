@@ -13,10 +13,15 @@ public:
 	FComponent(std::string name, FActor* actorP);
 	~FComponent();
 
-	//Ticks the component every frame. Can do some logic inside it. 
+	//Ticks the component every frame. Only called if _objectCanTick is true
 	//By default is empty.
-	virtual void tick(float deltaTime)
-	{}
+	void tickComponent(float deltaTime);
+	//Sets if the component cant tick per frame or not
+	void setComponentTick(bool canTick);
+	bool canComponentTick()
+	{
+		return _componentCanTick;
+	}
 
 	//Sets the new owner actor. But this method does not register the component inside the parent (This is done by the overloaded setParent at FSceneComponent or manually)
 	virtual void setOwner(FActor* newOwner);
@@ -29,6 +34,9 @@ public:
 protected:
 	//Actor that the component is attached to
 	FActor* _ownerActor;
+
+	//True if the component can tick per frame. False by default.
+	bool _componentCanTick;
 
 };
 

@@ -55,7 +55,7 @@ public:
 			//We are attached to the actor (attached to null component) so call it
 			_rootComponent->onAttachedToComponent();
 		}
-		//Add it to the root compone tif doesn't exists
+		//Add it to the root component if it doesn't exists
 		else if (!_rootComponent->addChildrenComponent(newComponent))
 		{
 			delete newComponent;
@@ -95,6 +95,15 @@ public:
 		return _inputComponent;
 	}
 
+	//Called each frame if _actorCanTick is true
+	void tickActor(float deltaTime);
+	//Sets if the actor can tick per frame or not.
+	void setActorCanTick(bool canTick);
+	bool canTick()
+	{
+		return _actorCanTick;
+	}
+
 protected:
 	//Root component. It will be created automatically when the first component is added. (Of that type)
 	FSceneComponent* _rootComponent;
@@ -104,5 +113,8 @@ protected:
 
 	//Vector with all the owned components by the actor
 	std::vector<FComponent*> _ownedComponents;
+
+	//True if the actor can tick, false by default
+	bool _actorCanTick;
 };
 

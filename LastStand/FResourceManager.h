@@ -23,7 +23,8 @@ public:
 	void deleteShaderFromMemory(std::string shaderName);
 	//Return the shader stored in memory
 	Shader* getShaderInMemory(std::string shaderName);
-	//Reload all the shaders from his file
+	//Reload all the shaders from his file.
+	//WARNING - This reload the shader from the disk, which invalidates all the uniforms, and so, they need to be re-send.
 	void reloadAllShadersFromDisk();
 
 	//Load a new Texture into the memory

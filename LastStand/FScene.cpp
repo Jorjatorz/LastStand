@@ -149,13 +149,19 @@ void FScene::drawAllLightComponents()
 
 void FScene::sendLightInformation(FLightComponentProxy* light, FMaterial* material)
 {
-	//Send light information
-	material->addUniform_float("Light_Type", light->getLightType());
-	material->addUniform_float("Light_Intensity", light->getIntensity());
-	material->addUniform_vector3("Light_Color", light->getLightColor());
+	//Send light information if it has changed
+	if (light->hasChanged())
+	{
+		material->addUniform_float("Light_Type", light->getLightType());
+		material->addUniform_float("Light_Intensity", light->getIntensity());
+		material->addUniform_vector3("Light_Color", light->getLightColor());
+		material->addUniform_float("Light_AttenuationRadius", light->getAttenuationRadius());
+
+		light->lightDataProcessed();
+	}
+	///TODO - Meter esto en el if de arriba, pero para eso hay que hacer virtual funciones del sceneNode y modificarlas en LightComponent
 	material->addUniform_vector3("Light_Position", light->getLightPosition());
 	material->addUniform_vector3("Light_Direction", light->getLightDirection());
-	material->addUniform_float("Light_AttenuationRadius", light->getAttenuationRadius());
 
 	material->setTextureForTheMaterial("Scene_BaseColor", "DeferredFrameBufferText_Color");
 	material->setTextureForTheMaterial("Scene_EmissiveColor", "DeferredFrameBufferText_Emissive");

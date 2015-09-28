@@ -19,3 +19,13 @@ void FComponent::setOwner(FActor* newOwner)
 {
 	_ownerActor = newOwner;
 }
+
+void FComponent::setComponentTick(bool canTick)
+{
+	_componentCanTick = canTick;
+}
+
+void FComponent::tickComponent(float deltaTime)
+{
+	FObject::tickObject(deltaTime);
+}

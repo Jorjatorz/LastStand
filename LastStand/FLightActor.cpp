@@ -21,3 +21,13 @@ Vector3 FLightActor::getLightColor()
 {
 	return _lightComponentPtr->getLightColor();
 }
+
+void FLightActor::setIntensity(float intensity)
+{
+	_lightComponentPtr->setIntensity(intensity);
+}
+
+float FLightActor::getIntensity()
+{
+	return _lightComponentPtr->getIntensity();
+}
