@@ -133,3 +133,11 @@ Matrix4 Matrix4::createLookAtMatrix(const Vector3& eye, const Vector3& center, c
 
 	return mat;
 }
+
+Matrix4 Matrix4::createOrthoMatrix(float width, float height, float zNear, float zFar)
+{
+	Matrix4 mat;
+	mat._GLMMatrix = glm::ortho(-width / 2, width / 2, -height / 2, height / 2, zNear, zFar);
+
+	return mat;
+}

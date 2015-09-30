@@ -56,24 +56,53 @@ void FCameraManager::setViewportCamera(FCameraComponent* comp)
 
 void FCameraManager::addMovementToViewportCamera(const Vector3 &delta)
 {
-	_viewportCamera->translate(_viewportCamera->getWorldRotationQuaternion() * Vector3(delta.x, delta.y, -delta.z));
+	if (_viewportCamera)
+	{
+		_viewportCamera->translate(_viewportCamera->getWorldRotationQuaternion() * Vector3(delta.x, delta.y, -delta.z));
+	}
+	else
+	{
+		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		assert(0);
+	}
 }
 
 void FCameraManager::addRotationToViewportCamera(FRotator deltaRot)
 {
-	_viewportCameraRotation += deltaRot;
-
-	Vector3 aux = _viewportCameraRotation.toEuler();
-	//Clamp pitch Pitch
-	aux.x = Math::clamp(aux.x, _pitchRotationLimitMin, _pitchRotationLimitMax);
-
-	//Set back yaw to 0 if it exceeds 360
-	if (aux.y > 359.9f || aux.y < -359.9f)
+	if (_viewportCamera)
 	{
-		aux.y = 0;
+		_viewportCameraRotation += deltaRot;
+
+		Vector3 aux = _viewportCameraRotation.toEuler();
+		//Clamp pitch Pitch
+		aux.x = Math::clamp(aux.x, _pitchRotationLimitMin, _pitchRotationLimitMax);
+
+		//Set back yaw to 0 if it exceeds 360
+		if (aux.y > 359.9f || aux.y < -359.9f)
+		{
+			aux.y = 0;
+		}
+
+		_viewportCameraRotation = FRotator(aux);
+
+		_viewportCamera->setLocalRotation(_viewportCameraRotation.toQuaternion());
 	}
+	else
+	{
+		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		assert(0);
+	}
+}
 
-	_viewportCameraRotation = FRotator(aux);
-
-	_viewportCamera->setLocalRotation(_viewportCameraRotation.toQuaternion());
+FCameraComponent* const FCameraManager::getViewportCamera() const
+{
+	if (_viewportCamera)
+	{
+		return _viewportCamera;
+	}
+	else
+	{
+		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		assert(0);
+	}
 }

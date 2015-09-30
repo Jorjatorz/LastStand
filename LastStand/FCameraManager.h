@@ -30,10 +30,7 @@ public:
 	//Sets the viewport camera
 	void setViewportCamera(FCameraComponent* comp);
 	//Return the viewport camera
-	FCameraComponent* const getViewportCamera() const
-	{
-		return _viewportCamera;
-	}
+	FCameraComponent* const getViewportCamera() const;
 
 	void addMovementToViewportCamera(const Vector3 &delta);
 	void addRotationToViewportCamera(FRotator deltaRot);

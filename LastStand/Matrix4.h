@@ -43,7 +43,10 @@ public:
 
 	//Auxiliary functions
 	//Creates a perspective matrix, if zFar is set to 0 its an infinite perspective
-	static Matrix4 createPerspectiveMatrix(float fov, float aspectRatio, float zNear, float zFar = 0.0);
+	static Matrix4 createPerspectiveMatrix(float fov, float aspectRatio, float zNear, float zFar = -1.0);
+	//Creates an ortho matrix.
+	static Matrix4 createOrthoMatrix(float width, float height, float zNear, float zFar);
+	//Creates a matrix to look from a position (eye) to another point (center)
 	static Matrix4 createLookAtMatrix(const Vector3& eye, const Vector3& center, const Vector3& up);
 
 private:

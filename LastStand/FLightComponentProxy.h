@@ -19,6 +19,7 @@ public:
 	Vector3 getLightColor();
 	Vector3 getLightDirection();
 	Vector3 getLightPosition();
+	///TODO - Pensar si incluir el componente y devovler la enumeracio en vez del entero
 	unsigned short int getLightType();
 	//Only for pointLights
 	float getAttenuationRadius();
