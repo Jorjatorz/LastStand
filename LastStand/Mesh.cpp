@@ -30,7 +30,7 @@ bool Mesh::loadMesh(std::string meshPath)
 
 	if (!mAiScene)
 	{
-		FLog(FLog::ERROR, "Assimp couldn't laod the mesh. " + std::string(mImporter.GetErrorString()));
+		FLog(FLog::FAILURE, "Assimp couldn't laod the mesh. " + std::string(mImporter.GetErrorString()));
 		return false;
 	}
 

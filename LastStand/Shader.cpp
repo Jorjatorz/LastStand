@@ -37,7 +37,7 @@ bool Shader::loadFromDisk(std::string filePath)
 	std::string vertexShaderStr; 
 	if (!file.is_open())
 	{
-		FLog(FLog::ERROR, "Error loading VERTEX shader: " + filePath);
+		FLog(FLog::FAILURE, "Error loading VERTEX shader: " + filePath);
 		return false;
 	}
 	else
@@ -78,7 +78,7 @@ bool Shader::loadFromDisk(std::string filePath)
 	std::string fragmentShaderStr;
 	if (!file.is_open())
 	{
-		FLog(FLog::ERROR, "Error loading FRAGMENT shader: " + filePath);
+		FLog(FLog::FAILURE, "Error loading FRAGMENT shader: " + filePath);
 		return false;
 	}
 	else

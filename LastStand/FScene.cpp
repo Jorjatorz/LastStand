@@ -7,6 +7,7 @@
 #include "Matrix4.h"
 #include "FEngine.h"
 #include "FPlayerController.h"
+#include "FUIManager.h"
 
 FScene::FScene()
 {
@@ -35,7 +36,7 @@ void FScene::addPrimitiveComponentProxy(FPrimitiveComponentProxy* toAdd)
 	//Check that the proxy does not already exists in the scene
 	if (!(_primitiveComponentProxies.find(toAdd->getProxyName()) == _primitiveComponentProxies.end()))
 	{
-		FLog(FLog::ERROR, "PrimitiveComponentProxy already exists in FScene: " + toAdd->getProxyName());
+		FLog(FLog::FAILURE, "PrimitiveComponentProxy already exists in FScene: " + toAdd->getProxyName());
 		assert(0);
 	}
 
@@ -48,7 +49,7 @@ void FScene::removePrimitiveComponentProxy(std::string proxyName)
 
 	if (it == _primitiveComponentProxies.end())
 	{
-		FLog(FLog::ERROR, "PrimitiveComponentProxy doesn't exists in FScene: " + proxyName);
+		FLog(FLog::FAILURE, "PrimitiveComponentProxy doesn't exists in FScene: " + proxyName);
 		assert(0);
 	}
 
@@ -68,7 +69,7 @@ void FScene::addLightComponentProxy(FLightComponentProxy* toAdd)
 	//Check that the proxy does not already exists in the scene
 	if (!(_lightComponentProxies.find(toAdd->getProxyName()) == _lightComponentProxies.end()))
 	{
-		FLog(FLog::ERROR, "LightComponentProxy already exists in FScene: " + toAdd->getProxyName());
+		FLog(FLog::FAILURE, "LightComponentProxy already exists in FScene: " + toAdd->getProxyName());
 		assert(0);
 	}
 
@@ -81,7 +82,7 @@ void FScene::removeLightComponentProxy(std::string proxyName)
 
 	if (it == _lightComponentProxies.end())
 	{
-		FLog(FLog::ERROR, "LightComponentProxy doesn't exists in FScene: " + proxyName);
+		FLog(FLog::FAILURE, "LightComponentProxy doesn't exists in FScene: " + proxyName);
 		assert(0);
 	}
 
@@ -167,4 +168,9 @@ void FScene::sendLightInformation(FLightComponentProxy* light, FMaterial* materi
 	material->setTextureForTheMaterial("Scene_EmissiveColor", "DeferredFrameBufferText_Emissive");
 	material->setTextureForTheMaterial("Scene_Normals", "DeferredFrameBufferText_Normals");
 	material->setTextureForTheMaterial("Scene_WorldPosition", "DeferredFrameBufferText_Position");
+}
+
+void FScene::drawAllUIFrames()
+{
+	FEngine::getInstance()->getPlayerController()->getUIManager()->drawAllUIFrames();
 }

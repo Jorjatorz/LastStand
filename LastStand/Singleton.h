@@ -25,7 +25,7 @@ public:
 	{
 		if (_singleton)
 		{
-			FLog(FLog::ERROR, "Singleton class already instantiated: %s", typeid(T).name());
+			FLog(FLog::FAILURE, "Singleton class already instantiated: %s", typeid(T).name());
 			assert(0); //just created once
 		}
 		_singleton = static_cast<T*>(this); //allocate the singleton
@@ -35,7 +35,7 @@ public:
 	{
 		if (!_singleton)
 		{
-			FLog(FLog::ERROR, "Singleton class not instantiated, can't delete it: %s", typeid(T).name());
+			FLog(FLog::FAILURE, "Singleton class not instantiated, can't delete it: %s", typeid(T).name());
 			assert(0); //just created once
 		}
 
@@ -46,7 +46,7 @@ public:
 	{
 		if (!_singleton)
 		{
-			FLog(FLog::ERROR, "Singleton class not instantiated, can't return it: %s", typeid(T).name());
+			FLog(FLog::FAILURE, "Singleton class not instantiated, can't return it: %s", typeid(T).name());
 			assert(0); //just created once
 		}
 		return _singleton;

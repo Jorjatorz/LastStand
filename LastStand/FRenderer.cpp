@@ -14,7 +14,8 @@
 
 FRenderer::FRenderer(unsigned short int width, unsigned short int height)
 	:_currentFrameProjectionM(NULL),
-	_currentFrameViewM(NULL)
+	_currentFrameViewM(NULL),
+	_currentRenderingCameraWPosition(NULL)
 {
 	//Create the FScene
 	_sceneToRender = new FScene();
@@ -54,13 +55,15 @@ void FRenderer::renderObjectsInTheWorld()
 	//DO the deferred pass only with the viewport camera and draw the output to the ScreenQuad
 	FCameraComponent* viewCamera = cameraManagerPtr->getViewportCamera();
 	doDeferredPass(viewCamera);
+	UIPass();
+
 	drawToScreenQuad();
 }
 
 void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
 {
 	//Set frame matrices
-	currentCamera->getCameraProjectionAndViewMatricesPtr(_currentFrameProjectionM, _currentFrameViewM);
+	currentCamera->getCameraProjectionAndViewMatricesPtr(_currentFrameProjectionM, _currentFrameViewM, _currentRenderingCameraWPosition);
 
 	//Geometry Pass
 	geometryPass();
@@ -150,4 +153,21 @@ void FRenderer::drawToScreenQuad()
 	_screenQuadMesh.renderStaticMesh(Matrix4(1.0));
 
 	glEnable(GL_DEPTH_TEST);
+}
+
+void FRenderer::UIPass()
+{
+	glDisable(GL_DEPTH_TEST);
+
+	_gBuffer->bindForFinalPass();
+	_sceneToRender->drawAllUIFrames();
+
+	glEnable(GL_DEPTH_TEST);
+
+	_gBuffer->unBindFrameBuffer();
+}
+
+const Vector3& FRenderer::getCurrentRenderingCameraWPosition()
+{
+	return _currentRenderingCameraWPosition;
 }

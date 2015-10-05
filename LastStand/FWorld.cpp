@@ -23,7 +23,7 @@ void FWorld::removeActortFromWorld(std::string name)
 	auto it = _actorsInWorldList.find(name);
 	if (it == _actorsInWorldList.end())
 	{
-		FLog(FLog::ERROR, "Entity doesn't exists in the world, can't delete it: %s", name.c_str());
+		FLog(FLog::FAILURE, "Entity doesn't exists in the world, can't delete it: %s", name.c_str());
 		assert(0);
 	}
 

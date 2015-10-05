@@ -34,7 +34,7 @@ void TimerManager::deleteTimer(Timer* timer)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "Timer with id %u doesn't exists", timer->getId());
+		FLog(FLog::FAILURE, "Timer with id %u doesn't exists", timer->getId());
 	}
 }
 

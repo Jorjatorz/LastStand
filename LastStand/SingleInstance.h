@@ -19,7 +19,7 @@ class SingleInstance
 		{
 			if (_instantiated)
 			{
-				FLog(FLog::ERROR, "SingleInstance class already instantiated: %s", typeid(T).name());
+				FLog(FLog::FAILURE, "SingleInstance class already instantiated: %s", typeid(T).name());
 				assert(0); //just created once
 			}
 			_instantiated = true;
@@ -29,7 +29,7 @@ class SingleInstance
 		{
 			if (!_instantiated)
 			{
-				FLog(FLog::ERROR, "SingleInstance class not instantiated, can't delete it: %s", typeid(T).name());
+				FLog(FLog::FAILURE, "SingleInstance class not instantiated, can't delete it: %s", typeid(T).name());
 				assert(0); //just created once
 			}
 

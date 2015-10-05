@@ -62,7 +62,7 @@ void FCameraManager::addMovementToViewportCamera(const Vector3 &delta)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		FLog(FLog::FAILURE, "There is no Viewport Camera set");
 		assert(0);
 	}
 }
@@ -89,7 +89,7 @@ void FCameraManager::addRotationToViewportCamera(FRotator deltaRot)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		FLog(FLog::FAILURE, "There is no Viewport Camera set");
 		assert(0);
 	}
 }
@@ -102,7 +102,7 @@ FCameraComponent* const FCameraManager::getViewportCamera() const
 	}
 	else
 	{
-		FLog(FLog::ERROR, "There is no Viewport Camera set");
+		FLog(FLog::FAILURE, "There is no Viewport Camera set");
 		assert(0);
 	}
 }

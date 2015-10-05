@@ -27,7 +27,11 @@ public:
 	Shader* const getMaterialShader();
 
 	//Adds a texture sampler to send to the shader. It will be loaded (if not alrady) when the material is compiled
+	//If a texture already exists with the same samplerName it will be overwritten by the new one.
 	void setTextureForTheMaterial(std::string uniformSamplerName, std::string texturePath);
+	//Adds a texture sampler to send to the shader. The texture is already laoded
+	//If a texture already exists with the same samplerName it will be overwritten by the new one.
+	void setTextureForTheMaterial(std::string uniformSamplerName, Texture* texture);
 	//Sends float uniforms to the shader when the material is compiled. If the uniform alrady exists it updates the value.
 	void addUniform_float(std::string uniformName, float value);
 	//Sends vector uniforms to the shader when the material is compiled. If the uniform alrady exists it updates the value.

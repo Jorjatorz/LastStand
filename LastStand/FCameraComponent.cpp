@@ -11,8 +11,8 @@ FCameraComponent::FCameraComponent(std::string name, FActor* actor)
 	_renderTargetPtr(NULL),
 	_FOV(90.0),
 	_aspectRatio(FEngine::getInstance()->getRenderingWindow_Width() / (float)FEngine::getInstance()->getRenderingWindow_Height()),
-	_orthoWidth(3),
-	_orthoHeight(3),
+	_orthoWidth(1),
+	_orthoHeight(1),
 	_projectionMode(PERSPECTIVE),
 	_minimumRenderDistance(0.001),
 	_maximumRenderDistance(-1.0),
@@ -32,12 +32,12 @@ FCameraComponent::~FCameraComponent()
 	FEngine::getInstance()->getPlayerController()->getCameraManagerPtr()->unregisterCameraComponent(this);
 }
 
-void FCameraComponent::addRenderingTarget(Texture* texture2DTarget)
+void FCameraComponent::setRenderingTarget(Texture* texture2DTarget)
 {
 	_renderTargetPtr = texture2DTarget;
 }
 
-void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM)
+void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM, Vector3& cameraPosition)
 {
 	projM = &_projectionCameraMatrix;
 
@@ -46,6 +46,8 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	_viewCameraMatrix.translate(-_worldTransform.getPosition());
 	
 	viewM = &_viewCameraMatrix;
+
+	cameraPosition = _worldTransform.getPosition();
 }
 
 void FCameraComponent::setAsViewportCamera()

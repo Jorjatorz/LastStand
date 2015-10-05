@@ -17,7 +17,7 @@ RenderWindow::RenderWindow(std::string windowName, unsigned short int width, uns
 	//Init SDL and GLEW
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		FLog(FLog::ERROR, "Unable to initialize SDL");
+		FLog(FLog::FAILURE, "Unable to initialize SDL");
 	}
 
 	//create the window
@@ -97,7 +97,7 @@ void RenderWindow::swapBuffers()
 	}
 	else
 	{
-		FLog(FLog::ERROR, "No viewport available. You must create a viewport first");
+		FLog(FLog::FAILURE, "No viewport available. You must create a viewport first");
 		assert(0);
 	}
 

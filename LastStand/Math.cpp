@@ -37,6 +37,11 @@ float Math::clamp(float num, float min, float max)
 	return glm::clamp(num, min, max);
 }
 
+Vector3 Math::clamp(const Vector3& vec, float min, float max)
+{
+	return Vector3(clamp(vec.x, min, max), clamp(vec.y, min, max), clamp(vec.z, min, max));
+}
+
 float Math::arcCos(float num)
 {
 	return glm::degrees(glm::acos(num));

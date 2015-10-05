@@ -22,9 +22,9 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 	//In case of error
 	if (!result)
 	{
-		FLog(FLog::ERROR, "Error reading XML material file: " + XMLfilePath);
-		FLog(FLog::ERROR, "Error description: %s", result.description());
-		FLog(FLog::ERROR, "Error offset: %d", result.offset);
+		FLog(FLog::FAILURE, "Error reading XML material file: " + XMLfilePath);
+		FLog(FLog::FAILURE, "Error description: %s", result.description());
+		FLog(FLog::FAILURE, "Error offset: %d", result.offset);
 
 		//Return default material
 		return FMaterial();
@@ -58,7 +58,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 				//If the information of the texture is incomplete don't add it
 				if (samplerName.empty() || texturePath.empty())
 				{
-					FLog(FLog::ERROR, "Incomplete Texture information in Material XML: %s", XMLfilePath.c_str());
+					FLog(FLog::FAILURE, "Incomplete Texture information in Material XML: %s", XMLfilePath.c_str());
 				}
 				else
 				{
@@ -77,7 +77,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 				//If no uniform name dont add it
 				if (uniformName.empty())
 				{
-					FLog(FLog::ERROR, "Need uniform name for Float in Material XML: %s", XMLfilePath.c_str());
+					FLog(FLog::FAILURE, "Need uniform name for Float in Material XML: %s", XMLfilePath.c_str());
 				}
 				else
 				{
@@ -99,7 +99,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 				//If no uniform name dont add it
 				if (uniformName.empty())
 				{
-					FLog(FLog::ERROR, "Need uniform name for Vector3 in Material XML: %s", XMLfilePath.c_str());
+					FLog(FLog::FAILURE, "Need uniform name for Vector3 in Material XML: %s", XMLfilePath.c_str());
 				}
 				else
 				{
@@ -112,7 +112,7 @@ FMaterial FXMLLoader::loadMaterialDataFromXML(std::string XMLfilePath)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "Material XML error: Root element not found! Must be called Material");
+		FLog(FLog::FAILURE, "Material XML error: Root element not found! Must be called Material");
 	}
 
 	return toRetMaterial;

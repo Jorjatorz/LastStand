@@ -20,6 +20,8 @@ public:
 	void drawAllStaticComponents();
 	//Renders all the lights and their corresponding lightMesh
 	void drawAllLightComponents();
+	//Renders the GUI
+	void drawAllUIFrames();
 
 	//Adds a new primitiveComponentProxy. The name of the proxy is given by the component name
 	void addPrimitiveComponentProxy(FPrimitiveComponentProxy* toAdd);

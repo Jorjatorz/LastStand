@@ -18,6 +18,7 @@ public:
 	static Matrix4 getRotationMatrixFromQuaternion(const Quaternion& quat);
 
 	//Vectors function
+	static Vector3 clamp(const Vector3& vec, float min, float max);
 
 	//Others
 	static float fmod(float number, float divider);

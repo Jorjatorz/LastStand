@@ -40,7 +40,7 @@ bool Texture::loadFromDisk(std::string texturePath, bool mipmap, GLint format)
 	//if still unknown, return failure
 	if (fif == FIF_UNKNOWN)
 	{
-		FLog(FLog::ERROR, "Unknown format of texture, can't load it: " + texturePath);
+		FLog(FLog::FAILURE, "Unknown format of texture, can't load it: " + texturePath);
 		return false;
 	}
 
@@ -71,7 +71,7 @@ bool Texture::loadFromDisk(std::string texturePath, bool mipmap, GLint format)
 	//if this somehow one of these failed (they shouldn't), return failure
 	if ((bits == 0) || (width == 0) || (height == 0))
 	{
-		FLog(FLog::ERROR, "Error getting bits, width or height of texture: " + texturePath);
+		FLog(FLog::FAILURE, "Error getting bits, width or height of texture: " + texturePath);
 		return false;
 	}
 

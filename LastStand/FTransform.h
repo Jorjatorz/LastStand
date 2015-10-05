@@ -33,6 +33,7 @@ public:
 	{
 		return _scale;
 	}
+	//Computes the transformationMatrix and returns it
 	Matrix4 getTransformationMatrix();
 
 private:

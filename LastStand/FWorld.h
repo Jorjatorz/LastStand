@@ -25,7 +25,7 @@ public:
 		//If already exists
 		if (_actorsInWorldList.find(name) != _actorsInWorldList.end())
 		{
-			FLog(FLog::ERROR, "Actor already exists in the world: %s", name.c_str());
+			FLog(FLog::FAILURE, "Actor already exists in the world: %s", name.c_str());
 			assert(0);
 		}
 

@@ -25,7 +25,7 @@ public:
 
 
 	//Sets the rendering target of the camera
-	void addRenderingTarget(Texture* texture2DTarget);
+	void setRenderingTarget(Texture* texture2DTarget);
 	bool hasRenderingTarget()
 	{
 		return _renderTargetPtr;
@@ -35,8 +35,8 @@ public:
 		return _renderTargetPtr;
 	}
 
-	//Returns the projection and view matrix
-	void getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM);
+	//Returns the projection, view matrix and the rendering camera position
+	void getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM, Vector3& cameraPosition);
 
 	//Sets the camera as the viewport camera
 	void setAsViewportCamera();

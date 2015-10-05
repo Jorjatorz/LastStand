@@ -8,7 +8,6 @@
 #include "FRenderer.h"
 #include "FEngine.h"
 #include "TimerManager.h"
-#include "FPlayerController.h"
 
 FMaterial::FMaterial()
 	:_compiled(false)
@@ -82,8 +81,8 @@ void FMaterial::sendPerFrameUniforms(const Matrix4& staticMesh_ModelMatrix)
 	_shaderMaterialPtr->uniformMatrix("Renderer_ModelMatrix", staticMesh_ModelMatrix);
 	_shaderMaterialPtr->uniformMatrix("Renderer_NormalMatrix", staticMesh_ModelMatrix.getInverseTransposeMatrix());
 
-	//Player uniforms
-	_shaderMaterialPtr->uniform("Player_WorldPosition", FEngine::getInstance()->getPlayerController()->getPlayerWorldPosition());
+	//Camera uniforms
+	_shaderMaterialPtr->uniform("Camera_WorldPosition", FRenderer::getInstance()->getCurrentRenderingCameraWPosition());
 
 	//Engime uniforms
 	_shaderMaterialPtr->uniform("Engine_totalTime_Seconds", TimerManager::getTotalExecutionTime() / 1000.0f);
@@ -116,7 +115,7 @@ void FMaterial::sendTexturesToShader()
 			tex = FResourceManager::getInstance()->loadTextureIntoMemoryFromDisk(_texturesToCompile.front().second);
 		}
 
-		_texturesInMaterialMap.insert(std::make_pair(_texturesToCompile.front().first, tex));
+		_texturesInMaterialMap[_texturesToCompile.front().first] = tex;
 
 		_texturesToCompile.pop();
 	}
@@ -137,6 +136,14 @@ void FMaterial::setTextureForTheMaterial(std::string uniformSamplerName, std::st
 	_texturesToCompile.push(std::pair<std::string, std::string>(uniformSamplerName, texturePath));
 
 	_compiled = false;
+}
+
+void FMaterial::setTextureForTheMaterial(std::string uniformSamplerName, Texture* texture)
+{
+	if (texture)
+	{
+		_texturesInMaterialMap[uniformSamplerName] =  texture;
+	}
 }
 
 void FMaterial::addUniform_float(std::string uniformName, float value)

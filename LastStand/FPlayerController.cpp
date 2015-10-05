@@ -6,16 +6,23 @@
 #include "FEngine.h"
 #include "Vector3.h"
 #include "FCameraComponent.h"
+#include "FUIManager.h"
 
 FPlayerController::FPlayerController()
 {
 	//Create the camera manager
 	_FCameraManagerPtr = new FCameraManager();
+
+	//Create the UI manager
+	_FUIManagerPtr = new FUIManager();
 }
 
 
 FPlayerController::~FPlayerController()
 {
+	//Delete the UI manager
+	delete _FUIManagerPtr;
+
 	//Delete the camera manager
 	delete _FCameraManagerPtr;
 }
@@ -40,8 +47,7 @@ void FPlayerController::unregisterInputComponent(FInputComponent* comp)
 
 void FPlayerController::tick(int deltaTime)
 {
-	//Each tick check for axis mapping events.
-
+	//Check for axis event and communicate to the inputComponents
 	std::unordered_map<std::string, float> axisValuesMap = FInputManager::getInstance()->getAxisValuesMap();
 	for (const auto& axisIterator : axisValuesMap)
 	{
@@ -56,6 +62,9 @@ void FPlayerController::tick(int deltaTime)
 			}
 		}
 	}
+	
+	//Tick all UIFrames
+	_FUIManagerPtr->tickFrames(deltaTime);
 
 	///Update camera target position and rotation so smooth interpolation is achived
 }

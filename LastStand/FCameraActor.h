@@ -15,6 +15,10 @@ public:
 	void setProjectionMode(FCameraComponent::ProjectionModeEnum newProj);
 	FCameraComponent::ProjectionModeEnum getProjectionMode();
 
+	void setRenderingTarget(Texture* tex);
+	bool hasRenderingTarget();
+	Texture* getRendeingTargetPtr() const;
+
 private:
 	///In UE4 this is public... For now I will keep it private or my university teachers will get mad :O
 	FCameraComponent* _cameraComponentPtr;

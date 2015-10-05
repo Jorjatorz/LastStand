@@ -56,7 +56,7 @@ Shader* FResourceManager::loadShaderIntoMemoryFromDisk(std::string shaderName)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "Couldn't load Shader: Data\\Shaders\\" + shaderName);
+		FLog(FLog::FAILURE, "Couldn't load Shader: Data\\Shaders\\" + shaderName);
 		delete newShader;
 	}
 
@@ -115,7 +115,7 @@ Texture* FResourceManager::loadTextureIntoMemoryFromDisk(std::string textureName
 	}
 	else
 	{
-		FLog(FLog::ERROR, "Couldn't load texture: Data\\Textures\\" + textureName);
+		FLog(FLog::FAILURE, "Couldn't load texture: Data\\Textures\\" + textureName);
 		delete newTexture;
 	}
 
@@ -188,7 +188,7 @@ Mesh* FResourceManager::loadMeshIntoMemoryFromDisk(std::string meshName)
 	}
 	else
 	{
-		FLog(FLog::ERROR, "Couldn't load mesh: Data\\Meshes\\" + meshName);
+		FLog(FLog::FAILURE, "Couldn't load mesh: Data\\Meshes\\" + meshName);
 		delete newMesh;
 	}
 

@@ -25,6 +25,7 @@ public:
 
 	const Matrix4& getCurrentFrameProjectionMatrix();
 	const Matrix4& getCurrentFrameViewMatrix();
+	const Vector3& getCurrentRenderingCameraWPosition();
 private:
 	//Deferred framebuffer
 	FDeferredFrameBuffer* _gBuffer;
@@ -33,6 +34,7 @@ private:
 	void doDeferredPass(FCameraComponent* currentCamera);
 	void geometryPass();
 	void lightPass();
+	void UIPass();
 	void finalPass();
 	//Rendenders a Quad (with desired dimensions) and writes there the result of the deferred pass
 	void drawToScreenQuad();
@@ -41,6 +43,7 @@ private:
 	//Current frame matrix (updates per frame)
 	Matrix4* _currentFrameProjectionM;
 	Matrix4* _currentFrameViewM;
+	Vector3 _currentRenderingCameraWPosition;
 
 	//Current Scene to render
 	FScene* _sceneToRender;

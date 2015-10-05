@@ -61,7 +61,7 @@ void FSceneComponent::setOwner(FActor* newParent)
 {
 	if (_ownerActor->getRootComponentPtr() == this)
 	{
-		FLog(FLog::ERROR, "Can't set a new parent to a root component: %s", _name.c_str());
+		FLog(FLog::FAILURE, "Can't set a new parent to a root component: %s", _name.c_str());
 		assert(0);
 	}
 	//If we have a parent component remove this component from it as we are hanging of actor.

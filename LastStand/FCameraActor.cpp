@@ -26,3 +26,18 @@ FCameraComponent::ProjectionModeEnum FCameraActor::getProjectionMode()
 {
 	return static_cast<FCameraComponent*>(_cameraComponentPtr)->getProjectionMode();
 }
+
+void FCameraActor::setRenderingTarget(Texture* tex)
+{
+	static_cast<FCameraComponent*>(_cameraComponentPtr)->setRenderingTarget(tex);
+}
+
+bool FCameraActor::hasRenderingTarget()
+{
+	return static_cast<FCameraComponent*>(_cameraComponentPtr)->hasRenderingTarget();
+}
+
+Texture* FCameraActor::getRendeingTargetPtr() const
+{
+	return static_cast<FCameraComponent*>(_cameraComponentPtr)->getRendeingTargetPtr();
+}

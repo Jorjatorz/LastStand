@@ -8,6 +8,7 @@ class FInputComponent;
 class FActionMappingEvent;
 class FCameraManager;
 class Vector3;
+class FUIManager;
 
 //Controller that represents the human player
 //This controller resides in the Fworld.
@@ -38,6 +39,12 @@ public:
 		return _FCameraManagerPtr;
 	}
 
+	//Returns a pointer to the UI manaher
+	FUIManager* const getUIManager() const
+	{
+		return _FUIManagerPtr;
+	}
+
 	//Adds a movement inout to the camera
 	void addMovementInput(const Vector3& delta);
 	//Adds a yaw input to the viewport camera
@@ -56,5 +63,7 @@ private:
 	//Pointer to the camera Manager
 	FCameraManager* _FCameraManagerPtr;
 
+	//UI Manager pointer
+	FUIManager* _FUIManagerPtr;
 };
 

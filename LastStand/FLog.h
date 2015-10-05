@@ -15,7 +15,7 @@ public:
 	{
 		INFO,
 		WARNING,
-		ERROR
+		FAILURE
 	};
 
 	//Prints a text into the console, depending on the type it will show an info, warning or error text.
