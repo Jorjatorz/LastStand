@@ -21,15 +21,19 @@ public:
 	void setRotation(const Quaternion& quat);
 	void setScale(const Vector3& scale);
 
-	Vector3 getPosition()
+	Vector3 getPosition() const
 	{
 		return _postion;
+	}
+	const Vector3* getPositionPtr() const
+	{
+		return &_postion;
 	}
 	Quaternion getRotationQuaternion() const
 	{
 		return _rotation;
 	}
-	Vector3 getScale()
+	Vector3 getScale() const
 	{
 		return _scale;
 	}

@@ -36,7 +36,7 @@ public:
 	}
 
 	//Returns the projection, view matrix and the rendering camera position
-	void getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM, Vector3& cameraPosition);
+	void getCameraProjectionAndViewMatricesPtr(const Matrix4* &projM, const Matrix4* &viewM, const Vector3* &cameraPosition);
 
 	//Sets the camera as the viewport camera
 	void setAsViewportCamera();

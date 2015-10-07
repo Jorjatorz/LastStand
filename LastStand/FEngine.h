@@ -30,7 +30,7 @@ public:
 	void stopEngine();
 
 	//Return a pointer to the main rendering window
-	RenderWindow* const getRenderWindowPtr()
+	RenderWindow* getRenderWindowPtr()
 	{
 		return _mainRenderWindowPtr;
 	}
@@ -39,7 +39,7 @@ public:
 	unsigned short int getRenderingWindow_Height();
 
 	//Retun a pointer to the timer manager
-	TimerManager* const getTimerManagePtr() const
+	TimerManager* getTimerManagePtr() const
 	{
 		return _timerManagerPtr;
 	}
@@ -47,13 +47,13 @@ public:
 	int getDeltaTime();
 
 	//Return a pointer to the current world
-	FWorld* const getFWorldPtr() const
+	FWorld* getFWorldPtr() const
 	{
 		return _FWorldPtr;
 	}
 
 	//Return a pointer to the player controller
-	FPlayerController* const getPlayerController() const;
+	FPlayerController* getPlayerController() const;
 
 private:
 	bool _engineRunning;

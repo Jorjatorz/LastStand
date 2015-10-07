@@ -120,7 +120,7 @@ int FEngine::getDeltaTime()
 	return _timerManagerPtr->getDeltaTime();
 }
 
-FPlayerController* const FEngine::getPlayerController() const
+FPlayerController* FEngine::getPlayerController() const
 {
 		return _FWorldPtr->getPlayerController();
 }

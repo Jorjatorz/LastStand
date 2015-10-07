@@ -18,7 +18,7 @@ public:
 	FRenderer(unsigned short int width, unsigned short int height);
 	~FRenderer();
 
-	FScene* const getCurrentFScene();
+	FScene* getCurrentFScene();
 
 	//Main function. Renders all the objects in the worlds that are visible.
 	void renderObjectsInTheWorld();
@@ -41,9 +41,9 @@ private:
 	FStaticMesh _screenQuadMesh;
 
 	//Current frame matrix (updates per frame)
-	Matrix4* _currentFrameProjectionM;
-	Matrix4* _currentFrameViewM;
-	Vector3 _currentRenderingCameraWPosition;
+	const Matrix4* _currentFrameProjectionM;
+	const Matrix4* _currentFrameViewM;
+	const Vector3* _currentRenderingCameraWPosition;
 
 	//Current Scene to render
 	FScene* _sceneToRender;

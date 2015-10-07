@@ -79,7 +79,7 @@ void FRenderer::doDeferredPass(FCameraComponent* currentCamera)
 	}
 }
 
-FScene* const FRenderer::getCurrentFScene()
+FScene* FRenderer::getCurrentFScene()
 {
 	return _sceneToRender;
 }
@@ -169,5 +169,5 @@ void FRenderer::UIPass()
 
 const Vector3& FRenderer::getCurrentRenderingCameraWPosition()
 {
-	return _currentRenderingCameraWPosition;
+	return *_currentRenderingCameraWPosition;
 }

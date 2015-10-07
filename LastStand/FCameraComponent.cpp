@@ -37,7 +37,7 @@ void FCameraComponent::setRenderingTarget(Texture* texture2DTarget)
 	_renderTargetPtr = texture2DTarget;
 }
 
-void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Matrix4* &viewM, Vector3& cameraPosition)
+void FCameraComponent::getCameraProjectionAndViewMatricesPtr(const Matrix4* &projM, const Matrix4* &viewM, const Vector3* &cameraPosition)
 {
 	projM = &_projectionCameraMatrix;
 
@@ -47,7 +47,7 @@ void FCameraComponent::getCameraProjectionAndViewMatricesPtr(Matrix4* &projM, Ma
 	
 	viewM = &_viewCameraMatrix;
 
-	cameraPosition = _worldTransform.getPosition();
+	cameraPosition = _worldTransform.getPositionPtr();
 }
 
 void FCameraComponent::setAsViewportCamera()
