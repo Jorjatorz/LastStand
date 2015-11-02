@@ -1,12 +1,14 @@
 #pragma once
 
+#include "FObject.h"
+
 #include "FStaticMesh.h"
 #include "Vector3.h"
 
 class Texture;
 
 //Class that represents a renderable frame of the UI
-class FUIFrame
+class FUIFrame : public FObject
 {
 public:
 	FUIFrame(std::string frameName);

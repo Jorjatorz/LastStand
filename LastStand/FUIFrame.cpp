@@ -4,7 +4,8 @@
 #include "Texture.h"
 
 FUIFrame::FUIFrame(std::string frameName)
-	:_frameMesh("UnitQuad.obj"), //Screen Quad by default
+	:FObject(frameName),
+	_frameMesh("UnitQuad.obj"), //Screen Quad by default
 	_position(0.0),
 	_scale(0.5),
 	_frameTexture(NULL)
