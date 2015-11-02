@@ -28,8 +28,6 @@ public:
 	void renderFrame();
 
 private:
-	std::string _name;
-
 	//Mesh that represents the Frame. By default a screen quad.
 	FStaticMesh _frameMesh;
 	Vector3 _position; //Clamped [-1, 1]
