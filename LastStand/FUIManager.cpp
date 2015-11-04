@@ -83,6 +83,6 @@ void FUIManager::tickFrames(float deltaTime)
 {
 	for (const auto& it : _framesMap)
 	{
-		it.second->tick(deltaTime);
+		it.second->tickFrame(deltaTime);
 	}
 }

@@ -18,8 +18,9 @@ FUIFrame::~FUIFrame()
 {
 }
 
-void FUIFrame::tick(float deltaTime)
+void FUIFrame::tickFrame(float deltaTime)
 {
+	FObject::tickObject(deltaTime);
 }
 
 void FUIFrame::renderFrame()

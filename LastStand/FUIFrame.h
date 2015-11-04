@@ -21,7 +21,7 @@ public:
 	void setTexture(Texture* texture);
 
 	//Called each frame.
-	virtual void tick(float deltaTime);
+	virtual void tickFrame(float deltaTime);
 
 	//Renders the frameMesh with the texture. If no texture exists its not rendered.
 	//WARNING! Called only by the FUIManager.

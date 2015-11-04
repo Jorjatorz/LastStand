@@ -2,6 +2,7 @@
 
 #include <glm\glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\random.hpp>
 #include <cmath>
 
 #include "Matrix4.h"
@@ -47,4 +48,19 @@ float Math::arcCos(float num)
 	return glm::degrees(glm::acos(num));
 }
 
+int Math::randomInteger(int min, int max)
+{
+	return glm::linearRand(min, max);
+}
 
+float Math::randomFloat(float min, float max)
+{
+	return glm::linearRand(min, max);
+}
+
+Vector3 Math::randomVector(float min, float max)
+{
+	glm::vec3 aux =  glm::linearRand(glm::vec3(min), glm::vec3(max));
+
+	return Vector3(aux.x, aux.y, aux.z);
+}

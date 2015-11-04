@@ -104,5 +104,6 @@ FCameraComponent* const FCameraManager::getViewportCamera() const
 	{
 		FLog(FLog::FAILURE, "There is no Viewport Camera set");
 		assert(0);
+		return NULL;
 	}
 }
