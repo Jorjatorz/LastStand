@@ -12,7 +12,6 @@ FInputManager::FInputManager()
 	:_mouseX(0.0),
 	_mouseY(0.0)
 {
-	SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 
@@ -28,6 +27,7 @@ void FInputManager::pollInputEvents()
 	handleAxisMappingsForMouseMotion(0.0, 0.0);
 
 	SDL_Event mEvent;
+	SDL_SetRelativeMouseMode(static_cast<SDL_bool>((!pController->isMouseCursorDisplayed())));
 	while (SDL_PollEvent(&mEvent))
 	{
 		if (mEvent.type == SDL_QUIT)
@@ -127,6 +127,7 @@ float FInputManager::getAxisValue(std::string axisName)
 
 Vector3 FInputManager::getMousePosition()
 {
+	//Vector2
 	return Vector3(_mouseX, _mouseY, 0.0);
 }
 
@@ -137,8 +138,13 @@ void FInputManager::informAboutInputEventProduced_Pressed(int key, FPlayerContro
 	if ((bindingsActions != _actionMappingMap.end() && (!bindingsActions->second.empty())))
 	{
 		//Create the event
-		FActionMappingEvent actionEvent(_actionMappingMap.find(key)->second, FActionMappingEvent::IT_PRESSED);
+		FActionMappingEvent actionEvent(_actionMappingMap.find(key)->second, FActionMappingEvent::IT_PRESSED, key);
 		//Send the event
+		currentController->inputEventProduced(actionEvent);
+	}
+	else //If there are no actions registered we send a default action event without actions strings
+	{
+		FActionMappingEvent actionEvent(std::set<std::string>(), FActionMappingEvent::IT_PRESSED, key);
 		currentController->inputEventProduced(actionEvent);
 	}
 
@@ -161,8 +167,13 @@ void FInputManager::informAboutInputEventProduced_Released(int key, FPlayerContr
 	if ((bindings != _actionMappingMap.end() && (!bindings->second.empty())))
 	{
 		//Create the event
-		FActionMappingEvent actionEvent(_actionMappingMap.find(key)->second, FActionMappingEvent::IT_RELEASED);
+		FActionMappingEvent actionEvent(_actionMappingMap.find(key)->second, FActionMappingEvent::IT_RELEASED, key);
 		//Send the event
+		currentController->inputEventProduced(actionEvent);
+	}
+	else //If there are no actions registered we send a default action event without actions strings
+	{
+		FActionMappingEvent actionEvent(std::set<std::string>(), FActionMappingEvent::IT_RELEASED, key);
 		currentController->inputEventProduced(actionEvent);
 	}
 
