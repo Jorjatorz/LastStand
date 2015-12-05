@@ -1,7 +1,9 @@
 #include "FUIManager.h"
 
 #include "FUIFrame.h"
+#include "FUIInputFrame.h"
 #include "FLog.h"
+#include "FActionMappingEvent.h"
 
 #include <Awesomium/WebCore.h>
 #include <Awesomium/BitmapSurface.h>
@@ -23,23 +25,6 @@ FUIManager::~FUIManager()
 	}
 
 	Awesomium::WebCore::Shutdown();
-}
-
-FUIFrame* FUIManager::createUIFrame(std::string frameName)
-{
-	if (_framesMap.find(frameName) != _framesMap.end())
-	{
-		FLog(FLog::FAILURE, "Can't create the new FUIFrame, it already exists: %s", frameName.c_str());
-		assert(0);
-		return NULL;
-	}
-	else
-	{
-		FUIFrame* newFrame = new FUIFrame(frameName);
-		_framesMap.insert(std::make_pair(frameName, newFrame));
-
-		return newFrame;
-	}
 }
 
 void FUIManager::deleteUIFrame(std::string frameName)
@@ -85,4 +70,17 @@ void FUIManager::tickFrames(float deltaTime)
 	{
 		it.second->tickFrame(deltaTime);
 	}
+}
+
+bool FUIManager::onActionMappingEventTriggered(const FActionMappingEvent& eventTriggered)
+{
+	for (const auto& frame : _framesMap)
+	{
+		if (frame.second->getType() == FUIInputFrame::INPUT_FRAME)
+		{
+			bool consumed = static_cast<FUIInputFrame*>(frame.second)->onActionMappingEventTriggered(eventTriggered);
+		}
+	}
+
+	return false;
 }

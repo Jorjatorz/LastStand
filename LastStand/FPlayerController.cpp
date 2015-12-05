@@ -9,6 +9,7 @@
 #include "FUIManager.h"
 
 FPlayerController::FPlayerController()
+	:_showMouseCursor(false)
 {
 	//Create the camera manager
 	_FCameraManagerPtr = new FCameraManager();
@@ -71,11 +72,15 @@ void FPlayerController::tick(int deltaTime)
 
 void FPlayerController::inputEventProduced(const FActionMappingEvent& eventTriggered)
 {
-	//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
-	auto it = _inputComponentsList.crbegin();
-	while ((it != _inputComponentsList.crend()) && (!(*it)->onActionMappingEventTriggered(eventTriggered)))
+	//If the event has actions identifiers attached to it and the UI doesn't handels the event
+	if (!_FUIManagerPtr->onActionMappingEventTriggered(eventTriggered) && !eventTriggered.getActionsTriggered().empty())
 	{
-		it++;
+		//Start from the end (like a stack). Loop until the end of the list or an inputComp accepts and terminates the event
+		auto it = _inputComponentsList.crbegin();
+		while ((it != _inputComponentsList.crend()) && (!(*it)->onActionMappingEventTriggered(eventTriggered)))
+		{
+			it++;
+		}
 	}
 }
 
@@ -109,4 +114,14 @@ Vector3 FPlayerController::getPlayerWorldPosition()
 	{
 		return _FCameraManagerPtr->getViewportCamera()->getWorldPosition();
 	}
+}
+
+void FPlayerController::showMouseCursor(bool mouseS)
+{
+	_showMouseCursor = mouseS;
+}
+
+bool FPlayerController::isMouseCursorDisplayed()
+{
+	return _showMouseCursor;
 }

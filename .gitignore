@@ -12,3 +12,5 @@ LastStand.v12.suo
 Debug/*
 Release/*
 LastStand/Release/*
+*.txt
+LastStand/debug.log

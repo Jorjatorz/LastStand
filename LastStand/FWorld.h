@@ -20,7 +20,7 @@ public:
 	template <typename T>
 	T* addActorToWorld(std::string name)
 	{
-		///Maybe add dynamic_cast to check its a derived class of FObject
+		///Maybe add dynamic_cast to check its a derived class of FObject (Care with dynamic_cast performance)
 
 		//If already exists
 		if (_actorsInWorldList.find(name) != _actorsInWorldList.end())

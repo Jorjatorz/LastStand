@@ -18,6 +18,9 @@ public:
 	FPlayerController();
 	~FPlayerController();
 
+	void showMouseCursor(bool mouseS);
+	bool isMouseCursorDisplayed();
+
 	//Registers an input component into the inputCList
 	//It will be placed on the top of the stack (end of the list)
 	//Warning! This is called automatically in the inputComponent constructor
@@ -25,9 +28,6 @@ public:
 	//Remove a component from a list.
 	//Warning! this is called automatically from the InputComponent desructor
 	void unregisterInputComponent(FInputComponent* comp);
-
-	//Called every frame, it checks for axisMapping inputs
-	virtual void tick(int deltaTime) override;
 
 	//Sends the input event to all the inputComponentsList in a Chain of Responsability pattern way
 	//It also cheacks if this input event is also an Axis Mapping 
@@ -55,7 +55,12 @@ public:
 	//Returns the player world position
 	Vector3 getPlayerWorldPosition();
 
+	//Called every frame, it checks for axisMapping inputs
+	virtual void tick(int deltaTime) override;
+
 private:
+	bool _showMouseCursor;
+
 	//List containing all the inputComponents of the actors that can recive input
 	//It is treated as a stack
 	std::list<FInputComponent*> _inputComponentsList;
