@@ -14,6 +14,14 @@ public:
 	FUIFrame(std::string frameName);
 	~FUIFrame();
 
+	//Type of the different frames
+	enum FrameType
+	{
+		DEFAULT_FRAME = 0,
+		INPUT_FRAME = 1
+	};
+	FrameType getType() const;
+
 	void setPostion(const Vector3& newPos);
 	void setScale(const Vector3& newScale);
 
@@ -26,6 +34,9 @@ public:
 	//Renders the frameMesh with the texture. If no texture exists its not rendered.
 	//WARNING! Called only by the FUIManager.
 	void renderFrame();
+
+protected:
+	FrameType _frameType;
 
 private:
 	//Mesh that represents the Frame. By default a screen quad.
