@@ -122,7 +122,7 @@ Texture* FResourceManager::loadTextureIntoMemoryFromDisk(std::string textureName
 	return newTexture;
 }
 
-Texture* FResourceManager::createNewTextureInMemory(std::string textureName, unsigned int width, unsigned int height, GLint format, bool mipmap)
+Texture* FResourceManager::createNewTextureInMemory(std::string textureName, unsigned int width, unsigned int height, GLint format, bool mipmap, const void* pixels)
 {
 	auto it = _textureMap.find(textureName);
 	if (it != _textureMap.end())
@@ -133,7 +133,7 @@ Texture* FResourceManager::createNewTextureInMemory(std::string textureName, uns
 
 	Texture* newTexture = new Texture();
 	//Generate the new texture without pixels
-	newTexture->generateRawTexture(width, height, format, mipmap, NULL);
+	newTexture->generateRawTexture(width, height, format, mipmap, pixels);
 
 	_textureMap.emplace(std::make_pair(textureName, newTexture));
 

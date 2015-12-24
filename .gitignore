@@ -14,3 +14,4 @@ Release/*
 LastStand/Release/*
 *.txt
 LastStand/debug.log
+*.html

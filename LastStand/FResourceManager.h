@@ -30,7 +30,7 @@ public:
 	//Load a new Texture into the memory
 	Texture* loadTextureIntoMemoryFromDisk(std::string textureName);
 	//Creates a new Texture and store it in the memory
-	Texture* createNewTextureInMemory(std::string textureName, unsigned int width, unsigned int height, GLint format, bool mipmap);
+	Texture* createNewTextureInMemory(std::string textureName, unsigned int width, unsigned int height, GLint format, bool mipmap, const void* pixels = nullptr);
 	//Delete the texture stored in memory
 	void deleteTextureFromMemory(std::string textureName);
 	//Return the texture stored in memory

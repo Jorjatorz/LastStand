@@ -1,10 +1,5 @@
 #pragma once
 
-namespace Awesomium
-{
-	class WebCore;
-}
-
 #include <unordered_map>
 #include <string>
 
@@ -50,9 +45,6 @@ public:
 	//Handles action mapping events. Return true if the event was handled by any UIFrame
 	bool onActionMappingEventTriggered(const FActionMappingEvent& eventTriggered);
 private:
-	//Awesomium core
-	Awesomium::WebCore* _awesomiumWebCore;
-
 	std::unordered_map<std::string, FUIFrame*> _framesMap;
 };
 

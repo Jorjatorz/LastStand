@@ -22,8 +22,8 @@ public:
 	};
 	FrameType getType() const;
 
-	void setPostion(const Vector3& newPos);
-	void setScale(const Vector3& newScale);
+	virtual void setPostion(const Vector3& newPos); //Clamped [-1, 1]
+	virtual void setScale(const Vector3& newScale); //Clamped [0, 1]
 
 	//Sets the texture attached to the frame
 	void setTexture(Texture* texture);
@@ -37,8 +37,6 @@ public:
 
 protected:
 	FrameType _frameType;
-
-private:
 	//Mesh that represents the Frame. By default a screen quad.
 	FStaticMesh _frameMesh;
 	Vector3 _position; //Clamped [-1, 1]

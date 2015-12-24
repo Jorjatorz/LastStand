@@ -5,14 +5,8 @@
 #include "FLog.h"
 #include "FActionMappingEvent.h"
 
-#include <Awesomium/WebCore.h>
-#include <Awesomium/BitmapSurface.h>
-#include <Awesomium/STLHelpers.h>
-
 FUIManager::FUIManager()
 {
-	//Initialize awesomium core
-	_awesomiumWebCore = Awesomium::WebCore::Initialize(Awesomium::WebConfig());
 }
 
 
@@ -23,8 +17,6 @@ FUIManager::~FUIManager()
 	{
 		delete it.second;
 	}
-
-	Awesomium::WebCore::Shutdown();
 }
 
 void FUIManager::deleteUIFrame(std::string frameName)

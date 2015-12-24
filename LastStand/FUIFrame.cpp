@@ -6,8 +6,8 @@
 FUIFrame::FUIFrame(std::string frameName)
 	:FObject(frameName),
 	_frameMesh("UnitQuad.obj"), //Screen Quad by default
-	_position(0.0),
-	_scale(0.5),
+	_position(-1.0, 1.0, 0.0),
+	_scale(1.0),
 	_frameTexture(NULL),
 	_frameType(DEFAULT_FRAME)
 {
