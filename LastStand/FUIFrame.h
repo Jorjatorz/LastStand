@@ -18,7 +18,8 @@ public:
 	enum FrameType
 	{
 		DEFAULT_FRAME = 0,
-		INPUT_FRAME = 1
+		INPUT_FRAME = 1,
+		SHADER_FRAME = 2
 	};
 	FrameType getType() const;
 

@@ -11,7 +11,7 @@ FUIFrame::FUIFrame(std::string frameName)
 	_frameTexture(NULL),
 	_frameType(DEFAULT_FRAME)
 {
-	_frameMesh.getMeshMaterialList().at(0)->setNewMaterialShader("UIPassShader");
+	_frameMesh.getMeshMaterialList().at(0)->setNewMaterialShader("UIPassShader"); //Default material
 }
 
 
@@ -26,7 +26,7 @@ void FUIFrame::tickFrame(float deltaTime)
 
 void FUIFrame::renderFrame()
 {
-	if (_frameTexture)
+	if (_frameTexture || _frameType == SHADER_FRAME)
 	{
 		Matrix4 transformMatrix;
 		transformMatrix.translate(_position + Vector3(_scale.x, -_scale.y, 0.0));
